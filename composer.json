@@ -1,0 +1,29 @@
+{
+    "name": "carbon/includeassets",
+    "type": "neos-plugin",
+    "description": "Include your assets (css, js) in an easy way into Neos",
+    "license": "MIT",
+    "require": {
+        "neos/neos": "~3.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Carbon\\IncludeAssets\\": "Classes"
+        }
+    },
+    "authors": [
+        {
+            "name": "Jon Uhlmann",
+            "email": "me@jonnitto.ch",
+            "homepage": "https://github.com/jonnitto",
+            "role": "Developer"
+        }
+    ],
+    "extra": {
+        "marketplace-account": "me@jonnitto.ch",
+        "installer-name": "Carbon.IncludeAssets",
+        "neos": {
+            "package-key": "Carbon.IncludeAssets"
+        }
+    }
+}

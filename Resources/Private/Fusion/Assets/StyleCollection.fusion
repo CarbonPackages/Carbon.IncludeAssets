@@ -1,0 +1,11 @@
+prototype(Carbon.IncludeAssets:StyleCollection) < prototype(Neos.Fusion:Collection) {
+	assetPackage = ${Configuration.setting('Carbon.IncludeAssets.AssetPackage') ? Configuration.setting('Carbon.IncludeAssets.AssetPackage') : node.context.currentSite.siteResourcesPackageKey}
+	assetPath = ${Configuration.setting('Carbon.IncludeAssets.Path.File.Style')}
+	assetResourceFolder = ${this.assetPackage + this.assetPath}
+
+	@context.assetResourceFolder = ${this.assetResourceFolder}
+
+	collection = null
+	itemName = 'file'
+	itemRenderer = Carbon.IncludeAssets:FileStyle
+}

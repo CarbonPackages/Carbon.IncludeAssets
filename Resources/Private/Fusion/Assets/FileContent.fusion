@@ -1,0 +1,5 @@
+prototype(Carbon.IncludeAssets:FileContent) < prototype(Neos.Fusion:Value) {
+	@class = 'Carbon\\IncludeAssets\\Fusion\\FileContentImplementation'
+	path = null
+	resource = null
+}

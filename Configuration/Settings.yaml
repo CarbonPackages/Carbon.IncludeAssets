@@ -1,0 +1,49 @@
+Neos:
+  Neos:
+    fusion:
+      autoInclude:
+        'Carbon.IncludeAssets': true
+
+# Filenames are comma separated
+#  * internal: Just the name e.g. "Main,Slider"
+#  * external: e.g. //ajax.googleapis.com/...
+#  * If you want to add attributes, add it with square brackets e.g. Filename[async data-prop data-attr="true"]
+#  * If you want a file included inline, just add the attribute "inline": e.g. Filename[inline]
+
+Carbon:
+  IncludeAssets:
+    GoogleFonts:  # e.g. 'Lato|Open+Sans:400,700'
+    AssetPackage: # If not set, the siteResourcesPackageKey from the currentSite will be used
+    LoadCSSAsynchron: false
+    LoadJSforCSSAsynchron: false
+    Path:
+      Inline:
+        Style: '/Private/Templates/InlineAssets'
+        Script: '/Private/Templates/InlineAssets'
+      File:
+        Style: '/Public/Styles'
+        Script: '/Public/Scripts'
+    # Asset files who get's loaded in live and backend view
+    General:
+      Head:
+        Style:
+        Script:
+      Body:
+        Style:
+        Script:
+    # Asset files who get's loaded only in the backend
+    Backend:
+      Head:
+        Style:
+        Script:
+      Body:
+        Style:
+        Script:
+    # Asset files who get's loaded only in the live view
+    Live:
+      Head:
+        Style:
+        Script:
+      Body:
+        Style:
+        Script:

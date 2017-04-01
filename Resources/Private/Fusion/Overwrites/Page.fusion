@@ -1,0 +1,19 @@
+prototype(Page) {
+	head {
+		carbon = Neos.Fusion:Array {
+			googleFonts = Carbon.IncludeAssets:GoogleFonts
+			loadJSforCSSAsynchron = Carbon.IncludeAssets:LoadJSforCSSAsynchron
+			includeAssets = Carbon.IncludeAssets:Assets {
+				location = 'Head'
+			}
+		}
+	}
+
+	body.header = 'Header'
+
+	body.javascripts.carbon = Neos.Fusion:Array {
+		includeAssets = Carbon.IncludeAssets:Assets {
+			location = 'Body'
+		}
+	}
+}
