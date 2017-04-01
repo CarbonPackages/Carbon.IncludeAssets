@@ -1,7 +1,7 @@
 Carbon.IncludeAssets Package for Neos CMS
 =========================================
 
-With this package, you get able to import all your CSS and Javascript assets with few lines of code in [Settings.yaml](Configruation/Settings.yaml). The best practice is to include `carbon/includeassets` into your `composer.json` from your site package. After that, you just can add your settings. If you enter the filenames, please add them **without** the file extension, Fusion will do that for you. Besides the filenames you are also able to pass all your needed attributes to the tags.
+With this package, you get able to import all your CSS and Javascript assets with few lines of code in [Settings.yaml](Configuration/Settings.yaml). The best practice is to include `carbon/includeassets` into your `composer.json` from your site package. After that, you just can add your settings. If you enter the filenames, please add them **without** the file extension, Fusion will do that for you. Besides the filenames you are also able to pass all your needed attributes to the tags.
 
 * If you want to add attributes, add it with square brackets e.g. `Filename[async data-prop data-attr="true"]`
 * If you want a file included inline, just add the attribute "inline": e.g. `Filename[inline]`
