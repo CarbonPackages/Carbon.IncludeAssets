@@ -1,7 +1,7 @@
 prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Case) {
 	file = ${file}
 	extension = ''
-	assetResourceFolder = ${assetResourceFolder ? assetResourceFolder : false}
+	assetResourceFolder = ${assetResourceFolder ? assetResourceFolder : String.indexOf(this.file, '//') != -1 ? true : false}
 
 	@ignoreProperties = ${['file','extension','assetResourceFolder']}
 	@if.hasAttributes = ${this.assetResourceFolder ? true : false}
@@ -60,8 +60,8 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Case) {
 					condition = ${entry}
 					renderer = ${' ' + String.trim(entry)}
 				}
-				@process.addTag = ${value ? extension == '.css' ? Configuration.setting('Carbon.IncludeAssets.LoadCSSAsynchron') ? '<link rel="preload"' + value + ' as="style" onload="this.rel=\'stylesheet\'" /><noscript><link rel="stylesheet"' + value + ' /></noscript>' : '<link rel="stylesheet"' + value + ' />' : '<script' + value + '></script>' : ''}
 			}
+			@process.addTag = ${value ? extension == '.css' ? Configuration.setting('Carbon.IncludeAssets.LoadCSSAsynchron') ? '<link rel="preload"' + value + ' as="style" onload="this.rel=\'stylesheet\'" /><noscript><link rel="stylesheet"' + value + ' /></noscript>' : '<link rel="stylesheet"' + value + ' />' : '<script' + value + '></script>' : ''}
 		}
 	}
 }
