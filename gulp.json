@@ -1,0 +1,29 @@
+{
+    "info": {
+        "description": "Carbon.IncludeAssets",
+        "author": "Jon Uhlmann",
+        "homepage": "https://github.com/jonnitto/Carbon.IncludeAssets"
+    },
+    "root": {
+        "base": "./Resources",
+        "src": "Private",
+        "dest": "Public"
+    },
+    "browserSync": {
+        "enable": false
+    },
+    "tasks": {
+        "scssLint": false,
+        "jsLint": false,
+        "fonts": false,
+        "images": false,
+        "static": false,
+        "svgSprite": false,
+        "js": {
+            "dest": ""
+        },
+        "css": {
+            "dest": ""
+        }
+    }
+}

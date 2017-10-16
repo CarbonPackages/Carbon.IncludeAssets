@@ -1,5 +1,5 @@
 prototype(Carbon.IncludeAssets:LoadJSforCSSAsynchron) < prototype(Carbon.IncludeAssets:FileScript) {
-	file = 'LoadCssAsync'
+	file = 'LoadCssAsync[async]'
 	assetResourceFolder = 'Carbon.IncludeAssets/Public'
 
 	config = ${Configuration.setting('Carbon.IncludeAssets')}
