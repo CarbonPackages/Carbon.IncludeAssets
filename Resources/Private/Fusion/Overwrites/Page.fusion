@@ -2,14 +2,12 @@ prototype(Page) {
 	head {
 		carbon = Neos.Fusion:Array {
 			googleFonts = Carbon.IncludeAssets:GoogleFonts
-			loadJSforCSSAsynchron = Carbon.IncludeAssets:LoadJSforCSSAsynchron
 			includeAssets = Carbon.IncludeAssets:Assets {
 				location = 'Head'
 			}
+			loadJSforCSSAsynchron = Carbon.IncludeAssets:LoadJSforCSSAsynchron
 		}
 	}
-
-	body.header = 'Header'
 
 	body.javascripts.carbon = Neos.Fusion:Array {
 		includeAssets = Carbon.IncludeAssets:Assets {

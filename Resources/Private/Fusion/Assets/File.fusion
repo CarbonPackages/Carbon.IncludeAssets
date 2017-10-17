@@ -61,7 +61,7 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Case) {
 					renderer = ${' ' + String.trim(entry)}
 				}
 			}
-			@process.addTag = ${value ? extension == '.css' ? Configuration.setting('Carbon.IncludeAssets.LoadCSSAsynchron') ? '<link rel="preload"' + value + ' as="style" onload="this.rel=\'stylesheet\'" /><noscript><link rel="stylesheet"' + value + ' /></noscript>' : '<link rel="stylesheet"' + value + ' />' : '<script' + value + '></script>' : ''}
+			@process.addTag = ${value ? extension == '.css' ? Configuration.setting('Carbon.IncludeAssets.LoadCSSAsynchron') ? '<link rel="preload"' + value + ' as="style" onload="this.rel=\'stylesheet\'" onerror="this.rel=\'stylesheet\'" /><noscript><link rel="stylesheet"' + value + ' /></noscript>' : '<link rel="stylesheet"' + value + ' />' : '<script' + value + '></script>' : ''}
 		}
 	}
 }

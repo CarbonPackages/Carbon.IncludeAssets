@@ -1,7 +1,7 @@
-prototype(Carbon.IncludeAssets:LoadJSforCSSAsynchron) < prototype(Carbon.IncludeAssets:FileScript) {
-	file = 'LoadCssAsync[async]'
-	assetResourceFolder = 'Carbon.IncludeAssets/Public'
+prototype(Carbon.IncludeAssets:LoadJSforCSSAsynchron) < prototype(Carbon.IncludeAssets:InlineScript) {
+  filename = 'LoadCssAsync'
+  assetResourceFolder = 'Carbon.IncludeAssets/Private/Templates'
 
-	config = ${Configuration.setting('Carbon.IncludeAssets')}
-	@if.shouldRender = ${this.config.LoadCSSAsynchron && this.config.LoadJSforCSSAsynchron ? true : false}
+  config = ${Configuration.setting('Carbon.IncludeAssets')}
+  @if.shouldRender = ${this.config.LoadCSSAsynchron && this.config.LoadJSforCSSAsynchron ? true : false}
 }

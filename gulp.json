@@ -7,11 +7,12 @@
     "root": {
         "base": "./Resources",
         "src": "Private",
-        "dest": "Public"
+        "dest": "Private/Templates"
     },
     "browserSync": {
         "enable": false
     },
+    "banner": false,
     "tasks": {
         "scssLint": false,
         "jsLint": false,

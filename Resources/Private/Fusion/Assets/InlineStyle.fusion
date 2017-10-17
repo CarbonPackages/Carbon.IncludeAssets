@@ -1,13 +1,14 @@
 prototype(Carbon.IncludeAssets:InlineStyle) < prototype(Neos.Fusion:Tag) {
 	filename = false
+	assetResourceFolder = ${(Configuration.setting('Carbon.IncludeAssets.AssetPackage') ? Configuration.setting('Carbon.IncludeAssets.AssetPackage') : node.context.currentSite.siteResourcesPackageKey) + Configuration.setting('Carbon.IncludeAssets.Path.Inline.Style')}
+
 	@context {
 		filename = ${this.filename}
-		config = ${Configuration.setting('Carbon.IncludeAssets')}
-		assetPackage = ${Configuration.setting('Carbon.IncludeAssets.AssetPackage') ? Configuration.setting('Carbon.IncludeAssets.AssetPackage') : node.context.currentSite.siteResourcesPackageKey}
+		assetResourceFolder = ${this.assetResourceFolder}
 	}
 	tagName = 'style'
 	content = Carbon.IncludeAssets:FileContent {
-		path = ${'resource://' + assetPackage + config.Path.Inline.Style + '/' + filename + '.css'}
+		path = ${'resource://' + assetResourceFolder + '/' + filename + '.css'}
 	}
 	@if.hasFilename = ${this.filename}
 }
