@@ -2,7 +2,7 @@ prototype(Carbon.IncludeAssets:Collection) < prototype(Neos.Fusion:Collection) {
     // General || Live || Backend
     context = 'General'
     // Body || Head
-    location = 'Body'
+    location = 'Head'
 
     config = ${Configuration.setting('Carbon.IncludeAssets')}
     setting = ${this.config[this.context][this.location]}
