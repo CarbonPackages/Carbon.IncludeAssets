@@ -1,0 +1,10 @@
+prototype(Page) {
+  head.carbonIncludeAssets = Carbon.IncludeAssets:Assets {
+    location = 'Head'
+  }
+
+  body.javascripts.carbonIncludeAssets = Carbon.IncludeAssets:Assets {
+    location = 'Body'
+    @position = 'start'
+  }
+}

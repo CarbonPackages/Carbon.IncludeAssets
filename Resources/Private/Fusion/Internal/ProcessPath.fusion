@@ -1,0 +1,16 @@
+prototype(Carbon.IncludeAssets:ProcessPath.GetType) < prototype(Neos.Fusion:Value) {
+    isManualSet = ${String.pregMatch(value, '/^(js|css)$/')[0]}
+    match = ${String.pregMatch(value, '/\((js|css)\)$/')[1]}
+    array = ${value ? String.split(String.replace(String.trim(value), ']', ''), '[') : []}
+    extension = ${String.pregMatch(this.array[0], '/\.(js|css)$/')[1]}
+    value = ${this.isManualSet || this.match || this.extension}
+}
+
+prototype(Carbon.IncludeAssets:ProcessPath.GetAttributes) < prototype(Neos.Fusion:Value) {
+    value = ${String.pregMatch(value, '/\[(.+)\]/')[1]}
+}
+
+prototype(Carbon.IncludeAssets:ProcessPath.CleanPath) < prototype(Neos.Fusion:Value) {
+    removeFixedType = ${String.pregReplace(value, '/\((?>js|css)\)$/', '')}
+    value = ${String.pregReplace(this.removeFixedType, '/\[(.+)\]/', '')}
+}

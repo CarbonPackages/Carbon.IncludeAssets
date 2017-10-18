@@ -1,0 +1,10 @@
+prototype(Carbon.IncludeAssets:TypeCase) < prototype(Neos.Fusion:Case) {
+  isCSS {
+    condition = ${type == 'css' ? true : false}
+    renderer = ''
+  }
+  isJS {
+    condition = ${type == 'js' ? true : false}
+    renderer = ''
+  }
+}

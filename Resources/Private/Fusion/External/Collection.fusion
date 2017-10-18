@@ -1,0 +1,33 @@
+prototype(Carbon.IncludeAssets:Collection) < prototype(Neos.Fusion:Collection) {
+    // General || Live || Backend
+    context = 'General'
+    // Body || Head
+    location = 'Body'
+
+    config = ${Configuration.setting('Carbon.IncludeAssets')}
+    setting = ${this.config[this.context][this.location]}
+
+    collection = ${Type.isArray(this.setting) ? this.setting : String.split(this.setting, ',')}
+    itemName = 'file'
+    itemRenderer = Carbon.IncludeAssets:File {
+        file = ${file}
+    }
+
+    @context.context = ${this.context}
+    @if.hasContext = Neos.Fusion:Case {
+        inBackend {
+            condition = ${context == 'Backend'}
+            renderer = ${node.context.inBackend}
+        }
+
+        isLive {
+            condition = ${context == 'Live'}
+            renderer = ${node.context.live}
+        }
+
+        default {
+            condition = true
+            renderer = true
+        }
+    }
+}

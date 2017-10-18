@@ -1,0 +1,35 @@
+prototype(Carbon.IncludeAssets:Assets) < prototype(Neos.Fusion:Array) {
+    // Body || Head
+    location = null
+    @context.location = ${this.location}
+    @ignoreProperties = ${['location']}
+    @if.hasLocation = ${this.location ? true : false}
+
+
+    googleFonts = Carbon.IncludeAssets:GoogleFonts {
+        @if.head = ${location == 'Head' ? true : false}
+    }
+
+    general = Carbon.IncludeAssets:Collection {
+        context = 'General'
+        location = ${location}
+    }
+    inBackend = Carbon.IncludeAssets:Collection {
+        context = 'Backend'
+        location = ${location}
+    }
+    live = Carbon.IncludeAssets:Collection {
+        context = 'Live'
+        location = ${location}
+    }
+
+    loadJSforCSSAsynchron = Carbon.IncludeAssets:File {
+        path = 'resource://Carbon.IncludeAssets/Private/Templates/LoadCssAsync.js[inline]'
+
+        config = ${Configuration.setting('Carbon.IncludeAssets')}
+        @if {
+            render = ${this.config.LoadCSSAsynchron && this.config.LoadJSforCSSAsynchron ? true : false}
+            head = ${location == 'Head' ? true : false}
+        }
+    }
+}

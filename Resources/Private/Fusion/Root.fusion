@@ -1,2 +1,1 @@
-include: Assets/*.fusion
-include: Overwrites/*.fusion
+include: **/*.fusion

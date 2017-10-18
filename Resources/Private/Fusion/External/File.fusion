@@ -1,0 +1,68 @@
+prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Case) {
+    file = null
+
+    config = ${Configuration.setting('Carbon.IncludeAssets')}
+
+    typeForPath = ${this.file}
+    typeForPath.@process.value = Carbon.IncludeAssets:ProcessPath.GetType
+    assetPackage = ${this.config.AssetPackage ? this.config.AssetPackage : node.context.currentSite.siteResourcesPackageKey}
+    assetKey = ${String.indexOf(this.file, '[inline]') != -1 ? 'Inline' : 'File'}
+    assetPath = ${this.typeForPath ? this.config.Path[this.assetKey][String.toUpperCase(this.typeForPath)] : false}
+    path = ${String.indexOf(this.file, '//') != -1 ? this.file : this.file && this.assetPackage && this.assetPath ? 'resource://' + this.assetPackage + '/' + this.assetPath + '/' + this.file : false}
+    type = ${this.path}
+    type.@process.value = Carbon.IncludeAssets:ProcessPath.GetType
+    attributes = ${this.path}
+    attributes.@process.value = Carbon.IncludeAssets:ProcessPath.GetAttributes
+
+    @context {
+        type = ${this.type}
+        attributes = ${this.attributes}
+        path = ${this.path}
+        path.@process.clean = Carbon.IncludeAssets:ProcessPath.CleanPath
+    }
+
+    @ignoreProperties = ${['file','config','typeForPath','assetPackage','assetKey','assetPath','path','type','attributes']}
+
+    isInternal {
+        condition = ${attributes == 'inline' ? true : false}
+        renderer = Carbon.IncludeAssets:FileContent {
+            path = ${path}
+            @process.wrapWithTag = Carbon.IncludeAssets:TypeCase {
+                isCSS.renderer = ${'<style>' + value + '</style>'}
+                isJS.renderer = ${'<script type="text/javascript">' + value + '</script>'}
+            }
+        }
+    }
+    isFile {
+        condition = ${path ? true : false}
+        renderer = Neos.Fusion:Array {
+            path = Neos.Fusion:Case {
+                isInternal {
+                    condition = ${String.indexOf(path, 'resource://') != -1 ? true : false}
+                    renderer = Neos.Fusion:Array {
+                        file = Neos.Fusion:ResourceUri {
+                            path = ${path}
+                        }
+                        hash = Carbon.IncludeAssets:VersionOfAsset {
+                            path = ${path}
+                        }
+                    }
+                }
+                isExternal {
+                    condition = ${String.indexOf(path, '//') != -1 ? true : false}
+                    renderer = ${path}
+                }
+                @process.wrap = Carbon.IncludeAssets:TypeCase {
+                  isCSS.renderer = ${' href="' + value + '"'}
+                  isJS.renderer = ${' src="' + value + '"'}
+                }
+            }
+            attributes = ${attributes ? ' ' + String.trim(attributes) : ''}
+
+            @process.addTag = Carbon.IncludeAssets:TypeCase {
+              isCSS.renderer = ${Configuration.setting('Carbon.IncludeAssets.LoadCSSAsynchron') && node.context.live ? '<link rel="preload"' + value + ' as="style" onload="this.rel=\'stylesheet\'" onerror="this.rel=\'stylesheet\'" /><noscript><link rel="stylesheet"' + value + ' /></noscript>' : '<link rel="stylesheet"' + value + ' />'}
+              isJS.renderer = ${'<script' + value + '></script>'}
+            }
+        }
+    }
+}

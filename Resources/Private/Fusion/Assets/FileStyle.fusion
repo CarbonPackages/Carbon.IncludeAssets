@@ -1,3 +1,0 @@
-prototype(Carbon.IncludeAssets:FileStyle) < prototype(Carbon.IncludeAssets:File) {
-	extension = 'css'
-}

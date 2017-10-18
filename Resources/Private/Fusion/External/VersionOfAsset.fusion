@@ -1,0 +1,11 @@
+prototype(Carbon.IncludeAssets:VersionOfAsset) < prototype(Neos.Fusion:Value) {
+    path = ${path}
+
+    @context.path = ${this.path}
+
+    hash = Carbon.IncludeAssets:HashOfFile {
+        path = ${path}
+    }
+
+    value = ${String.isBlank(this.hash) ? '' : '?h=' + this.hash}
+}

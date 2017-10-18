@@ -1,3 +1,0 @@
-prototype(Carbon.IncludeAssets:FileScript) < prototype(Carbon.IncludeAssets:File) {
-	extension = 'js'
-}
