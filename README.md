@@ -64,7 +64,7 @@ Basically, you have to folders with Fusion Prototypes: [Internal](Resources/Priv
 This prototype generates all your `script` and `style` tags. You have to set the property `location` to `Head` or `Body`.
 
 ### [Carbon.IncludeAssets:Collection](Resources/Private/Fusion/External/Collection.fusion)
-This prototype generate your `script` and `style` tags from the certain setting entry. `location` and `context` are required properties.
+This prototype generate your `script` and `style` tags from the certain setting entry. `context` is a required property. If you want to read the [Settings.yaml](Configuration/Settings.yaml) automaticly, you also have to set the `location` to `Head` or `Body`. To pas your own collection, you have to set the property `collection`.
 
 ### [Carbon.IncludeAssets:File](Resources/Private/Fusion/External/File.fusion)
 The heart of this package. This prototype generates a `script` or `style` tag. You can pass a `file` (without the path) or the complete `path`. Be aware that you can also pass the attributes like described on top. To force a type you can write `(js)` or `(css)` at the end of  `path` or `file`.
