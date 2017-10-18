@@ -75,7 +75,7 @@ This prototype read a file from a `path` or `resource`. Used for including the f
 ### [Carbon.IncludeAssets:GoogleFonts](Resources/Private/Fusion/External/GoogleFonts.fusion)
 You can set the property `fonts` e.g. `Lato|Open+Sans:400,700` and the `script` tag get generated. Per default, this prototype read the [Settings.yaml](Configuration/Settings.yaml).
 
-### [Carbon.IncludeAssets: HashOfFile](Resources/Private/Fusion/External/HashOfFile.fusion)
+### [Carbon.IncludeAssets:HashOfFile](Resources/Private/Fusion/External/HashOfFile.fusion)
 This prototype read a file from a `path` or `resource` and return a md5 based string.
 
 Installation
