@@ -1,6 +1,10 @@
 Carbon.IncludeAssets Package for Neos CMS
 =========================================
 
+[![Latest Stable Version](https://poser.pugx.org/carbon/includeassets/v/stable)](https://packagist.org/packages/carbon/includeassets)
+[![Total Downloads](https://poser.pugx.org/carbon/includeassets/downloads)](https://packagist.org/packages/carbon/includeassets)
+[![License](https://poser.pugx.org/carbon/includeassets/license)](LICENSE)
+
 With this package, you get able to import all your CSS and Javascript assets with few lines of code in [Settings.yaml](Configuration/Settings.yaml). The best practice is to include `carbon/includeassets` into your `composer.json` from your site package. After that, you just can add your settings. Besides the filenames, you are also able to pass all your necessary attributes to the tags. If you are not able to provide a file extension, you can force the type via `(js)` or `(css)` at the end.
 
 * You can pass the filenames as string (comma separated) or as an array
