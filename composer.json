@@ -11,6 +11,9 @@
             "Carbon\\IncludeAssets\\": "Classes"
         }
     },
+    "archive": {
+        "exclude": [".editorconfig", ".gitignore", ".github", ".gitattributes", "gulp.json", "package.json", "CODE_OF_CONDUCT.md"]
+    },
     "authors": [
         {
             "name": "Jon Uhlmann",
