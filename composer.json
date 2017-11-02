@@ -4,7 +4,8 @@
     "description": "Include your assets (css, js) in an easy way into Neos",
     "license": "MIT",
     "require": {
-        "neos/neos": "~3.0 || dev-master"
+        "neos/neos": "~3.0 || dev-master",
+        "carbon/filecontent": "^1.0"
     },
     "autoload": {
         "psr-4": {

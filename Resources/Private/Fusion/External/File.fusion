@@ -25,7 +25,7 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Case) {
 
     isInternal {
         condition = ${attributes == 'inline' ? true : false}
-        renderer = Carbon.IncludeAssets:FileContent {
+        renderer = Carbon.FileContent:FileContent {
             path = ${path}
             @process.wrapWithTag = Carbon.IncludeAssets:TypeCase {
                 isCSS.renderer = ${'<style>' + value + '</style>'}

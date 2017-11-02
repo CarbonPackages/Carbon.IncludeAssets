@@ -73,14 +73,8 @@ This prototype generate your `script` and `style` tags from the certain setting 
 ### [Carbon.IncludeAssets:File](Resources/Private/Fusion/External/File.fusion)
 The heart of this package. This prototype generates a `script` or `style` tag. You can pass a `file` (without the path) or the complete `path`. Be aware that you can also pass the attributes like described on top. To force a type you can write `(js)` or `(css)` at the end of  `path` or `file`.
 
-### [Carbon.IncludeAssets:FileContent](Resources/Private/Fusion/External/FileContent.fusion)
-This prototype read a file from a `path` or `resource`. Used for including the files inline.
-
 ### [Carbon.IncludeAssets:GoogleFonts](Resources/Private/Fusion/External/GoogleFonts.fusion)
 You can set the property `fonts` e.g. `Lato|Open+Sans:400,700` and the `script` tag get generated. Per default, this prototype read the [Settings.yaml](Configuration/Settings.yaml).
-
-### [Carbon.IncludeAssets:HashOfFile](Resources/Private/Fusion/External/HashOfFile.fusion)
-This prototype read a file from a `path` or `resource` and return a md5 based string.
 
 Installation
 ------------

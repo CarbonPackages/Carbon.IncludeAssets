@@ -3,7 +3,7 @@ prototype(Carbon.IncludeAssets:VersionOfAsset) < prototype(Neos.Fusion:Value) {
 
     @context.path = ${this.path}
 
-    hash = Carbon.IncludeAssets:HashOfFile {
+    hash = Carbon.FileContent:HashOfFile {
         path = ${path}
     }
 
