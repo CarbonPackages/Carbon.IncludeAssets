@@ -1,10 +1,11 @@
 prototype(Page) {
-  head.carbonIncludeAssets = Carbon.IncludeAssets:Assets {
+  carbonIncludeAssetsHead = Carbon.IncludeAssets:Assets {
+    @position = 'before closingHeadTag'
     location = 'Head'
   }
 
-  body.javascripts.carbonIncludeAssets = Carbon.IncludeAssets:Assets {
+  carbonIncludeAssetsBody = Carbon.IncludeAssets:Assets {
+    @position = 'before closingBodyTag'
     location = 'Body'
-    @position = 'start'
   }
 }
