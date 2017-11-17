@@ -2,6 +2,7 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Case) {
     file = null
 
     config = ${Configuration.setting('Carbon.IncludeAssets')}
+    cacheBuster = ${this.config.CacheBuster}
 
     typeForPath = ${this.file}
     typeForPath.@process.value = Carbon.IncludeAssets:ProcessPath.GetType
@@ -15,13 +16,14 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Case) {
     attributes.@process.value = Carbon.IncludeAssets:ProcessPath.GetAttributes
 
     @context {
+        cacheBuster = ${this.cacheBuster}
         type = ${this.type}
         attributes = ${this.attributes}
         path = ${this.path}
         path.@process.clean = Carbon.IncludeAssets:ProcessPath.CleanPath
     }
 
-    @ignoreProperties = ${['file','config','typeForPath','assetPackage','assetKey','assetPath','path','type','attributes']}
+    @ignoreProperties = ${['file','config','cacheBuster','typeForPath','assetPackage','assetKey','assetPath','path','type','attributes']}
 
     isInternal {
         condition = ${attributes == 'inline' ? true : false}
@@ -45,6 +47,7 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Case) {
                         }
                         hash = Carbon.IncludeAssets:VersionOfAsset {
                             path = ${path}
+                            @if.needCacheBuster = ${cacheBuster}
                         }
                     }
                 }

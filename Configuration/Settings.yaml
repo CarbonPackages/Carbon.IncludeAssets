@@ -17,6 +17,7 @@ Carbon:
     AssetPackage: null # If not set, the siteResourcesPackageKey from the currentSite will be used
     LoadCSSAsynchron: false
     LoadJSforCSSAsynchron: false
+    CacheBuster: true
     Path:
       Inline:
         CSS: 'Private/Templates/InlineAssets'
