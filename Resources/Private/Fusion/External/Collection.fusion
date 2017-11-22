@@ -6,14 +6,20 @@ prototype(Carbon.IncludeAssets:Collection) < prototype(Neos.Fusion:Collection) {
 
     config = ${Configuration.setting('Carbon.IncludeAssets')}
     setting = ${this.config[this.context][this.location]}
+    assetPackage = ${this.config.AssetPackage ? this.config.AssetPackage : node.context.currentSite.siteResourcesPackageKey}
+
+    @context {
+        context = ${this.context}
+        assetPackage = ${this.assetPackage}
+    }
 
     collection = ${Type.isArray(this.setting) ? this.setting : String.split(this.setting, ',')}
     itemName = 'file'
     itemRenderer = Carbon.IncludeAssets:File {
         file = ${file}
+        assetPackage = ${assetPackage}
     }
 
-    @context.context = ${this.context}
     @if.hasContext = Neos.Fusion:Case {
         inBackend {
             condition = ${context == 'Backend'}
