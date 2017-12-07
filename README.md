@@ -1,9 +1,14 @@
-Carbon.IncludeAssets Package for Neos CMS
-=========================================
-
 [![Latest Stable Version](https://poser.pugx.org/carbon/includeassets/v/stable)](https://packagist.org/packages/carbon/includeassets)
 [![Total Downloads](https://poser.pugx.org/carbon/includeassets/downloads)](https://packagist.org/packages/carbon/includeassets)
 [![License](https://poser.pugx.org/carbon/includeassets/license)](LICENSE)
+[![GitHub forks](https://img.shields.io/github/forks/jonnitto/Carbon.IncludeAssets.svg?style=social&label=Fork)](https://github.com/jonnitto/Carbon.IncludeAssets/fork)
+[![GitHub stars](https://img.shields.io/github/stars/jonnitto/Carbon.IncludeAssets.svg?style=social&label=Stars)](https://github.com/jonnitto/Carbon.IncludeAssets/stargazers)
+[![GitHub watchers](https://img.shields.io/github/watchers/jonnitto/Carbon.IncludeAssets.svg?style=social&label=Watch)](https://github.com/jonnitto/Carbon.IncludeAssets/subscription)
+[![GitHub followers](https://img.shields.io/github/followers/jonnitto.svg?style=social&label=Follow)](https://github.com/jonnitto/followers)
+[![Follow Jon on Twitter](https://img.shields.io/twitter/follow/jonnitto.svg?style=social&label=Follow)](https://twitter.com/jonnitto)
+
+Carbon.IncludeAssets Package for Neos CMS
+=========================================
 
 With this package, you get able to import all your CSS and Javascript assets with few lines of code in [Settings.yaml](Configuration/Settings.yaml). The best practice is to include `carbon/includeassets` into your `composer.json` from your site package. After that, you just can add your settings. Besides the filenames, you are also able to pass all your necessary attributes to the tags. If you are not able to provide a file extension, you can force the type via `(js)` or `(css)` at the end.
 
