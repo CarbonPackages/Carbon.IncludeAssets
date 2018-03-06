@@ -1,10 +1,10 @@
 prototype(Carbon.IncludeAssets:TypeCase) < prototype(Neos.Fusion:Case) {
   isCSS {
-    condition = ${type == 'css' ? true : false}
+    condition = ${String.toUpperCase(type) == 'CSS' ? true : false}
     renderer = ''
   }
   isJS {
-    condition = ${type == 'js' ? true : false}
+    condition = ${String.toUpperCase(type)  == 'JS' ? true : false}
     renderer = ''
   }
 }

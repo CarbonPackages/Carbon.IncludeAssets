@@ -24,11 +24,9 @@ prototype(Carbon.IncludeAssets:Assets) < prototype(Neos.Fusion:Array) {
     }
 
     loadJSforCSSAsynchron = Carbon.IncludeAssets:File {
-        path = 'resource://Carbon.IncludeAssets/Private/Templates/LoadCssAsync.js[inline]'
-
-        config = ${Configuration.setting('Carbon.IncludeAssets')}
+        file = 'resource://Carbon.IncludeAssets/Private/Templates/LoadCssAsync.js[inline]'
         @if {
-            render = ${this.config.LoadCSSAsynchron && this.config.LoadJSforCSSAsynchron ? true : false}
+            render = ${Configuration.setting('Carbon.IncludeAssets.LoadJSforCSSAsynchron')}
             head = ${location == 'Head' ? true : false}
         }
     }

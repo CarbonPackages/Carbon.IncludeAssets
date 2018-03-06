@@ -7,5 +7,8 @@ prototype(Carbon.IncludeAssets:VersionOfAsset) < prototype(Neos.Fusion:Value) {
         path = ${path}
     }
 
-    value = ${String.isBlank(this.hash) ? '' : '?h=' + this.hash}
+    isFirst = true
+    divider = ${this.isFirst ? '?' : '&'}
+
+    value = ${String.isBlank(this.hash) ? '' : this.divider + 'h=' + this.hash}
 }

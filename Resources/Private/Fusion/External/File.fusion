@@ -1,71 +1,71 @@
 prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Case) {
     file = null
+    fileObject = ${Carbon.IncludeAssets.parseFilename(this.file)}
+    type = ${this.fileObject.type}
+    @if.render = ${this.fileObject ? true : false}
 
     config = ${Configuration.setting('Carbon.IncludeAssets')}
     cacheBuster = ${this.config.CacheBuster}
-
-    typeForPath = ${this.file}
-    typeForPath.@process.value = Carbon.IncludeAssets:ProcessPath.GetType
     assetPackage = ${this.config.AssetPackage ? this.config.AssetPackage : node.context.currentSite.siteResourcesPackageKey}
-    assetKey = ${String.indexOf(this.file, '[inline]') != -1 ? 'Inline' : 'File'}
-    assetPath = ${this.typeForPath ? this.config.Path[this.assetKey][String.toUpperCase(this.typeForPath)] : false}
-    path = ${String.indexOf(this.file, '//') != -1 ? this.file : this.file && this.assetPackage && this.assetPath ? 'resource://' + this.assetPackage + '/' + this.assetPath + '/' + this.file : false}
-    type = ${this.path}
-    type.@process.value = Carbon.IncludeAssets:ProcessPath.GetType
-    attributes = ${this.path}
-    attributes.@process.value = Carbon.IncludeAssets:ProcessPath.GetAttributes
+    assetKey = ${this.fileObject.inline ? 'Inline' : 'File'}
+    assetPath = ${this.config.Path[this.assetKey][this.type]}
+    path = ${this.fileObject.external || this.fileObject.path ? this.fileObject.filename : this.assetPackage && this.assetPath ? 'resource://' + this.assetPackage + '/' + this.assetPath + '/' + this.fileObject.filename : false}
 
     @context {
-        cacheBuster = ${this.cacheBuster}
+        fileObject = ${this.fileObject}
         type = ${this.type}
-        attributes = ${this.attributes}
+        cacheBuster = ${this.cacheBuster}
         path = ${this.path}
-        path.@process.clean = Carbon.IncludeAssets:ProcessPath.CleanPath
     }
 
-    @ignoreProperties = ${['file','config','cacheBuster','typeForPath','assetPackage','assetKey','assetPath','path','type','attributes']}
+    @ignoreProperties = ${['file','fileObject','type','config','cacheBuster','assetPackage','assetKey','assetPath','path']}
 
-    isInternal {
-        condition = ${attributes == 'inline' ? true : false}
+    inlineFile {
+        condition = ${fileObject.inline}
         renderer = Carbon.FileContent:FileContent {
             path = ${path}
             @process.wrapWithTag = Carbon.IncludeAssets:TypeCase {
-                isCSS.renderer = ${'<style>' + value + '</style>'}
-                isJS.renderer = ${'<script type="text/javascript">' + value + '</script>'}
+                isCSS.renderer = ${'<style' + fileObject.attributes +'>' + value + '</style>'}
+                isJS.renderer = ${'<script' + fileObject.attributes +'>' + value + '</script>'}
             }
         }
     }
     isFile {
         condition = ${path ? true : false}
-        renderer = Neos.Fusion:Array {
-            path = Neos.Fusion:Case {
-                isInternal {
-                    condition = ${String.indexOf(path, 'resource://') != -1 ? true : false}
-                    renderer = Neos.Fusion:Array {
-                        file = Neos.Fusion:ResourceUri {
-                            path = ${path}
-                        }
-                        hash = Carbon.IncludeAssets:VersionOfAsset {
-                            path = ${path}
-                            @if.needCacheBuster = ${cacheBuster}
+        renderer = Carbon.IncludeAssets:TypeCase {
+            @context {
+                isLiveAndAsync = ${fileObject.async ? node.context.live : false}
+                linkToFile = Neos.Fusion:Case {
+                    isExternal {
+                        condition = ${fileObject.external}
+                        renderer = ${path + fileObject.search}
+                    }
+                    isInternal {
+                        condition = true
+                        renderer = Neos.Fusion:Array {
+                            file = Neos.Fusion:ResourceUri {
+                                path = ${path}
+                            }
+                            search = ${fileObject.search}
+                            hash = Carbon.IncludeAssets:VersionOfAsset {
+                                isFirst = ${fileObject.search ? false : true}
+                                path = ${path}
+                                @if.needCacheBuster = ${cacheBuster}
+                            }
                         }
                     }
                 }
-                isExternal {
-                    condition = ${String.indexOf(path, '//') != -1 ? true : false}
-                    renderer = ${path}
-                }
-                @process.wrap = Carbon.IncludeAssets:TypeCase {
-                  isCSS.renderer = ${' href="' + value + '"'}
-                  isJS.renderer = ${' src="' + value + '"'}
-                }
             }
-            attributes = ${attributes ? ' ' + String.trim(attributes) : ''}
 
-            @process.addTag = Carbon.IncludeAssets:TypeCase {
-              isCSS.renderer = ${Configuration.setting('Carbon.IncludeAssets.LoadCSSAsynchron') && node.context.live ? '<link rel="preload"' + value + ' as="style" onload="this.rel=\'stylesheet\'" onerror="this.rel=\'stylesheet\'" /><noscript><link rel="stylesheet"' + value + ' /></noscript>' : '<link rel="stylesheet"' + value + ' />'}
-              isJS.renderer = ${'<script' + value + '></script>'}
+            isCSS.renderer = Neos.Fusion:Array {
+                asyncOpen = ${'<link rel="preload" href="' + linkToFile + '" as="style" onload="this.rel=\'stylesheet\'" onerror="this.rel=\'stylesheet\'"' + fileObject.attributes + ' /><noscript>'}
+                asyncOpen.@if.render = ${isLiveAndAsync}
+                cssFile = ${'<link rel="stylesheet" href="' + linkToFile + '"' + fileObject.attributes + ' />'}
+                asyncClose = '</noscript>'
+                asyncClose.@if.render = ${isLiveAndAsync}
             }
+
+            isJS.renderer = ${'<script src="' + linkToFile + '"' + (fileObject.async ? ' async' : '') + fileObject.attributes +'>' + value + '</script>'}
         }
     }
 }
