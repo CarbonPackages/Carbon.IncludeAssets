@@ -58,7 +58,7 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Case) {
             }
 
             isCSS.renderer = Neos.Fusion:Array {
-                asyncOpen = ${'<link rel="preload" href="' + linkToFile + '" as="style" onload="this.rel=\'stylesheet\'" onerror="this.rel=\'stylesheet\'"' + fileObject.attributes + ' /><noscript>'}
+                asyncOpen = ${'<link rel="preload" href="' + linkToFile + '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'" onerror="this.onload()"' + fileObject.attributes + ' /><noscript>'}
                 asyncOpen.@if.render = ${isLiveAndAsync}
                 cssFile = ${'<link rel="stylesheet" href="' + linkToFile + '"' + fileObject.attributes + ' />'}
                 asyncClose = '</noscript>'

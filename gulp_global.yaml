@@ -1,0 +1,31 @@
+
+info:
+  author: 'Jon Uhlmann'
+  homepage: 'https://github.com/jonnitto/Carbon.IncludeAssets'
+  package: 'Carbon.IncludeAssets'
+  banner: false
+
+global:
+  mergeConfigFromPackages: false
+  notifications: true
+  browserSync:
+    enable: false
+
+root:
+  base: ./Resources
+  src: Private
+  dest: Private/Templates
+  watch: Private
+
+tasks:
+  scssLint: false
+  jsLint: false
+  fonts: false
+  images: false
+  static: false
+  svgSprite: false
+  css: false
+  js:
+    dest: ''
+  pipeline:
+    - js
