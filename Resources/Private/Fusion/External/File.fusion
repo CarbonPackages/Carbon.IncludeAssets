@@ -65,7 +65,7 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Case) {
                 asyncClose.@if.render = ${isLiveAndAsync}
             }
 
-            isJS.renderer = ${'<script src="' + linkToFile + '"' + (fileObject.async ? ' async' : '') + fileObject.attributes +'>' + value + '</script>'}
+            isJS.renderer = ${'<script src="' + linkToFile + '"' + (fileObject.async ? ' async' : '') + fileObject.attributes +'></script>'}
         }
     }
 }
