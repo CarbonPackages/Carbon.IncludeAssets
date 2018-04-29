@@ -1,4 +1,4 @@
-prototype(Page) {
+prototype(Neos.Neos:Page) {
   carbonIncludeAssetsHead = Carbon.IncludeAssets:Assets {
     @position = 'before closingHeadTag'
     location = 'Head'
