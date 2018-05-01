@@ -1,24 +1,22 @@
 [![Latest Stable Version](https://poser.pugx.org/carbon/includeassets/v/stable)](https://packagist.org/packages/carbon/includeassets)
 [![Total Downloads](https://poser.pugx.org/carbon/includeassets/downloads)](https://packagist.org/packages/carbon/includeassets)
 [![License](https://poser.pugx.org/carbon/includeassets/license)](LICENSE)
-[![GitHub forks](https://img.shields.io/github/forks/jonnitto/Carbon.IncludeAssets.svg?style=social&label=Fork)](https://github.com/jonnitto/Carbon.IncludeAssets/fork)
-[![GitHub stars](https://img.shields.io/github/stars/jonnitto/Carbon.IncludeAssets.svg?style=social&label=Stars)](https://github.com/jonnitto/Carbon.IncludeAssets/stargazers)
-[![GitHub watchers](https://img.shields.io/github/watchers/jonnitto/Carbon.IncludeAssets.svg?style=social&label=Watch)](https://github.com/jonnitto/Carbon.IncludeAssets/subscription)
-[![GitHub followers](https://img.shields.io/github/followers/jonnitto.svg?style=social&label=Follow)](https://github.com/jonnitto/followers)
-[![Follow Jon on Twitter](https://img.shields.io/twitter/follow/jonnitto.svg?style=social&label=Follow)](https://twitter.com/jonnitto)
+[![GitHub forks](https://img.shields.io/github/forks/CarbonPackages/Carbon.IncludeAssets.svg?style=social&label=Fork)](https://github.com/CarbonPackages/Carbon.IncludeAssets/fork)
+[![GitHub stars](https://img.shields.io/github/stars/CarbonPackages/Carbon.IncludeAssets.svg?style=social&label=Stars)](https://github.com/CarbonPackages/Carbon.IncludeAssets/stargazers)
+[![GitHub watchers](https://img.shields.io/github/watchers/CarbonPackages/Carbon.IncludeAssets.svg?style=social&label=Watch)](https://github.com/CarbonPackages/Carbon.IncludeAssets/subscription)
 
 # Carbon.IncludeAssets Package for Neos CMS
 
 With this package, you get able to import all your CSS and Javascript assets with few lines of code in [Settings.yaml](Configuration/Settings.yaml). The best practice is to include `carbon/includeassets` into your `composer.json` from your site package. After that, you just can add your settings. Besides the filenames, you are also able to pass all your necessary attributes to the tags. If you are not able to provide a file extension, you can force the type via `(js)` or `(css)` at the end.
 
-* You can pass the filenames as string (comma separated) or as an array
-* If you want to add attributes, add it with square brackets e.g.  
-  `Filename.js[async data-prop data-attr="true" class="-js-loader"]`
-* If you want to get a file included inline, just add the attribute `inline`: e.g. `Filename.css[inline]`
-* You can add multiple resources per line. E. g. `Slider.js,Main.css,Footer.css[async class="footer-styles"],Header[inline class="header-styles"],//ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js[async]`
-* CSS can also be loaded asynchron: Just add `async` as attribute e.g. `Filename.css[async]`
-* If you want to add Google Fonts, you just can write the down the fonts, e.g. `Lato|Open+Sans:400,700` or `Lato|Open+Sans:400,700[async]`
-* On internal files, a md5 hash from the content of the file gets appended. Please be aware that you have to clear the cache from Neos to update the hash value. It is meant to have a cache buster on production projects.
+*   You can pass the filenames as string (comma separated) or as an array
+*   If you want to add attributes, add it with square brackets e.g.  
+    `Filename.js[async data-prop data-attr="true" class="-js-loader"]`
+*   If you want to get a file included inline, just add the attribute `inline`: e.g. `Filename.css[inline]`
+*   You can add multiple resources per line. E. g. `Slider.js,Main.css,Footer.css[async class="footer-styles"],Header[inline class="header-styles"],//ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js[async]`
+*   CSS can also be loaded asynchron: Just add `async` as attribute e.g. `Filename.css[async]`
+*   If you want to add Google Fonts, you just can write the down the fonts, e.g. `Lato|Open+Sans:400,700` or `Lato|Open+Sans:400,700[async]`
+*   On internal files, a md5 hash from the content of the file gets appended. Please be aware that you have to clear the cache from Neos to update the hash value. It is meant to have a cache buster on production projects.
 
 Here is a small example with strings:
 
