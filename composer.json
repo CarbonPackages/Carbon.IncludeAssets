@@ -3,26 +3,42 @@
     "type": "neos-plugin",
     "description": "Include your assets (css, js) in an easy way into Neos",
     "license": "MIT",
+    "keywords": ["flow", "neos", "fusion", "helper", "carbon"],
     "require": {
         "neos/neos": "~3.0 || ~4.0",
         "carbon/filecontent": "^1.1"
+    },
+    "authors": [
+        {
+            "name": "Jon Uhlmann",
+            "email": "me@jonnitto.ch",
+            "homepage": "https://jonnitto.ch",
+            "role": "Developer"
+        }
+    ],
+    "archive": {
+        "exclude": [
+            ".editorconfig",
+            ".eslintignore",
+            ".eslintrc",
+            ".gitattributes",
+            ".github",
+            ".gitignore",
+            ".jshintrc",
+            ".nvmrc",
+            ".prettierignore",
+            ".stylelintrc",
+            ".yarnclean",
+            "CODE_OF_CONDUCT.md",
+            "gulp_global.yaml",
+            "package.json"
+        ]
     },
     "autoload": {
         "psr-4": {
             "Carbon\\IncludeAssets\\": "Classes"
         }
     },
-    "archive": {
-        "exclude": [".editorconfig", ".gitignore", ".github", ".gitattributes", "gulp.json", "package.json", "CODE_OF_CONDUCT.md"]
-    },
-    "authors": [
-        {
-            "name": "Jon Uhlmann",
-            "email": "me@jonnitto.ch",
-            "homepage": "https://github.com/jonnitto",
-            "role": "Developer"
-        }
-    ],
     "extra": {
         "marketplace-account": "me@jonnitto.ch",
         "installer-name": "Carbon.IncludeAssets",
