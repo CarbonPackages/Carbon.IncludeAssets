@@ -1,6 +1,6 @@
 {
     "name": "carbon/includeassets",
-    "type": "neos-plugin",
+    "type": "neos-carbon",
     "description": "Include your assets (css, js) in an easy way into Neos",
     "license": "MIT",
     "keywords": ["flow", "neos", "fusion", "helper", "carbon"],
