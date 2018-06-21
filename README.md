@@ -18,9 +18,9 @@ With this package, you get able to import all your CSS and Javascript assets wit
 *   If you want to add Google Fonts, you just can write the down the fonts, e.g. `Lato|Open+Sans:400,700` or `Lato|Open+Sans:400,700[async]`
 *   On internal files, a md5 hash from the content of the file gets appended. Please be aware that you have to clear the cache from Neos to update the hash value. It is meant to have a cache buster on production projects.
 
-Here is a small example with strings:
+Here is a small example with **strings**:
 
-```
+```yaml
 Carbon:
   IncludeAssets:
     LoadJSforCSSAsynchron: true
@@ -37,9 +37,9 @@ Carbon:
       Body: LiveBody.css,LiveBody.js
 ```
 
-Here is a small example with arrays: You can write them in one line, or in multiple lines
+Here is a small example with **arrays**: You can write them in one line, or in multiple lines
 
-```
+```yaml
 Carbon:
   IncludeAssets:
     LoadJSforCSSAsynchron: true
@@ -88,7 +88,7 @@ You can set the property `fonts` e.g. `Lato|Open+Sans:400,700` and the `script` 
 
 Most of the time you have to make small adjustments to a package (e.g., the configuration in `Settings.yaml`). Because of that, it is important to add the corresponding package to the composer from your theme package. Mostly this is the site packages located under `Packages/Sites/`. To install it correctly go to your theme package (e.g.`Packages/Sites/Foo.Bar`) and run following command:
 
-```
+```bash
 composer require carbon/includeassets --no-update
 ```
 
