@@ -56,9 +56,9 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
 
         // We got attributes
         if (array_key_exists(3, $match)) {
-            $array = explode(' ', $match[3]);
+            $array = preg_split('/[\s,]+/', $match[3], -1, PREG_SPLIT_NO_EMPTY);
             foreach ($array as $value) {
-                $split = explode('=', $value);
+                $split = preg_split('/=/', $value, 2);
                 $key = trim($split[0]);
                 $value = array_key_exists(1, $split) ? '=' . trim($split[1]) : '';
 
