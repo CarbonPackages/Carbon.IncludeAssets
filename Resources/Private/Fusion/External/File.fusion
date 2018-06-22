@@ -22,8 +22,8 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Case) {
 
     inlineFile {
         condition = ${fileObject.inline}
-        renderer = Carbon.FileContent:FileContent {
-            path = ${path}
+        renderer = Neos.Fusion:Value {
+            value = ${String.trim(Carbon.FileContent.path(path))}
             @process.wrapWithTag = Carbon.IncludeAssets:TypeCase {
                 isCSS.renderer = ${'<style' + fileObject.attributes +'>' + value + '</style>'}
                 isJS.renderer = ${'<script' + fileObject.attributes +'>' + value + '</script>'}

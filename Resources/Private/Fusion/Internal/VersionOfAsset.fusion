@@ -1,11 +1,7 @@
 prototype(Carbon.IncludeAssets:VersionOfAsset) < prototype(Neos.Fusion:Value) {
     path = ${path}
 
-    @context.path = ${this.path}
-
-    hash = Carbon.FileContent:HashOfFile {
-        path = ${path}
-    }
+    hash = ${Carbon.FileContent.pathHash(this.path)}
 
     isFirst = true
     divider = ${this.isFirst ? '?' : '&'}
