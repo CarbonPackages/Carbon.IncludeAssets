@@ -6,6 +6,7 @@
     "keywords": ["flow", "neos", "fusion", "helper", "carbon"],
     "require": {
         "neos/neos": "~3.0 || ~4.0",
+        "carbon/filecontent": "^1.1.3",
         "carbon/eel": "^1.1"
     },
     "authors": [
