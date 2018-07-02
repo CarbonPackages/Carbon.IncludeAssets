@@ -13,30 +13,37 @@ Neos:
 #  * If you want to add attributes, add it with square brackets e.g. Filename.js[async data-prop data-attr="true"]
 #  * CSS can also be loaded asynchron: Just add async as attribute e.g. Filename.css[async class="classname"]
 #  * If you want a file included inline, just add the attribute "inline": e.g. Filename.css[inline]
-#  * If you are not able to have a file extension you can force the type with braces e.g. Filename(css) / Filename[async](js)
+#  * If you are not able to have a file extension you can force the type with braces e.g. Filename(css) / Filename[async](js) / Module(mjs)
 
 Carbon:
   IncludeAssets:
-    GoogleFonts: null  # e.g. 'Lato|Open+Sans:400,700', for async loading e.g. 'Lato|Open+Sans:400,700[async]'
-    AssetPackage: null # If not set, the site resources package key from the current site will be used
     LoadJSforCSSAsynchron: false
-    CacheBuster: true
-    Path:
-      Inline:
-        CSS: 'Private/Templates/InlineAssets'
-        JS: 'Private/Templates/InlineAssets'
-      File:
-        CSS: 'Public/Styles'
-        JS: 'Public/Scripts'
-    # Asset files who get's loaded in live and backend view
-    General:
-      Head: null
-      Body: null
-    # Asset files who get's loaded only in the backend
-    Backend:
-      Head: null
-      Body: null
-    # Asset files who get's loaded only in the live view
-    Live:
-      Head: null
-      Body: null
+    GoogleFonts: null  # e.g. 'Lato|Open+Sans:400,700', for async loading e.g. 'Lato|Open+Sans:400,700[async]'
+    # Default settings
+    Default:
+      Package: SitePackage
+      CacheBuster: true
+      ConditionPrototype: null
+      Path:
+        Inline:
+          CSS: 'Private/Templates/InlineAssets'
+          JS: 'Private/Templates/InlineAssets'
+          MJS: 'Private/Templates/InlineAssets'
+        File:
+          CSS: 'Public/Styles'
+          JS: 'Public/Scripts'
+          MJS: 'Public/Modules'
+      # Asset files who get's loaded in live and backend view
+      General:
+        Head: null
+        Body: null
+      # Asset files who get's loaded only in the backend
+      Backend:
+        Head: null
+        Body: null
+      # Asset files who get's loaded only in the live view
+      Live:
+        Head: null
+        Body: null
+#    Packages:
+#    Packages keys get sorted first by numbers, then by characters.

@@ -19,7 +19,7 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
         // 2 => Search string
         // 3 => Attributes
         // 4 => Specific type
-        $regularExpression = '/^([^\[\(\?]+)(\?[^\[\(]*)?(?:\[?([^\]]*)\])?(?:\((js|css)\))?$/i';
+        $regularExpression = '/^([^\[\(\?]+)(\?[^\[\(]*)?(?:\[?([^\]]*)\])?(?:\((js|css|mjs)\))?$/i';
         preg_match($regularExpression, $string, $match);
 
         // We need a filename
@@ -50,7 +50,7 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
             $object['type'] = strtoupper(end($tmp));
         }
 
-        if ($object['type'] != 'JS' && $object['type'] != 'CSS') {
+        if ($object['type'] != 'JS' && $object['type'] != 'MJS' && $object['type'] != 'CSS') {
             return null;
         }
 
@@ -72,7 +72,7 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
                         }
                         break;
                     default:
-                        if (($object['type'] == 'JS' && $key != 'src') || ($object['type'] == 'CSS' && $key != 'href' && $key != 'rel')) {
+                        if (($object['type'] == 'JS' && $key != 'src') || ($object['type'] == 'MJS' && $key != 'src') || ($object['type'] == 'CSS' && $key != 'href' && $key != 'rel')) {
                             $object['attributes'] .= ' ' . $key . $value;
                         }
                         break;
@@ -85,9 +85,11 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
             }
         }
 
-        // Add type to javascript
+        // Add type to javascript or modules
         if ($object['type'] == 'JS' && strpos($object['attributes'], ' type=') === false) {
             $object['attributes'] .= ' type="text/javascript"';
+        } else if ($object['type'] == 'MJS' && strpos($object['attributes'], ' type=') === false) {
+            $object['attributes'] .= ' type="module"';
         }
 
         return $object;

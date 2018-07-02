@@ -1,0 +1,51 @@
+prototype(Carbon.IncludeAssets:Internal.Tag) < prototype(Neos.Fusion:Component) {
+
+    path = null
+    fileObject = null
+    cacheBuster = false
+    async = ${this.fileObject.async}
+    external = ${this.fileObject.external}
+    search = ${this.fileObject.search}
+    attributes = ${this.fileObject.attributes}
+
+    renderer = Neos.Fusion:Array {
+        uri = Neos.Fusion:Case {
+            isExternal {
+                condition = ${props.external}
+                renderer = ${props.path + props.search}
+            }
+            isInternal {
+                condition = true
+                renderer = Neos.Fusion:Array {
+                    file = Neos.Fusion:ResourceUri {
+                        path = ${props.path}
+                    }
+                    search = ${props.search}
+                    hash = Neos.Fusion:Value {
+                        @if.needCacheBuster = ${props.cacheBuster}
+                        divider = ${props.search ? '&' : '?'}
+                        hash = ${Carbon.FileContent.pathHash(props.path)}
+                        value = ${String.isBlank(this.hash) ? '' : this.divider + 'h=' + this.hash}
+                    }
+                }
+            }
+        }
+        @ignoreProperties = ${['uri']}
+    }
+}
+
+prototype(Carbon.IncludeAssets:Internal.Tag.JS) < prototype(Carbon.IncludeAssets:Internal.Tag) {
+    renderer {
+        script = ${'<script src="' + this.uri + '"' + (props.async ? ' async' : '') + props.attributes +'></script>'}
+    }
+}
+
+prototype(Carbon.IncludeAssets:Internal.Tag.CSS) < prototype(Carbon.IncludeAssets:Internal.Tag) {
+    renderer {
+        asyncOpen = ${'<link rel="preload" href="' + this.uri + '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'" onerror="this.onload()"' + props.fileObject.attributes + ' /><noscript>'}
+        asyncOpen.@if.render = ${props.async}
+        cssFile = ${'<link rel="stylesheet" href="' + this.uri + '"' + props.attributes + ' />'}
+        asyncClose = '</noscript>'
+        asyncClose.@if.render = ${props.async}
+    }
+}
