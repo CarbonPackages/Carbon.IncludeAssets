@@ -19,6 +19,32 @@ With this package, you get able to import all your CSS and Javascript assets wit
 *   If you want to add Google Fonts, you can write them down the fonts, e.g. `Lato|Open+Sans:400,700` or `Lato|Open+Sans:400,700[async]`
 *   On internal files, a hash from the content of the file gets appended. Please be aware that you have to clear the cache from Neos to update the hash value. It is meant to have a cache buster on production projects.
 
+## Structure of the Settings
+
+In [`Carbon.IncludeAssets`](Configuration/Settings.yaml#L19) following settings are available:
+
+| Key                     |  Description                                                                                                               |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `LoadJSforCSSAsynchron` | (boolean) If true the javascript for asynchronous CSS get inlined. Defaults to `false`                                     |
+| `GoogleFonts`           | (string) If set, these fonts will included from Google. E.g. `Lato|Open+Sans:400,700` Defaults to `null`                   |
+| `Default`               | (array) The default setting for a `Packages` entry. If a key is not set within a `Packages` entry, this value will be used |
+
+### Structure of Packages entry
+
+In `Carbon.IncludeAssets.Packages` you can define your packages who should output assets. The keys get sorted first by numbers, then by characters. Like that it is possible to define a load order for you packages. A single entry can have following entries (The Defaults are stored in [`Carbon.IncludeAssets.Default`](Configuration/Settings.yaml#L23)):
+
+| Key                  |  Description                                                                                                                                                            |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Package`            | (string) The package key. If it set to `SitePackage`, it will be replaced automaticly with the package key from the site package. Defaults to `SitePackage`             |
+| `CacheBuster`        | (boolean) Append a hash value from the content of the file. Defaults to `true`                                                                                          |
+| `ConditionPrototype` | (string) If this set, the files get only included if the fusion prototype return a truthy value. Defaults to `null`                                                     |
+| `Path`               | (array) You can define were the files get loaded from. You have different paths for inline and linked files. Every type (`css`,`js` or `mjs`) can have a different path |
+| `General`            | (array) Asset files who get loaded in live and backend view. Contains two entries: `Head` and `Body`                                                                    |
+| `Backend`            | (array) Asset files who get loaded only in the backend view. Contains two entries: `Head` and `Body`                                                                    |
+| `Live`               | (array) Asset files who get loaded only in the live view. Contains two entries: `Head` and `Body`                                                                       |
+
+## Example
+
 Here is a small example:
 
 ```yaml
@@ -27,52 +53,76 @@ Carbon:
     LoadJSforCSSAsynchron: true
     GoogleFonts: 'Lato|Open+Sans:400,700[async]'
     Packages:
+
       # The keys get sorted first by numbers, then by characters.
       aa_Theme:
-        # SitePackage is the default value. It will be replaced
-        # automaticly with the package key from the site theme
-        Package: SitePackage
+        # Because no Package is defined, SitePackage from the default
+        # will be used and will set to the site package.
+
         # Asset files who get loaded in live and backend view
         General:
+
+          # This assets get loaded in the <head>
           Head:
+            # Load this CSS asynchronous
             - GeneralHead.css[async]
+
             # If a file has the attribute `inline`, the file get
             # inlined. Also a different path is used. This path is
             # set in under `Carbon.IncludeAssets.Default.Path.inline`
             - AboveTheFold.css[inline]
+
+            # Run this javascript after to document is ready
             - GeneralHead.js[defer]
+
+            # Add this javascript as a module
             - JavascriptModule.mjs
+
             # External files can also be defined.
             # It has to start with //, https:// or http://
             - //foo.bar/externalfile.js
+
             # If you can't provide a proper file extension you can force the type:
             - FileWithCustomFileExtension.ext(css)
+
             # This works also with external files
             - //foo.bar/externalfile.php[async](js)
+
+          # This assets get loaded at the end of the <body>
           Body:
+            # You can also pass all attributes you want
             - GeneralBody.js[async class='-js-loader']
+
             # You can also pass further attributes if you use the inline attribute
             - AdditionSpecialFancyTracking.js[inline class="-js-tracking"]
+
         # Asset files who get loaded only in the backend
         Backend:
+
           # Arrays can be also definded like this
-          Head: ['BackendHead.css', 'BackendHead.js']
+          Head: ['BackendHead.css', 'BackendHead.js[inline]']
+
         # Asset files who get loaded only in the live view
         Live:
           # You can set the value as a string, it will be automically converted to an array
-          Head: SingleLive
-          Body: LiveBody.css,LiveBody.js
+          Head: SingleLive.css
+          Body: LiveBody.css,LiveBody[inline].js
+
       # Example taken from Jonnitto.Plyr
       'zz_Jonnitto.Plyr':
         Package: 'Jonnitto.Plyr'
+
         # The files get only included if the fusion prototype
-        #  Jonnitto.Plyr:IncludeCase` return a truthy value
+        # Jonnitto.Plyr:IncludeCase` return a truthy value
         ConditionPrototype: 'Jonnitto.Plyr:IncludeCase'
+
         # Ajust the paths for external files
         Path:
           File:
             CSS: 'Public'
             JS: 'Public'
+
+        # Set the files
         General:
           Head:
             - plyr.min.js[defer]
