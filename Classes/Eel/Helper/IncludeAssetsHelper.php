@@ -19,7 +19,7 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
         // 2 => Search string
         // 3 => Attributes
         // 4 => Specific type
-        $regularExpression = '/^([^\[\(\?]+)(\?[^\[\(]*)?(?:\[?([^\]]*)\])?(?:\((js|css)\))?$/i';
+        $regularExpression = '/^([^\[\(\?]+)(\?[^\[\(]*)?(?:\[?([^\]]*)\])?(?:\((js|css|mjs)\))?$/i';
         preg_match($regularExpression, $string, $match);
 
         // We need a filename
