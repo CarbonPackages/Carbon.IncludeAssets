@@ -6,65 +6,55 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
     file = null
     assetPackage = ${node.context.currentSite.siteResourcesPackageKey}
     cacheBuster = ${Configuration.setting('Carbon.IncludeAssets.Default.CacheBuster')}
-    assetPath = ${this.paths[this.assetKey][this.type]}
-    type = ${this.fileObject.type}
+    assetPath = null
 
+    // This is a internal variable, please use `assetPath` for an single file
     paths = ${Configuration.setting('Carbon.IncludeAssets.Default.Path')}
-    path = ${this.fileObject.external || this.fileObject.path ? this.fileObject.filename : this.assetPackage && this.assetPath ? 'resource://' + this.assetPackage + '/' + this.assetPath + '/' + this.fileObject.filename : false}
 
-    // Internal variables
-    fileObject = ${Carbon.IncludeAssets.parseFilename(this.file)}
-    assetKey = ${this.fileObject.inline ? 'Inline' : 'File'}
-    isLiveAndAsync = ${this.fileObject.async ? node.context.live : false}
+    renderer = Neos.Fusion:Component {
+        @if.render = ${props.file}
 
-    renderer = Neos.Fusion:Case {
-        @if.render = ${props.path ? true : false}
+        file = ${props.file}
+        assetPackage = ${props.assetPackage}
+        cacheBuster = ${props.cacheBuster}
+        assetPath = ${props.assetPath ? props.assetPath : props.paths[this.assetKey][this.type]}
 
-        inlineFile {
-            condition = ${props.fileObject.inline}
-            renderer = Carbon.IncludeAssets:Internal.TypeCase {
-                content = ${String.trim(Carbon.FileContent.path(props.path))}
-                @if.hasContent = ${this.content ? true : false}
-                type = ${props.type}
-                css = ${'<style' + props.fileObject.attributes +'>' + this.content + '</style>'}
-                js = ${'<script' + props.fileObject.attributes +'>' + this.content + '</script>'}
+        fileObject = ${Carbon.IncludeAssets.parseFilename(props.file)}
+        assetKey = ${this.fileObject.inline ? 'Inline' : 'File'}
+        type = ${this.fileObject.type}
+        path = ${this.fileObject.external || this.fileObject.path ? this.fileObject.filename : this.assetPackage && this.assetPath ? 'resource://' + this.assetPackage + '/' + this.assetPath + '/' + this.fileObject.filename : false}
+
+        renderer = Neos.Fusion:Case {
+            @if.render = ${props.path ? true : false}
+
+            inlineFile {
+                condition = ${props.fileObject.inline}
+                renderer = Carbon.IncludeAssets:Internal.TypeCase {
+                    content = ${String.trim(Carbon.FileContent.path(props.path))}
+                    @if.hasContent = ${this.content ? true : false}
+                    type = ${props.type}
+                    css = ${'<style' + props.fileObject.attributes +'>' + this.content + '</style>'}
+                    js = ${'<script' + props.fileObject.attributes +'>' + this.content + '</script>'}
+                }
             }
-        }
 
-        isFile {
-            condition = ${props.path ? true : false}
-            renderer = Carbon.IncludeAssets:Internal.TypeCase {
-                type = ${props.type}
-                @context.linkToFile = Neos.Fusion:Case {
-                    isExternal {
-                        condition = ${props.fileObject.external}
-                        renderer = ${props.path + props.fileObject.search}
+            isFile {
+                condition = ${props.path ? true : false}
+                renderer = Carbon.IncludeAssets:Internal.TypeCase {
+                    type = ${props.type}
+                    css = Carbon.IncludeAssets:Internal.Tag.CSS {
+                        path = ${props.path}
+                        fileObject = ${props.fileObject}
+                        cacheBuster = ${props.cacheBuster}
+                        async = ${this.fileObject.async ? node.context.live : false}
                     }
-                    isInternal {
-                        condition = true
-                        renderer = Neos.Fusion:Array {
-                            file = Neos.Fusion:ResourceUri {
-                                path = ${props.path}
-                            }
-                            search = ${props.fileObject.search}
-                            hash = Carbon.IncludeAssets:Internal.VersionOfAsset {
-                                isFirst = ${props.fileObject.search ? false : true}
-                                path = ${props.path}
-                                @if.needCacheBuster = ${props.cacheBuster}
-                            }
-                        }
+
+                    js = Carbon.IncludeAssets:Internal.Tag.JS {
+                        path = ${props.path}
+                        fileObject = ${props.fileObject}
+                        cacheBuster = ${props.cacheBuster}
                     }
                 }
-
-                css = Neos.Fusion:Array {
-                    asyncOpen = ${'<link rel="preload" href="' + linkToFile + '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'" onerror="this.onload()"' + props.fileObject.attributes + ' /><noscript>'}
-                    asyncOpen.@if.render = ${props.isLiveAndAsync}
-                    cssFile = ${'<link rel="stylesheet" href="' + linkToFile + '"' + props.fileObject.attributes + ' />'}
-                    asyncClose = '</noscript>'
-                    asyncClose.@if.render = ${props.isLiveAndAsync}
-                }
-
-                js= ${'<script src="' + linkToFile + '"' + (props.fileObject.async ? ' async' : '') + props.fileObject.attributes +'></script>'}
             }
         }
     }
