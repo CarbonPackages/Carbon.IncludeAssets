@@ -1,0 +1,45 @@
+prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Component) {
+    @styleguide {
+        description = 'This prototype include all assets of a package'
+    }
+
+    // Body || Head
+    location = null
+    // The config for the package
+    config = Neos.Fusion:RawArray
+
+    // Internal property
+    mergedConfig = ${Array.concat(Configuration.setting('Carbon.IncludeAssets.Default'), this.config)}
+
+    renderer = Neos.Fusion:Component {
+        @if.hasCustomCondition = Neos.Fusion:Case {
+            custom {
+                condition = ${props.mergedConfig.ConditionPrototype && Type.isString(props.mergedConfig.ConditionPrototype)}
+                type = ${props.mergedConfig.ConditionPrototype}
+            }
+            default {
+                condition = true
+                renderer = true
+            }
+        }
+        assetPackage = ${props.mergedConfig.Package == 'SitePackage' ? node.context.currentSite.siteResourcesPackageKey : props.mergedConfig.Package}
+        cacheBuster = ${props.mergedConfig.CacheBuster}
+        paths = ${props.mergedConfig.Path}
+        collection = Neos.Fusion:RawCollection {
+            collection = ${['General', 'Backend', 'Live']}
+            itemRenderer = Neos.Fusion:Value {
+                condition = ${item == 'General' || (item == 'Backend' && node.context.inBackend) || (item == 'Live' && node.context.live)}
+                value = ${this.condition ? props.mergedConfig[item][props.location] : false}
+                @process.convertToArray = ${Type.isString(value) ? String.split(value, ',') : value}
+            }
+            @process.filter = ${Carbon.Array.filter(Carbon.Array.extractSubElements(value))}
+        }
+
+        renderer = Carbon.IncludeAssets:Collection {
+            assetPackage = ${props.assetPackage}
+            cacheBuster = ${props.cacheBuster}
+            collection = ${props.collection}
+            paths = ${props.paths}
+        }
+    }
+}

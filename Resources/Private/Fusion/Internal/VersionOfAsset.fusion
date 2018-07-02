@@ -1,14 +1,14 @@
-prototype(Carbon.IncludeAssets:VersionOfAsset) < prototype(Neos.Fusion:Value) {
-    path = ${path}
-
-    @context.path = ${this.path}
-
-    hash = Carbon.FileContent:HashOfFile {
-        path = ${path}
+prototype(Carbon.IncludeAssets:Internal.VersionOfAsset) < prototype(Neos.Fusion:Component) {
+    @styleguide {
+        description = 'This prototype used as a cache buster'
     }
 
+    path = null
     isFirst = true
-    divider = ${this.isFirst ? '?' : '&'}
 
-    value = ${String.isBlank(this.hash) ? '' : this.divider + 'h=' + this.hash}
+    renderer = Neos.Fusion:Value {
+        divider = ${props.isFirst ? '?' : '&'}
+        hash = ${Carbon.FileContent.pathHash(props.path)}
+        value = ${String.isBlank(this.hash) ? '' : this.divider + 'h=' + this.hash}
+    }
 }

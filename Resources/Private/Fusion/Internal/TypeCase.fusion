@@ -1,10 +1,31 @@
-prototype(Carbon.IncludeAssets:TypeCase) < prototype(Neos.Fusion:Case) {
-  isCSS {
-    condition = ${String.toUpperCase(type) == 'CSS' ? true : false}
-    renderer = ''
-  }
-  isJS {
-    condition = ${String.toUpperCase(type)  == 'JS' ? true : false}
-    renderer = ''
-  }
+prototype(Carbon.IncludeAssets:Internal.TypeCase) < prototype(Neos.Fusion:Component) {
+    @styleguide {
+        description = 'This prototype is a small helper to render css, js or mjs'
+
+        props {
+            type = 'js'
+            js = 'console.log("Carbon.IncludeAssets:Internal.TypeCase")'
+        }
+    }
+
+    type = null
+    js = ''
+    css = ''
+    // Modules are per default the same as Javascript
+    mjs = ${this.js}
+
+    renderer = Neos.Fusion:Case {
+        isCSS {
+          condition = ${String.toUpperCase(props.type) == 'CSS'}
+          renderer = ${props.css}
+        }
+        isJS {
+          condition = ${String.toUpperCase(props.type)  == 'JS'}
+          renderer = ${props.js}
+        }
+        isMJS {
+          condition = ${String.toUpperCase(props.type)  == 'MJS'}
+          renderer = ${props.mjs}
+        }
+    }
 }

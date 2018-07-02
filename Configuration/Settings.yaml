@@ -18,25 +18,32 @@ Neos:
 Carbon:
   IncludeAssets:
     GoogleFonts: null  # e.g. 'Lato|Open+Sans:400,700', for async loading e.g. 'Lato|Open+Sans:400,700[async]'
-    AssetPackage: null # If not set, the site resources package key from the current site will be used
     LoadJSforCSSAsynchron: false
-    CacheBuster: true
-    Path:
-      Inline:
-        CSS: 'Private/Templates/InlineAssets'
-        JS: 'Private/Templates/InlineAssets'
-      File:
-        CSS: 'Public/Styles'
-        JS: 'Public/Scripts'
-    # Asset files who get's loaded in live and backend view
-    General:
-      Head: null
-      Body: null
-    # Asset files who get's loaded only in the backend
-    Backend:
-      Head: null
-      Body: null
-    # Asset files who get's loaded only in the live view
-    Live:
-      Head: null
-      Body: null
+    # Default settings
+    Default:
+      Package: SitePackage
+      CacheBuster: true
+      ConditionPrototype: null
+      Path:
+        Inline:
+          CSS: 'Private/Templates/InlineAssets'
+          JS: 'Private/Templates/InlineAssets'
+          MJS: 'Private/Templates/InlineAssets'
+        File:
+          CSS: 'Public/Styles'
+          JS: 'Public/Scripts'
+          MJS: 'Public/Modules'
+      # Asset files who get's loaded in live and backend view
+      General:
+        Head: null
+        Body: null
+      # Asset files who get's loaded only in the backend
+      Backend:
+        Head: null
+        Body: null
+      # Asset files who get's loaded only in the live view
+      Live:
+        Head: null
+        Body: null
+#    Packages:
+#    Packages keys get sorted first by numbers, then by characters.

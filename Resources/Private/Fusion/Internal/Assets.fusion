@@ -1,0 +1,32 @@
+prototype(Carbon.IncludeAssets:Internal.Assets) < prototype(Neos.Fusion:Component) {
+    @styleguide {
+        description = 'This prototype handles all assets of a location (Body || Head) set via Settings.yaml'
+    }
+
+    // Body || Head
+    location = null
+
+    contexts = ${['General', 'Backend', 'Live']}
+    loadJSforCSSAsynchron = ${Configuration.setting('Carbon.IncludeAssets.LoadJSforCSSAsynchron') && this.location == 'Head'}
+    packages = ${Carbon.Array.ksort(Configuration.setting('Carbon.IncludeAssets.Packages'))}
+
+    @if.hasLocation = ${this.location}
+
+    renderer = Neos.Fusion:Array {
+        googleFonts = Carbon.IncludeAssets:GoogleFonts {
+            @if.head = ${props.location == 'Head'}
+        }
+        packages = Neos.Fusion:Collection {
+            @if.hasPackages = ${props.packages}
+            collection = ${props.packages}
+            itemRenderer = Carbon.IncludeAssets:Internal.Package {
+                location = ${props.location}
+                config = ${item}
+            }
+        }
+        loadCssAsync = Carbon.IncludeAssets:File {
+            @if.render = ${props.loadJSforCSSAsynchron}
+            file = 'resource://Carbon.IncludeAssets/Private/Templates/LoadCssAsync.js[inline]'
+        }
+    }
+}

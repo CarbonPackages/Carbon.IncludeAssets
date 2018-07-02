@@ -1,10 +1,28 @@
-prototype(Carbon.IncludeAssets:GoogleFonts) < prototype(Neos.Fusion:Value) {
-    fonts = ${Configuration.setting('Carbon.IncludeAssets.GoogleFonts')}
-    @context.fonts = ${this.fonts}
+prototype(Carbon.IncludeAssets:GoogleFonts) < prototype(Neos.Fusion:Component) {
+    @styleguide {
+        description = 'This prototype outputs the style tag for include a font from google'
 
-    value = Carbon.IncludeAssets:File {
-        file = ${'//fonts.googleapis.com/css?family=' + fonts + '(css)'}
+        props {
+            fonts = 'Lato'
+        }
+
+        propSets {
+            'Multiple Variants' {
+                fonts = 'Open+Sans:400,700'
+            }
+            'Multiple Fonts' {
+                fonts = 'Lato|Open+Sans:400,700'
+            }
+           'Asynchron CSS' {
+               fonts = 'Lato|Open+Sans:400,700[async]'
+           }
+       }
     }
 
-    @if.hasFonts = ${!String.isBlank(this.fonts)}
+    fonts = ${Configuration.setting('Carbon.IncludeAssets.GoogleFonts')}
+
+    renderer = Carbon.IncludeAssets:File {
+        @if.hasFonts = ${!String.isBlank(props.fonts)}
+        file = ${'//fonts.googleapis.com/css?family=' + props.fonts + '(css)'}
+    }
 }
