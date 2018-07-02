@@ -17,8 +17,8 @@ Neos:
 
 Carbon:
   IncludeAssets:
-    GoogleFonts: null  # e.g. 'Lato|Open+Sans:400,700', for async loading e.g. 'Lato|Open+Sans:400,700[async]'
     LoadJSforCSSAsynchron: false
+    GoogleFonts: null  # e.g. 'Lato|Open+Sans:400,700', for async loading e.g. 'Lato|Open+Sans:400,700[async]'
     # Default settings
     Default:
       Package: SitePackage
