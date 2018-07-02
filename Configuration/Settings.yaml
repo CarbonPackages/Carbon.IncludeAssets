@@ -13,7 +13,7 @@ Neos:
 #  * If you want to add attributes, add it with square brackets e.g. Filename.js[async data-prop data-attr="true"]
 #  * CSS can also be loaded asynchron: Just add async as attribute e.g. Filename.css[async class="classname"]
 #  * If you want a file included inline, just add the attribute "inline": e.g. Filename.css[inline]
-#  * If you are not able to have a file extension you can force the type with braces e.g. Filename(css) / Filename[async](js)
+#  * If you are not able to have a file extension you can force the type with braces e.g. Filename(css) / Filename[async](js) / Module(mjs)
 
 Carbon:
   IncludeAssets:
