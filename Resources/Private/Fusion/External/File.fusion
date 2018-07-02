@@ -20,15 +20,6 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
     renderer = Neos.Fusion:Case {
         @if.render = ${props.path ? true : false}
 
-        debug {
-            condition = false
-            renderer = Neos.Fusion:Debug {
-                attributes = ${props.fileObject.attributes}
-                type = ${props.type}
-                search = ${props.fileObject.search}
-                path = ${props.path}
-            }
-        }
         inlineFile {
             condition = ${props.fileObject.inline}
             renderer = Carbon.IncludeAssets:Internal.TypeCase {
@@ -39,6 +30,7 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
                 js = ${'<script' + props.fileObject.attributes +'>' + this.content + '</script>'}
             }
         }
+
         isFile {
             condition = ${props.path ? true : false}
             renderer = Carbon.IncludeAssets:Internal.TypeCase {
