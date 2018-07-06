@@ -33,15 +33,15 @@ In [`Carbon.IncludeAssets`](Configuration/Settings.yaml#L19) following settings 
 
 In `Carbon.IncludeAssets.Packages` you can define your packages who should output assets. The keys get sorted first by numbers, then by characters. Like that it is possible to define a load order for you packages. A single entry can have following entries (The Defaults are stored in [`Carbon.IncludeAssets.Default`](Configuration/Settings.yaml#L23)):
 
-| Key                  |  Description                                                                                                                                                            |
-| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Package`            | (string) The package key. If it set to `SitePackage`, it will be replaced automaticly with the package key from the site package. Defaults to `SitePackage`             |
-| `CacheBuster`        | (boolean) Append a hash value from the content of the file. Defaults to `true`                                                                                          |
-| `ConditionPrototype` | (string) If this set, the files get only included if the fusion prototype return a truthy value. Defaults to `null`                                                     |
-| `Path`               | (array) You can define were the files get loaded from. You have different paths for inline and linked files. Every type (`css`,`js` or `mjs`) can have a different path |
-| `General`            | (array) Asset files who get loaded in live and backend view. Contains two entries: `Head` and `Body`                                                                    |
-| `Backend`            | (array) Asset files who get loaded only in the backend view. Contains two entries: `Head` and `Body`                                                                    |
-| `Live`               | (array) Asset files who get loaded only in the live view. Contains two entries: `Head` and `Body`                                                                       |
+| Key                  |  Description                                                                                                                                                                                 |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Package`            | (string) The package key. If it set to `SitePackage`, it will be replaced automaticly with the package key from the site package. Defaults to `SitePackage`                                  |
+| `CacheBuster`        | (boolean) Append a hash value from the content of the file. Defaults to `true`                                                                                                               |
+| `ConditionPrototype` | (string) If this set, the files get only included if the fusion prototype return a truthy value. Defaults to `null`                                                                          |
+| `Path`               | (array) Define were the files get loaded from. There are different paths for inline and linked files. Every type (`css`,`js` or `mjs`) can have a different path inside the Resources folder |
+| `General`            | (array) Asset files who get loaded in live and backend view. Contains two entries: `Head` and `Body`                                                                                         |
+| `Backend`            | (array) Asset files who get loaded only in the backend view. Contains two entries: `Head` and `Body`                                                                                         |
+| `Live`               | (array) Asset files who get loaded only in the live view. Contains two entries: `Head` and `Body`                                                                                            |
 
 ## Example
 
@@ -139,12 +139,12 @@ Basically, you have to folders with Fusion Prototypes: [Internal](Resources/Priv
 
 This prototype generates your `script`, `style` and `link` tags from the files who are defined in the property `collection`.
 
-| Property       | Description                                                                                                                                   |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `collection`   | (array with strings) The collection with the filenames. (Example: ['Main.css','Main.js[defer]']) Defaults to `[]`                             |
-| `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `null`                                                               |
-| `cacheBuster`  | (boolean) Append a hash value from the content of the file. Defaults to the value set in the [Settings.yaml](Configuration/Settings.yaml#L25) |
-| `paths`        | (array) The paths to the internal and external files. Defaults to the value set in the [Settings.yaml](Configuration/Settings.yaml#L27)       |
+| Property       | Description                                                                                                                                                         |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `collection`   | (array with strings) The collection with the filenames. (Example: ['Main.css','Main.js[defer]']) Defaults to `[]`                                                   |
+| `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `null`                                                                                     |
+| `cacheBuster`  | (boolean) Append a hash value from the content of the file. Defaults to the value set in the [Settings.yaml](Configuration/Settings.yaml#L25)                       |
+| `paths`        | (array) The paths to the internal and external files inside the Resources folder. Defaults to the value set in the [Settings.yaml](Configuration/Settings.yaml#L27) |
 
 ### [Carbon.IncludeAssets:File](Resources/Private/Fusion/External/File.fusion)
 
@@ -155,7 +155,7 @@ The heart of this package. This prototype generates a `script`, `style` and `lin
 | `file`         | (string) The filename. You have to write it in the same way as it would be defined in the Settings.yaml file. Defaults to `null`              |
 | `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `node.context.currentSite.siteResourcesPackageKey`                   |
 | `cacheBuster`  | (boolean) Append a hash value from the content of the file. Defaults to the value set in the [Settings.yaml](Configuration/Settings.yaml#L25) |
-| `assetPath`    | (string) The path to the file. Per default it is set dynamically                                                                              |
+| `assetPath`    | (string) The path to the file inside the Resources folder. Per default it is set dynamically                                                  |
 
 ### [Carbon.IncludeAssets:GoogleFonts](Resources/Private/Fusion/External/GoogleFonts.fusion)
 
