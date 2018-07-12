@@ -29,31 +29,21 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
 
             inlineFile {
                 condition = ${props.fileObject.inline}
-                renderer = Carbon.IncludeAssets:Internal.TypeCase {
-                    content = ${String.trim(Carbon.FileContent.path(props.path))}
-                    @if.hasContent = ${this.content ? true : false}
-                    type = ${props.type}
-                    css = ${'<style' + props.fileObject.attributes +'>' + this.content + '</style>'}
-                    js = ${'<script' + props.fileObject.attributes +'>' + this.content + '</script>'}
-                }
+                renderer = afx`
+                    <Carbon.IncludeAssets:Internal.TypeCase content={String.trim(Carbon.FileContent.path(props.path))} @if.hasContent={this.content} type={props.type} css={'<style' + props.fileObject.attributes +'>' + this.content + '</style>'} js={'<script' + props.fileObject.attributes +'>' + this.content + '</script>'} />
+                `
             }
 
             isFile {
                 condition = ${props.path ? true : false}
                 renderer = Carbon.IncludeAssets:Internal.TypeCase {
                     type = ${props.type}
-                    css = Carbon.IncludeAssets:Internal.Tag.CSS {
-                        path = ${props.path}
-                        fileObject = ${props.fileObject}
-                        cacheBuster = ${props.cacheBuster}
-                        async = ${this.fileObject.async ? node.context.live : false}
-                    }
-
-                    js = Carbon.IncludeAssets:Internal.Tag.JS {
-                        path = ${props.path}
-                        fileObject = ${props.fileObject}
-                        cacheBuster = ${props.cacheBuster}
-                    }
+                    css = afx`
+                        <Carbon.IncludeAssets:Internal.Tag.CSS path={props.path} fileObject={props.fileObject} cacheBuster={props.cacheBuster} async={this.fileObject.async ? node.context.live : false} />
+                    `
+                    js = afx`
+                        <Carbon.IncludeAssets:Internal.Tag.JS path={props.path} fileObject={props.fileObject} cacheBuster={props.cacheBuster} />
+                    `
                 }
             }
         }

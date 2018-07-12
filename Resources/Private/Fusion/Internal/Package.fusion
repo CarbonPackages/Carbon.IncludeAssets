@@ -35,11 +35,8 @@ prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Compone
             @process.filter = ${Carbon.Array.filter(Carbon.Array.extractSubElements(value))}
         }
 
-        renderer = Carbon.IncludeAssets:Collection {
-            assetPackage = ${props.assetPackage}
-            cacheBuster = ${props.cacheBuster}
-            collection = ${props.collection}
-            paths = ${props.paths}
-        }
+        renderer = afx`
+            <Carbon.IncludeAssets:Collection assetPackage={props.assetPackage} cacheBuster={props.cacheBuster} collection={props.collection} paths={props.paths} />
+        `
     }
 }

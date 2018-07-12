@@ -25,7 +25,7 @@ In [`Carbon.IncludeAssets`](Configuration/Settings.yaml#L19) following settings 
 
 | Key                     |  Description                                                                                                               |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `LoadJSforCSSAsynchron` | (boolean) If true the javascript for asynchronous CSS get inlined. Defaults to `false`                                     |
+| `LoadJSforCSSAsynchron` | (boolean) If true the javascript for asynchronous CSS get inlined (If needed). Defaults to `true`                                     |
 | `GoogleFonts`           | (string) If set, these fonts will included from Google. E.g. `Lato\|Open+Sans:400,700` Defaults to `null`                  |
 | `Default`               | (array) The default setting for a `Packages` entry. If a key is not set within a `Packages` entry, this value will be used |
 

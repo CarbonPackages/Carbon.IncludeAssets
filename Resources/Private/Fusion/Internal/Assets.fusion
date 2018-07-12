@@ -12,21 +12,19 @@ prototype(Carbon.IncludeAssets:Internal.Assets) < prototype(Neos.Fusion:Componen
 
     @if.hasLocation = ${this.location}
 
-    renderer = Neos.Fusion:Array {
-        googleFonts = Carbon.IncludeAssets:GoogleFonts {
-            @if.head = ${props.location == 'Head'}
-        }
-        packages = Neos.Fusion:Collection {
-            @if.hasPackages = ${props.packages}
-            collection = ${props.packages}
-            itemRenderer = Carbon.IncludeAssets:Internal.Package {
-                location = ${props.location}
-                config = ${item}
-            }
-        }
-        loadCssAsync = Carbon.IncludeAssets:File {
-            @if.render = ${props.loadJSforCSSAsynchron}
-            file = 'resource://Carbon.IncludeAssets/Private/Templates/LoadCssAsync.js[inline]'
-        }
+    renderer = Neos.Fusion:Component {
+        inHead = ${props.location == 'Head'}
+        filesFromPackages = afx`
+            <Neos.Fusion:Collection @if.hasPackages={props.packages} collection={props.packages} @children='itemRenderer'>
+                <Carbon.IncludeAssets:Internal.Package location={props.location} config={item} />
+            </Neos.Fusion:Collection>
+        `
+        loadAsyncCSS = ${props.loadJSforCSSAsynchron && String.indexOf(this.filesFromPackages, '<link rel="preload" href="') >= 0}
+
+        renderer = afx`
+            <Carbon.IncludeAssets:GoogleFonts @if.head={props.inHead} />
+            {props.filesFromPackages}
+            <Carbon.IncludeAssets:File @if.render={props.loadAsyncCSS} file='resource://Carbon.IncludeAssets/Private/Templates/LoadCssAsync.js[inline]' />
+        `
     }
 }

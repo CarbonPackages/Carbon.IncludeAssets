@@ -16,18 +16,11 @@ prototype(Carbon.IncludeAssets:Internal.Tag) < prototype(Neos.Fusion:Component) 
             }
             isInternal {
                 condition = true
-                renderer = Neos.Fusion:Array {
-                    file = Neos.Fusion:ResourceUri {
-                        path = ${props.path}
-                    }
-                    search = ${props.search}
-                    hash = Neos.Fusion:Value {
-                        @if.needCacheBuster = ${props.cacheBuster}
-                        divider = ${props.search ? '&' : '?'}
-                        hash = ${Carbon.FileContent.pathHash(props.path)}
-                        value = ${String.isBlank(this.hash) ? '' : this.divider + 'h=' + this.hash}
-                    }
-                }
+                renderer = afx`
+                    <Neos.Fusion:ResourceUri path={props.path} />
+                    {props.search}
+                    <Neos.Fusion:Value @if.needCacheBuster={props.cacheBuster} divider={props.search ? '&' : '?'} hash={Carbon.FileContent.pathHash(props.path)} value={String.isBlank(this.hash) ? '' : this.divider + 'h=' + this.hash} />
+                `
             }
         }
         @ignoreProperties = ${['uri']}
