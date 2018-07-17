@@ -8,7 +8,8 @@ prototype(Carbon.IncludeAssets:Internal.Assets) < prototype(Neos.Fusion:Componen
 
     contexts = ${['General', 'Backend', 'Live']}
     loadJSforCSSAsynchron = ${Configuration.setting('Carbon.IncludeAssets.LoadJSforCSSAsynchron') && this.location == 'Head'}
-    packages = ${Carbon.Array.ksort(Configuration.setting('Carbon.IncludeAssets.Packages'))}
+    packages = ${Configuration.setting('Carbon.IncludeAssets.Packages')}
+    packages.@process.sort = ${Type.isArray(value) ? Carbon.Array.ksort(value) : value}
 
     @if.hasLocation = ${this.location}
 
