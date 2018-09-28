@@ -25,7 +25,7 @@ In [`Carbon.IncludeAssets`](Configuration/Settings.yaml#L19) following settings 
 
 | Key                     |  Description                                                                                                               |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `LoadJSforCSSAsynchron` | (boolean) If true the javascript for asynchronous CSS get inlined (If needed). Defaults to `true`                                     |
+| `LoadJSforCSSAsynchron` | (boolean) If true the javascript for asynchronous CSS get inlined (If needed). Defaults to `true`                          |
 | `GoogleFonts`           | (string) If set, these fonts will included from Google. E.g. `Lato\|Open+Sans:400,700` Defaults to `null`                  |
 | `Default`               | (array) The default setting for a `Packages` entry. If a key is not set within a `Packages` entry, this value will be used |
 
@@ -134,6 +134,18 @@ Take a look at the [Settings.yaml](Configuration/Settings.yaml). There you see a
 ## Fusion Prototypes
 
 Basically, you have to folders with Fusion Prototypes: [Internal](Resources/Private/Fusion/Internal) and [External](Resources/Private/Fusion/External). In the External folder you will find some prototypes who you can help you in your development:
+
+### [Carbon.IncludeAssets:Case](Resources/Private/Fusion/External/Case.fusion)
+
+This prototype is a small helper to write prototypes for the `ConditionPrototype` setting. Return `true` or `false`.
+
+| Property            | Description                                                                                            |
+| ------------------- | ------------------------------------------------------------------------------------------------------ |
+| `mixin`             | (string) The node type name of an mixin. Defaults to `null`                                            |
+| `document`          | (string) The node type name the document type. Defaults to `this.mixin`                                |
+| `content`           | (string) The node type name the content type. Defaults to `this.mixin`                                 |
+| `contentCollection` | (string) The filter for the content collection. Defaults to `[instanceof Neos.Neos:ContentCollection]` |
+| `documentNode`      | (node) The node from the document. Defaults to `documentNode`                                          |
 
 ### [Carbon.IncludeAssets:Collection](Resources/Private/Fusion/External/Collection.fusion)
 

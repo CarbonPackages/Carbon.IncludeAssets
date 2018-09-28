@@ -1,0 +1,23 @@
+prototype(Carbon.IncludeAssets:Case) < prototype(Neos.Fusion:Component) {
+
+    mixin = null
+    document = ${this.mixin}
+    content = ${this.mixin}
+    contentCollection = '[instanceof Neos.Neos:ContentCollection]'
+    documentNode = ${documentNode}
+
+    renderer = Neos.Fusion:Case {
+        isDocument {
+            condition = ${props.document && q(props.documentNode).is('[instanceof ' + props.document + ']')}
+            renderer = true
+        }
+        isContent {
+            condition = ${props.content && q(props.documentNode).children(props.contentCollection).find('[instanceof ' + props.content + ']').is()}
+            renderer = true
+        }
+        default {
+            condition = true
+            renderer = false
+        }
+    }
+}
