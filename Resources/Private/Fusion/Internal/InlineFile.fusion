@@ -1,0 +1,16 @@
+prototype(Carbon.IncludeAssets:Internal.InlineFile) < prototype(Carbon.IncludeAssets:Internal.TypeCase) {
+    @if.render = ${path && type && this.content}
+    content = ${String.trim(Carbon.FileContent.path(path))}
+    type = ${type}
+    css = ${'<style' + attributes +'>' + this.content + '</style>'}
+    js = ${'<script' + attributes +'>' + this.content + '</script>'}
+
+    @cache {
+        mode = 'uncached'
+        context {
+            1 = 'attributes'
+            2 = 'path'
+            3 = 'type'
+        }
+    }
+}

@@ -29,9 +29,14 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
 
             inlineFile {
                 condition = ${props.fileObject.inline}
-                renderer = afx`
-                    <Carbon.IncludeAssets:Internal.TypeCase content={String.trim(Carbon.FileContent.path(props.path))} @if.hasContent={this.content} type={props.type} css={'<style' + props.fileObject.attributes +'>' + this.content + '</style>'} js={'<script' + props.fileObject.attributes +'>' + this.content + '</script>'} />
-                `
+                renderer = Neos.Fusion:Component {
+                    @context {
+                        attributes = ${props.fileObject.attributes}
+                        path = ${props.path}
+                        type = ${props.type}
+                    }
+                    renderer = Carbon.IncludeAssets:Internal.InlineFile
+                }
             }
 
             isFile {
