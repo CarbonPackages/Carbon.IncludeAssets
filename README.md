@@ -106,7 +106,7 @@ Carbon:
         Live:
           # You can set the value as a string, it will be automically converted to an array
           Head: SingleLive.css
-          Body: LiveBody.css,LiveBody[inline].js
+          Body: LiveBody.css,LiveBody.js[inline]
 
       # Example taken from Jonnitto.Plyr
       'zz_Jonnitto.Plyr':
