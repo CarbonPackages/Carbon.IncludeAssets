@@ -3,6 +3,7 @@ prototype(Carbon.IncludeAssets:Case) < prototype(Neos.Fusion:Component) {
     mixin = null
     document = ${this.mixin}
     content = ${this.mixin}
+    appendFilter = ''
     contentCollection = '[instanceof Neos.Neos:ContentCollection]'
     documentNode = ${documentNode}
 
@@ -10,11 +11,11 @@ prototype(Carbon.IncludeAssets:Case) < prototype(Neos.Fusion:Component) {
 
     renderer = Neos.Fusion:Case {
         isDocument {
-            condition = ${props.document && q(props.documentNode).is('[instanceof ' + props.document + ']')}
+            condition = ${props.document && q(props.documentNode).is('[instanceof ' + props.document + ']' + props.appendFilter)}
             renderer = true
         }
         isContent {
-            condition = ${props.content && q(props.documentNode).children(props.contentCollection).find('[instanceof ' + props.content + ']').is()}
+            condition = ${props.content && q(props.documentNode).children(props.contentCollection).find('[instanceof ' + props.content + ']' + props.appendFilter).is()}
             renderer = true
         }
         default {
