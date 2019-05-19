@@ -51,7 +51,7 @@ Here is a small example:
 Carbon:
   IncludeAssets:
     LoadJSforCSSAsynchron: true
-    GoogleFonts: 'Lato|Open+Sans:400,700[async]'
+    GoogleFonts: 'Lato|Open+Sans:400,700&display=swap[async]'
     Packages:
 
       # The keys get sorted first by numbers, then by characters.
