@@ -69,7 +69,8 @@ Carbon:
 
             # If a file has the attribute `inline`, the file get
             # inlined. Also a different path is used. This path is
-            # set in under `Carbon.IncludeAssets.Default.Path.inline`
+            # set in under `Carbon.IncludeAssets.Default.Path.Inline.CSS`
+            # and `Carbon.IncludeAssets.Default.Path.Inline.JS`
             - AboveTheFold.css[inline]
 
             # Run this javascript after to document is ready
