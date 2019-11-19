@@ -13,7 +13,14 @@ use Neos\Eel\ProtectedContextAwareInterface;
  */
 class IncludeAssetsHelper implements ProtectedContextAwareInterface
 {
-    public function parseFilename($string)
+    /**
+     * Parse a filename and return an array with all the properties
+     *
+     * @param string $string The string to parse
+     * @return array|null
+     */
+
+    public function parseFilename(string $string): ?array
     {
         // 1 => Filename
         // 2 => Search string
@@ -32,7 +39,7 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
             'search' => array_key_exists(2, $match) ? $match[2] : '',
             'type' =>  null,
             'attributes' => '',
-            'async' =>  false,
+            'async' => false,
             'inline' => false,
             'path' => strpos($match[1], 'resource://') === 0,
             'external' => strpos($match[1], '//') === false ? false : true
