@@ -1,5 +1,4 @@
 prototype(Carbon.IncludeAssets:Internal.Tag) < prototype(Neos.Fusion:Component) {
-
     path = null
     fileObject = null
     cacheBuster = false

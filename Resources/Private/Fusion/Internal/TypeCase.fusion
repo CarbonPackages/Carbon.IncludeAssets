@@ -1,13 +1,12 @@
+/**
+ * This prototype is a small helper to render css, js or mjs
+ *
+ * Example:
+ * type = 'js'
+ * js = 'console.log("Carbon.IncludeAssets:Internal.TypeCase")'
+ */
+
 prototype(Carbon.IncludeAssets:Internal.TypeCase) < prototype(Neos.Fusion:Component) {
-    @styleguide {
-        description = 'This prototype is a small helper to render css, js or mjs'
-
-        props {
-            type = 'js'
-            js = 'console.log("Carbon.IncludeAssets:Internal.TypeCase")'
-        }
-    }
-
     type = null
     js = ''
     css = ''

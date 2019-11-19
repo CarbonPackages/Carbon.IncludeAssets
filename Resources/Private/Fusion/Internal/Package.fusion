@@ -1,8 +1,8 @@
-prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Component) {
-    @styleguide {
-        description = 'This prototype include all assets of a package'
-    }
+/**
+ * This prototype include all assets of a package
+ */
 
+prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Component) {
     // Body || Head
     location = null
     // The config for the package

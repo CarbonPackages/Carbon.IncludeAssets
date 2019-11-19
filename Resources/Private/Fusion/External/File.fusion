@@ -1,8 +1,8 @@
-prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
-    @styleguide {
-        description = 'This prototype outputs the tag for inlcuding JS, MJS or CSS'
-    }
+/**
+ * This prototype outputs the tag for inlcuding JS, MJS or CSS
+ */
 
+prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
     file = null
     assetPackage = ${node.context.currentSite.siteResourcesPackageKey}
     cacheBuster = ${Configuration.setting('Carbon.IncludeAssets.Default.CacheBuster')}

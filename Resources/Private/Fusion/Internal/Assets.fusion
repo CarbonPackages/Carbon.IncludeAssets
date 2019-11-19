@@ -1,8 +1,8 @@
-prototype(Carbon.IncludeAssets:Internal.Assets) < prototype(Neos.Fusion:Component) {
-    @styleguide {
-        description = 'This prototype handles all assets of a location (Body || Head) set via Settings.yaml'
-    }
+/**
+ * This prototype handles all assets of a location (Body || Head) set via Settings.yaml
+ */
 
+prototype(Carbon.IncludeAssets:Internal.Assets) < prototype(Neos.Fusion:Component) {
     // Body || Head
     location = null
 

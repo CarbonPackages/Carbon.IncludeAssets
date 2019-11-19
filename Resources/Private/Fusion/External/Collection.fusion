@@ -1,8 +1,8 @@
-prototype(Carbon.IncludeAssets:Collection) < prototype(Neos.Fusion:Component) {
-    @styleguide {
-        description = 'This prototype output a collection of files'
-    }
+/**
+ * This prototype output a collection of files
+ */
 
+prototype(Carbon.IncludeAssets:Collection) < prototype(Neos.Fusion:Component) {
     collection = ${[]}
     assetPackage = null
     cacheBuster = ${Configuration.setting('Carbon.IncludeAssets.Default.CacheBuster')}

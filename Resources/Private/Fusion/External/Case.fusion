@@ -1,5 +1,4 @@
 prototype(Carbon.IncludeAssets:Case) < prototype(Neos.Fusion:Component) {
-
     mixin = null
     document = ${this.mixin}
     content = ${this.mixin}

@@ -1,24 +1,14 @@
+/**
+ * This prototype outputs the style tag for include a font from google
+ *
+ * Examples:
+ * fonts = 'Lato'
+ * fonts = 'Open+Sans:400,700'
+ * fonts = 'Lato|Open+Sans:400,700'
+ * fonts = 'Lato|Open+Sans:400,700[async]'
+ */
+
 prototype(Carbon.IncludeAssets:GoogleFonts) < prototype(Neos.Fusion:Component) {
-    @styleguide {
-        description = 'This prototype outputs the style tag for include a font from google'
-
-        props {
-            fonts = 'Lato'
-        }
-
-        propSets {
-            'Multiple Variants' {
-                fonts = 'Open+Sans:400,700'
-            }
-            'Multiple Fonts' {
-                fonts = 'Lato|Open+Sans:400,700'
-            }
-           'Asynchron CSS' {
-               fonts = 'Lato|Open+Sans:400,700[async]'
-           }
-       }
-    }
-
     fonts = ${Configuration.setting('Carbon.IncludeAssets.GoogleFonts')}
 
     renderer = afx`
