@@ -2,7 +2,7 @@
 
 # Carbon.IncludeAssets Package for Neos CMS
 
-With this package, you get able to import all your CSS and Javascript assets with few lines of code in [`Settings.yaml`]. The best practice is to include `carbon/includeassets` into your `composer.json` from your site package. After that, you just can add your settings. Besides the filenames, you are also able to pass all your necessary attributes to the tags. If you are not able to provide a file extension, you can force the type via `(css)`, `(js)` or `(mjs)` at the end.
+With this package, you get able to import all your CSS and Javascript assets with few lines of code in [`Settings.yaml`]. The best practice is to include `carbon/includeassets` into your `composer.json` from your site package. After that, you can just add your settings. Besides the filenames, you are also able to pass all your necessary attributes to the tags. If you are not able to provide a file extension, you can force the type via `(css)`, `(js)` or `(mjs)` at the end.
 
 *   You can define multiple files from multiple packages.
 *   You can pass the filenames as a string (comma separated) or as an array (recommended)
@@ -10,7 +10,7 @@ With this package, you get able to import all your CSS and Javascript assets wit
     `Filename.js[async data-prop data-attr="true" class="-js-loader"]`
 *   If you want to get a file included inline, add the attribute `inline`: e.g. `Filename.css[inline]`
 *   You can add multiple resources per line. E. g. `Slider.js,Main.css,Footer.css[async class="footer-styles"],Header[inline class="header-styles"],//ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js[async]`
-*   CSS can also be loaded asynchronous: Add `async` as attribute, e.g. `Filename.css[async]`
+*   CSS can also be loaded asynchronously: Add `async` as an attribute, e.g. `Filename.css[async]`
 *   If you want to add Google Fonts, you can write them down the fonts, e.g. `Lato|Open+Sans:400,700` or `Lato|Open+Sans:400,700[async]`
 *   On internal files, a hash from the content of the file gets appended. Please be aware that you have to clear the cache from Neos to update the hash value. It is meant to have a cache buster on production projects.
 *   You can also give the browser some [resource hints]: Globally via the settings `Carbon.IncludeAssets.ResourceHints` or via adding a special type (`(preloadasset)`, `(preloadcss)`, `(preloadscript)` or `(modulepreload)`) at the end of a `file` entry.
@@ -28,17 +28,17 @@ In [`Carbon.IncludeAssets`](Configuration/Settings.yaml#L19) following settings 
 
 ### Structure of Packages entry
 
-In `Carbon.IncludeAssets.Packages` you can define your packages who should output assets. The keys get sorted first by numbers, then by characters. Like that it is possible to define a load order for you packages. A single entry can have following entries (The Defaults are stored in [`Carbon.IncludeAssets.Default`](Configuration/Settings.yaml#L30)):
+In `Carbon.IncludeAssets.Packages` you can define your packages, which should output assets. The keys get sorted first by numbers, then by characters. Like that, it is possible to define a load order for you packages. A single entry can have following entries (The Defaults are stored in [`Carbon.IncludeAssets.Default`](Configuration/Settings.yaml#L30)):
 
 | Key                  |  Description                                                                                                                                                                                 |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Package`            | (string) The package key. If it set to `SitePackage`, it will be replaced automaticly with the package key from the site package. Defaults to `SitePackage`                                  |
+| `Package`            | (string) The package key. If it set to `SitePackage`, it will be replaced automatically with the package key from the site package. Defaults to `SitePackage`                                  |
 | `CacheBuster`        | (boolean) Append a hash value from the content of the file. Defaults to `true`                                                                                                               |
-| `ConditionPrototype` | (string) If this set, the files get only included if the fusion prototype return a truthy value. Defaults to `null`                                                                          |
-| `Path`               | (array) Define were the files get loaded from. There are different paths for inline and linked files. Every type (`css`,`js`, `mjs`, `preloadasset`, `preloadcss`, `preloadscript` or `modulepreload`) can have a different path inside the Resources folder |
+| `ConditionPrototype` | (string) If this set, the files get only included if the fusion prototype returns a truthy value. Defaults to `null`                                                                          |
+| `Path`               | (array) Define the files get loaded from. There are different paths for inline and linked files. Every type (`css`,`js`, `mjs`, `preloadasset`, `preloadcss`, `preloadscript` or `modulepreload`) can have a different path inside the Resources folder |
 | `General`            | (array) Asset files who get loaded in live and backend view. Contains two entries: `Head` and `Body`                                                                                         |
-| `Backend`            | (array) Asset files who get loaded only in the backend view. Contains two entries: `Head` and `Body`                                                                                         |
-| `Live`               | (array) Asset files who get loaded only in the live view. Contains two entries: `Head` and `Body`                                                                                            |
+| `Backend`            | (array) Asset files that get loaded only in the backend view. Contains two entries: `Head` and `Body`                                                                                         |
+| `Live`               | (array) Asset files that get loaded only in the live view. Contains two entries: `Head` and `Body`                                                                                            |
 
 ## Example
 
@@ -64,10 +64,10 @@ Carbon:
         # Because no Package is defined, SitePackage from the default
         # will be used and will set to the site package.
 
-        # Asset files who get loaded in live and backend view
+        # Asset files which get loaded in live and backend view
         General:
 
-          # This assets get loaded in the <head>
+          # These assets get loaded in the <head>
           Head:
             # Preload this Javascript
             - JsForLaterUse.js(preloadscript)
@@ -78,8 +78,8 @@ Carbon:
             # Load this CSS asynchronous
             - GeneralHead.css[async]
 
-            # If a file has the attribute `inline`, the file get
-            # inlined. Also a different path is used. This path is
+            # If a file has the attribute `inline`, the file gets
+            # inlined. Also, a different path is used. This path is
             # set in under `Carbon.IncludeAssets.Default.Path.Inline.CSS`
             # and `Carbon.IncludeAssets.Default.Path.Inline.JS`
             - AboveTheFold.css[inline]
@@ -108,15 +108,15 @@ Carbon:
             # You can also pass further attributes if you use the inline attribute
             - AdditionSpecialFancyTracking.js[inline class="-js-tracking"]
 
-        # Asset files who get loaded only in the backend
+        # Asset files which get loaded only in the backend
         Backend:
 
-          # Arrays can be also definded like this
+          # Arrays can also be defined like this
           Head: ['BackendHead.css', 'BackendHead.js[inline]']
 
-        # Asset files who get loaded only in the live view
+        # Asset files which get loaded only in the live view
         Live:
-          # You can set the value as a string, it will be automically converted to an array
+          # You can set the value as a string, it will be automatically converted to an array
           Head: SingleLive.css
           Body: LiveBody.css,LiveBody.js[inline]
 
@@ -141,11 +141,11 @@ Carbon:
             - plyr.css
 ```
 
-Take a look at the [`Settings.yaml`]. There you see all available options.
+Take a look at the [`Settings.yaml`]. There you see all the available options.
 
 ## Fusion Prototypes
 
-Basically, you have to folders with Fusion Prototypes: [Internal](Resources/Private/Fusion/Internal) and [External](Resources/Private/Fusion/External). In the External folder you will find some prototypes who you can help you in your development:
+Basically, you have to folders with Fusion Prototypes: [Internal](Resources/Private/Fusion/Internal) and [External](Resources/Private/Fusion/External). In the External folder you will find some prototypes which you can help you in your development:
 
 ### [Carbon.IncludeAssets:Case]
 
@@ -162,7 +162,7 @@ This prototype is a small helper to write prototypes for the `ConditionPrototype
 
 ### [Carbon.IncludeAssets:Collection]
 
-This prototype generates your `script`, `style` and `link` tags from the files who are defined in the property `collection`.
+This prototype generates your `script`, `style` and `link` tags from the files which are defined in the property `collection`.
 
 | Property       | Description                                                                                                                                                           |
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -173,14 +173,14 @@ This prototype generates your `script`, `style` and `link` tags from the files w
 
 ### [Carbon.IncludeAssets:File]
 
-The heart of this package. This prototype generates a `script`, `style` and `link` tag. You can pass a `file` (with or without the path). Be aware that you can also pass the attributes like described on top. To force a type you can write `(js)`, `(css)`, `(preloadasset)`, `(preloadcss)`, `(preloadscript)` or `(modulepreload)` at the end of `file`.
+The heart of this package. This prototype generates a `script`, `style`, and `link` tag. You can pass a `file` (with or without the path). Be aware that you can also pass the attributes like described on top. To force a type you can write `(js)`, `(css)`, `(preloadasset)`, `(preloadcss)`, `(preloadscript)` or `(modulepreload)` at the end of `file`.
 
 | Property       | Description                                                                                                                                     |
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | `file`         | (string) The filename. You have to write it in the same way as it would be defined in the Settings.yaml file. Defaults to `null`                |
 | `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `node.context.currentSite.siteResourcesPackageKey`                     |
 | `cacheBuster`  | (boolean) Append a hash value from the content of the file. Defaults to the value set in the [`Settings.yaml`](Configuration/Settings.yaml#L32) |
-| `assetPath`    | (string) The path to the file inside the Resources folder. Per default it is set dynamically                                                    |
+| `assetPath`    | (string) The path to the file inside the Resources folder. Per default, it is set dynamically                                                    |
 
 ### [Carbon.IncludeAssets:GoogleFonts]
 
@@ -188,11 +188,11 @@ You can set the property `fonts` e.g. `Lato|Open+Sans:400,700` and the `style` t
 
 ### [Carbon.IncludeAssets:ResourceHints]
 
-This prototype renders the [resource hints] for the browser. Per default, this prototype read the [`Settings.yaml`](Configuration/Settings.yaml#L22-L28). But you can also `preloadNodes` or `prerenderNodes` (Array, FlowQuery or a single node) for furhter optimization.
+This prototype renders the [resource hints] for the browser. Per default, this prototype read the [`Settings.yaml`](Configuration/Settings.yaml#L22-L28). But you can also pass `preloadNodes` or `prerenderNodes` (Array, FlowQuery, or a single node) for further optimization.
 
 ## Installation
 
-Most of the time you have to make small adjustments to a package (e.g., the configuration in [`Settings.yaml`]). Because of that, it is important to add the corresponding package to the composer from your theme package. Mostly this is the site package located under `Packages/Sites/`. To install it correctly go to your theme package (e.g.`Packages/Sites/Foo.Bar`) and run following command:
+Most of the time, you have to make small adjustments to a package (e.g., the configuration in [`Settings.yaml`]). Because of that, it is important to add the corresponding package to the composer from your theme package. Mostly this is the site package located under `Packages/Sites/`. To install it correctly go to your theme package (e.g.`Packages/Sites/Foo.Bar`) and run following command:
 
 ```bash
 composer require carbon/includeassets --no-update
