@@ -22,11 +22,12 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
 
     public function parseFilename(string $string): ?array
     {
+        $types = array('js', 'css', 'mjs', 'preload', 'preloadasset', 'preloadcss', 'preloadscript', 'modulepreload');
         // 1 => Filename
         // 2 => Search string
         // 3 => Attributes
         // 4 => Specific type
-        $regularExpression = '/^([^\[\(\?]+)(\?[^\[\(]*)?(?:\[?([^\]]*)\])?(?:\((js|css|mjs)\))?$/i';
+        $regularExpression = '/^([^\[\(\?]+)(\?[^\[\(]*)?(?:\[?([^\]]*)\])?(?:\((' . implode('|', $types) . ')\))?$/i';
         preg_match($regularExpression, $string, $match);
 
         // We need a filename
@@ -37,7 +38,7 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
         $object = [
             'filename' => $match[1],
             'search' => array_key_exists(2, $match) ? $match[2] : '',
-            'type' =>  null,
+            'type' => null,
             'attributes' => '',
             'async' => false,
             'inline' => false,
@@ -51,18 +52,18 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
 
         // We have an specific type
         if (array_key_exists(4, $match)) {
-            $object['type'] = strtoupper($match[4]);
+            $object['type'] = strtolower($match[4]);
         } else {
             $tmp = explode('.', $object['filename']);
-            $object['type'] = strtoupper(end($tmp));
+            $object['type'] = strtolower(end($tmp));
         }
 
-        if ($object['type'] != 'JS' && $object['type'] != 'MJS' && $object['type'] != 'CSS') {
+        if (!in_array($object['type'], $types)) {
             return null;
         }
 
-        // We got attributes
-        if (array_key_exists(3, $match)) {
+        // We got attributes (ModulePreload don't need these)
+        if (array_key_exists(3, $match) && $object['type'] != 'modulepreload') {
             $array = preg_split('/[\s,]+/', $match[3], -1, PREG_SPLIT_NO_EMPTY);
             foreach ($array as $value) {
                 $split = preg_split('/=/', $value, 2);
@@ -79,7 +80,13 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
                         }
                         break;
                     default:
-                        if (($object['type'] == 'JS' && $key != 'src') || ($object['type'] == 'MJS' && $key != 'src') || ($object['type'] == 'CSS' && $key != 'href' && $key != 'rel')) {
+                        if (in_array($object['type'], array('js', 'mjs'))) {
+                            // Javascript files
+                            if ($key != 'src') {
+                                $object['attributes'] .= ' ' . $key . $value;
+                            }
+                        } else if ($key != 'href' && $key != 'rel') {
+                            // CSS and Preload files
                             $object['attributes'] .= ' ' . $key . $value;
                         }
                         break;
@@ -93,11 +100,31 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
         }
 
         // Add type to javascript or modules
-        if ($object['type'] == 'JS' && strpos($object['attributes'], ' type=') === false) {
-            $object['attributes'] .= ' type="text/javascript"';
-        } else if ($object['type'] == 'MJS' && strpos($object['attributes'], ' type=') === false) {
-            $object['attributes'] .= ' type="module"';
+        if (strpos($object['attributes'], ' type=') === false) {
+            switch ($object['type']) {
+                case 'js':
+                    $object['attributes'] .= ' type="text/javascript"';
+                    break;
+                case 'mjs':
+                    $object['attributes'] .= ' type="module"';
+                    break;
+            }
         }
+
+        // Add as="type" to preload CSS and JS
+        if (strpos($object['attributes'], ' as=') === false) {
+            switch ($object['type']) {
+                case 'preloadcss':
+                    $object['attributes'] .= ' as="style"';
+                    break;
+                case 'preloadscript':
+                    $object['attributes'] .= ' as="script"';
+                    break;
+            }
+        }
+
+        // Set type to uppercase for paths
+        $object['type'] = strtoupper($object['type']);
 
         return $object;
     }

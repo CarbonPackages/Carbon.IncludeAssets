@@ -7,6 +7,8 @@ prototype(Carbon.IncludeAssets:Internal.Tag) < prototype(Neos.Fusion:Component) 
     search = ${this.fileObject.search}
     attributes = ${this.fileObject.attributes}
 
+    @if.hasFileObject = ${this.fileObject}
+
     renderer = Neos.Fusion:Array {
         uri = Neos.Fusion:Case {
             isExternal {
@@ -26,15 +28,25 @@ prototype(Carbon.IncludeAssets:Internal.Tag) < prototype(Neos.Fusion:Component) 
     }
 }
 
+prototype(Carbon.IncludeAssets:Internal.Tag.ModulePreload) < prototype(Carbon.IncludeAssets:Internal.Tag) {
+    external = true
+    async = false
+    renderer.modulePreload = ${'<link rel="modulepreload" href="' + this.uri + '"' + props.attributes +' />'}
+}
+
+prototype(Carbon.IncludeAssets:Internal.Tag.Preload) < prototype(Carbon.IncludeAssets:Internal.Tag) {
+    external = true
+    async = false
+    renderer.preload = ${'<link rel="preload" href="' + this.uri + '"' + props.attributes +' />'}
+}
+
 prototype(Carbon.IncludeAssets:Internal.Tag.JS) < prototype(Carbon.IncludeAssets:Internal.Tag) {
-    renderer {
-        script = ${'<script src="' + this.uri + '"' + (props.async ? ' async' : '') + props.attributes +'></script>'}
-    }
+    renderer.script = ${'<script src="' + this.uri + '"' + (props.async ? ' async' : '') + props.attributes +'></script>'}
 }
 
 prototype(Carbon.IncludeAssets:Internal.Tag.CSS) < prototype(Carbon.IncludeAssets:Internal.Tag) {
     renderer {
-        asyncOpen = ${'<link rel="preload" href="' + this.uri + '" as="style" onload="this.onload=null;this.rel=\'stylesheet\'" onerror="this.onload()"' + props.fileObject.attributes + ' /><noscript>'}
+        asyncOpen = ${'<link rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'" onerror="this.onload()"' + props.fileObject.attributes + ' href="' + this.uri + '" /><noscript>'}
         asyncOpen.@if.render = ${props.async}
         cssFile = ${'<link rel="stylesheet" href="' + this.uri + '"' + props.attributes + ' />'}
         asyncClose = '</noscript>'

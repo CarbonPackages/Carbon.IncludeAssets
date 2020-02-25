@@ -1,0 +1,90 @@
+/**
+ * This prototype outputs the resource hints tags
+ */
+
+prototype(Carbon.IncludeAssets:ResourceHints) < prototype(Neos.Fusion:Component) {
+    dnsPrefetch = ${Configuration.setting('Carbon.IncludeAssets.ResourceHints.DnsPrefetch')}
+    preconnect = ${Configuration.setting('Carbon.IncludeAssets.ResourceHints.Preconnect')}
+    prefetch = ${Configuration.setting('Carbon.IncludeAssets.ResourceHints.Prefetch')}
+    preload = ${Configuration.setting('Carbon.IncludeAssets.ResourceHints.Preload')}
+    prerender = ${Configuration.setting('Carbon.IncludeAssets.ResourceHints.Prerender')}
+    modulePreload = ${Configuration.setting('Carbon.IncludeAssets.ResourceHints.ModulePreload')}
+
+    // Pass documentNodes who should be preloaded (Array, FlowQuery or a single node)
+    preloadNodes = null
+    // Pass documentNodes who should be prerendererd (Array, FlowQuery or a single node)
+    prerenderNodes = null
+
+    renderer = Neos.Fusion:Array {
+        dnsPrefetch = Neos.Fusion:Collection {
+            @if.set = ${Type.isArray(this.collection) && Array.length(this.collection)}
+            collection = ${props.dnsPrefetch}
+            collection.@process.convertToArray = ${Carbon.Array.unique(Type.isString(value) ? String.split(value, ',') : value)}
+            itemRenderer = afx`<link rel='dns-prefetch' href={item} />`
+        }
+        preconnect = Neos.Fusion:Collection {
+            @if.set = ${Type.isArray(this.collection) && Array.length(this.collection)}
+            collection = ${props.preconnect}
+            collection.@process.convertToArray = ${Carbon.Array.unique(Type.isString(value) ? String.split(value, ',') : value)}
+            itemRenderer = afx`<link rel='preconnect' href={item} />`
+        }
+        prefetch = Neos.Fusion:Collection {
+           @if.set = ${Type.isArray(this.collection) && Array.length(this.collection)}
+            collection = ${props.prefetch}
+            collection.@process.convertToArray = ${Carbon.Array.unique(Type.isString(value) ? String.split(value, ',') : value)}
+            itemRenderer = afx`<link rel='prefetch' href={item} />`
+        }
+        modulePreload = Neos.Fusion:Collection {
+            @if.set = ${Type.isArray(this.collection) && Array.length(this.collection)}
+            collection = ${props.modulePreload}
+            collection.@process.convertToArray = ${Carbon.Array.unique(Type.isString(value) ? String.split(value, ',') : value)}
+            itemRenderer = Carbon.IncludeAssets:Internal.Tag.ModulePreload {
+                fileObject = ${Carbon.IncludeAssets.parseFilename(item + '(modulePreload)')}
+                path = ${this.fileObject.filename}
+            }
+        }
+        preload = Neos.Fusion:Collection {
+            @if.set = ${Type.isArray(this.collection) && Array.length(this.collection)}
+            collection = ${props.preload}
+            collection.@process.convertToArray = ${Carbon.Array.unique(Type.isString(value) ? String.split(value, ',') : value)}
+            itemRenderer = Carbon.IncludeAssets:Internal.Tag.Preload {
+                fileObject = ${Carbon.IncludeAssets.parseFilename(item + '(preload)')}
+                path = ${this.fileObject.filename}
+            }
+        }
+        preloadNodes = Neos.Fusion:Collection {
+            @if.set = ${props.preloadNodes && Type.isArray(this.collection) && Array.length(this.collection)}
+            collection = ${props.preloadNodes}
+            collection.@process {
+                convertFlowQueryToArray = ${Type.instance(value, 'Neos\Eel\FlowQuery\FlowQuery') ? value.get() : value}
+                convertSingleToArray = ${Type.instance(value, 'Neos\ContentRepository\Domain\Model\Node') ? [value] : value}
+                uniqueArray = ${Carbon.Array.unique(value)}
+            }
+            itemRenderer = afx`
+                <link rel='preload' as='document' @if.set={Type.instance(item, 'Neos\ContentRepository\Domain\Model\Node') && documentNode != item}>
+                    <Neos.Neos:NodeUri @path='attributes.href' node={item} absolute={true} />
+                </link>
+            `
+        }
+        prerender = Neos.Fusion:Collection {
+            @if.set = ${Type.isArray(this.collection) && Array.length(this.collection)}
+            collection = ${props.prerender}
+            collection.@process.convertToArray = ${Carbon.Array.unique(Type.isString(value) ? String.split(value, ',') : value)}
+            itemRenderer = afx`<link rel='prerender' href={item} />`
+        }
+        prerenderNodes = Neos.Fusion:Collection {
+            @if.set = ${props.prerenderNodes && Type.isArray(this.collection) && Array.length(this.collection)}
+            collection = ${props.prerenderNodes}
+            collection.@process {
+                convertFlowQueryToArray = ${Type.instance(value, 'Neos\Eel\FlowQuery\FlowQuery') ? value.get() : value}
+                convertSingleToArray = ${Type.instance(value, 'Neos\ContentRepository\Domain\Model\Node') ? [value] : value}
+                uniqueArray = ${Carbon.Array.unique(value)}
+            }
+            itemRenderer = afx`
+                <link rel='prerender' @if.set={Type.instance(item, 'Neos\ContentRepository\Domain\Model\Node') && documentNode != item}>
+                    <Neos.Neos:NodeUri @path='attributes.href' node={item} absolute={true} />
+                </link>
+            `
+        }
+    }
+}
