@@ -13,7 +13,7 @@ With this package, you get able to import all your CSS and Javascript assets wit
 *   CSS can also be loaded asynchronous: Add `async` as attribute, e.g. `Filename.css[async]`
 *   If you want to add Google Fonts, you can write them down the fonts, e.g. `Lato|Open+Sans:400,700` or `Lato|Open+Sans:400,700[async]`
 *   On internal files, a hash from the content of the file gets appended. Please be aware that you have to clear the cache from Neos to update the hash value. It is meant to have a cache buster on production projects.
-*   You can also give the browser some [resource hints]: Globally via the settings `Carbon.IncludeAssets.ResourceHints` or via adding a special type (`(preloadasset)`, `(preloadcss)`, `(preloadscript)` or `(modulepreload)`) at the end
+*   You can also give the browser some [resource hints]: Globally via the settings `Carbon.IncludeAssets.ResourceHints` or via adding a special type (`(preloadasset)`, `(preloadcss)`, `(preloadscript)` or `(modulepreload)`) at the end of a `file` entry.
 
 ## Structure of the Settings
 
