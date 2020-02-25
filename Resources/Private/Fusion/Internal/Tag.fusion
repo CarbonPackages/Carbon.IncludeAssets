@@ -29,13 +29,11 @@ prototype(Carbon.IncludeAssets:Internal.Tag) < prototype(Neos.Fusion:Component) 
 }
 
 prototype(Carbon.IncludeAssets:Internal.Tag.ModulePreload) < prototype(Carbon.IncludeAssets:Internal.Tag) {
-    external = true
     async = false
     renderer.modulePreload = ${'<link rel="modulepreload" href="' + this.uri + '"' + props.attributes +' />'}
 }
 
 prototype(Carbon.IncludeAssets:Internal.Tag.Preload) < prototype(Carbon.IncludeAssets:Internal.Tag) {
-    external = true
     async = false
     renderer.preload = ${'<link rel="preload" href="' + this.uri + '"' + props.attributes +' />'}
 }
