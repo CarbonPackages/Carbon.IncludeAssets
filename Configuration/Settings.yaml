@@ -24,8 +24,8 @@ Carbon:
       Preconnect: [] # Add <link rel="preconnect" href="Entry" />
       Prefetch: [] # Add <link rel="prefetch" href="Entry" />
       Preload: [] # Add <link rel="preload" href="Entry" /> Example entry: 'https://domain.tld/resource.js[as="script" crossorigin="anonymos"]'
-      Prerender: []
-      ModulePreload: []
+      Prerender: [] # Add <link rel="prerender" href="Entry" /> Example entry: 'https://domain.tld'
+      ModulePreload: [] # Add <link rel="modulePpreload" href="Entry" /> Example entry: 'https://domain.tld/module.mjs'
     # Default settings
     Default:
       Package: SitePackage
