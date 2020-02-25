@@ -22,7 +22,7 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
 
     public function parseFilename(string $string): ?array
     {
-        $types = array('js', 'css', 'mjs', 'preload', 'preloadasset', 'preloadcss', 'preloadscript', 'modulepreload');
+        $types = array('js', 'css', 'mjs', 'resourcehint', 'preloadasset', 'preloadcss', 'preloadscript', 'modulepreload');
         // 1 => Filename
         // 2 => Search string
         // 3 => Attributes
