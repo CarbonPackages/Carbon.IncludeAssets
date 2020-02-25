@@ -50,10 +50,10 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
                         <Carbon.IncludeAssets:Internal.Tag.JS path={props.path} fileObject={props.fileObject} cacheBuster={props.cacheBuster} />
                     `
                     preload = afx`
-                        <Carbon.IncludeAssets:Internal.Tag.Preload path={props.path} fileObject={props.fileObject} cacheBuster={props.cacheBuster} />
+                        <Carbon.IncludeAssets:Internal.Tag.ResourceHint rel='preload' path={props.path} fileObject={props.fileObject} cacheBuster={props.cacheBuster} />
                     `
                     modulePreload = afx`
-                        <Carbon.IncludeAssets:Internal.Tag.ModulePreload path={props.path} fileObject={props.fileObject} cacheBuster={props.cacheBuster} />
+                        <Carbon.IncludeAssets:Internal.Tag.ResourceHint rel='modulepreload' path={props.path} fileObject={props.fileObject} cacheBuster={props.cacheBuster} />
                     `
                 }
             }

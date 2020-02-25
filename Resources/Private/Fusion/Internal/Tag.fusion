@@ -28,14 +28,11 @@ prototype(Carbon.IncludeAssets:Internal.Tag) < prototype(Neos.Fusion:Component) 
     }
 }
 
-prototype(Carbon.IncludeAssets:Internal.Tag.ModulePreload) < prototype(Carbon.IncludeAssets:Internal.Tag) {
+prototype(Carbon.IncludeAssets:Internal.Tag.ResourceHint) < prototype(Carbon.IncludeAssets:Internal.Tag) {
     async = false
-    renderer.modulePreload = ${'<link rel="modulepreload" href="' + this.uri + '"' + props.attributes +' />'}
-}
-
-prototype(Carbon.IncludeAssets:Internal.Tag.Preload) < prototype(Carbon.IncludeAssets:Internal.Tag) {
-    async = false
-    renderer.preload = ${'<link rel="preload" href="' + this.uri + '"' + props.attributes +' />'}
+    rel = null
+    @if.hasRel = ${this.rel}
+    renderer.resourceHint = ${'<link rel="' + props.rel + '" href="' + this.uri + '"' + props.attributes +' />'}
 }
 
 prototype(Carbon.IncludeAssets:Internal.Tag.JS) < prototype(Carbon.IncludeAssets:Internal.Tag) {
