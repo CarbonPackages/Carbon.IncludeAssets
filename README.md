@@ -1,13 +1,8 @@
-[![Latest Stable Version](https://poser.pugx.org/carbon/includeassets/v/stable)](https://packagist.org/packages/carbon/includeassets)
-[![Total Downloads](https://poser.pugx.org/carbon/includeassets/downloads)](https://packagist.org/packages/carbon/includeassets)
-[![License](https://poser.pugx.org/carbon/includeassets/license)](LICENSE)
-[![GitHub forks](https://img.shields.io/github/forks/CarbonPackages/Carbon.IncludeAssets.svg?style=social&label=Fork)](https://github.com/CarbonPackages/Carbon.IncludeAssets/fork)
-[![GitHub stars](https://img.shields.io/github/stars/CarbonPackages/Carbon.IncludeAssets.svg?style=social&label=Stars)](https://github.com/CarbonPackages/Carbon.IncludeAssets/stargazers)
-[![GitHub watchers](https://img.shields.io/github/watchers/CarbonPackages/Carbon.IncludeAssets.svg?style=social&label=Watch)](https://github.com/CarbonPackages/Carbon.IncludeAssets/subscription)
+[![Latest stable version]][packagist] [![Total downloads]][packagist] [![License]][packagist] [![GitHub forks]][fork] [![GitHub stars]][stargazers] [![GitHub watchers]][subscription]
 
 # Carbon.IncludeAssets Package for Neos CMS
 
-With this package, you get able to import all your CSS and Javascript assets with few lines of code in [Settings.yaml](Configuration/Settings.yaml). The best practice is to include `carbon/includeassets` into your `composer.json` from your site package. After that, you just can add your settings. Besides the filenames, you are also able to pass all your necessary attributes to the tags. If you are not able to provide a file extension, you can force the type via `(css)`, `(js)` or `(mjs)` at the end.
+With this package, you get able to import all your CSS and Javascript assets with few lines of code in [`Settings.yaml`]. The best practice is to include `carbon/includeassets` into your `composer.json` from your site package. After that, you just can add your settings. Besides the filenames, you are also able to pass all your necessary attributes to the tags. If you are not able to provide a file extension, you can force the type via `(css)`, `(js)` or `(mjs)` at the end.
 
 *   You can define multiple files from multiple packages.
 *   You can pass the filenames as a string (comma separated) or as an array (recommended)
@@ -18,6 +13,7 @@ With this package, you get able to import all your CSS and Javascript assets wit
 *   CSS can also be loaded asynchronous: Add `async` as attribute, e.g. `Filename.css[async]`
 *   If you want to add Google Fonts, you can write them down the fonts, e.g. `Lato|Open+Sans:400,700` or `Lato|Open+Sans:400,700[async]`
 *   On internal files, a hash from the content of the file gets appended. Please be aware that you have to clear the cache from Neos to update the hash value. It is meant to have a cache buster on production projects.
+*   You can also give the browser some [resource hints]: Globally via the settings `Carbon.IncludeAssets.ResourceHints` or via adding a special type (`(preloadasset)`, `(preloadcss)`, `(preloadscript)` or `(modulepreload)`) at the end
 
 ## Structure of the Settings
 
@@ -27,18 +23,19 @@ In [`Carbon.IncludeAssets`](Configuration/Settings.yaml#L19) following settings 
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `LoadJSforCSSAsynchron` | (boolean) If true the javascript for asynchronous CSS get inlined (If needed). Defaults to `true`                          |
 | `GoogleFonts`           | (string) If set, these fonts will included from Google. E.g. `Lato\|Open+Sans:400,700` Defaults to `null`                  |
+| `ResourceHints`         | (array) The setting, which global [resource hints] should be added.                                                        |
 | `Default`               | (array) The default setting for a `Packages` entry. If a key is not set within a `Packages` entry, this value will be used |
 
 ### Structure of Packages entry
 
-In `Carbon.IncludeAssets.Packages` you can define your packages who should output assets. The keys get sorted first by numbers, then by characters. Like that it is possible to define a load order for you packages. A single entry can have following entries (The Defaults are stored in [`Carbon.IncludeAssets.Default`](Configuration/Settings.yaml#L23)):
+In `Carbon.IncludeAssets.Packages` you can define your packages who should output assets. The keys get sorted first by numbers, then by characters. Like that it is possible to define a load order for you packages. A single entry can have following entries (The Defaults are stored in [`Carbon.IncludeAssets.Default`](Configuration/Settings.yaml#L30)):
 
 | Key                  |  Description                                                                                                                                                                                 |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `Package`            | (string) The package key. If it set to `SitePackage`, it will be replaced automaticly with the package key from the site package. Defaults to `SitePackage`                                  |
 | `CacheBuster`        | (boolean) Append a hash value from the content of the file. Defaults to `true`                                                                                                               |
 | `ConditionPrototype` | (string) If this set, the files get only included if the fusion prototype return a truthy value. Defaults to `null`                                                                          |
-| `Path`               | (array) Define were the files get loaded from. There are different paths for inline and linked files. Every type (`css`,`js` or `mjs`) can have a different path inside the Resources folder |
+| `Path`               | (array) Define were the files get loaded from. There are different paths for inline and linked files. Every type (`css`,`js`, `mjs`, `preloadasset`, `preloadcss`, `preloadscript` or `modulepreload`) can have a different path inside the Resources folder |
 | `General`            | (array) Asset files who get loaded in live and backend view. Contains two entries: `Head` and `Body`                                                                                         |
 | `Backend`            | (array) Asset files who get loaded only in the backend view. Contains two entries: `Head` and `Body`                                                                                         |
 | `Live`               | (array) Asset files who get loaded only in the live view. Contains two entries: `Head` and `Body`                                                                                            |
@@ -52,6 +49,14 @@ Carbon:
   IncludeAssets:
     LoadJSforCSSAsynchron: true
     GoogleFonts: 'Lato|Open+Sans:400,700&display=swap[async]'
+    ResourceHints:
+
+      # Preconnect to these domains
+      Preconnect:
+        - 'https://use.typekit.net'
+        - 'https://www.google-analytics.com'
+        - 'https://www.googletagmanager.com'
+
     Packages:
 
       # The keys get sorted first by numbers, then by characters.
@@ -64,6 +69,12 @@ Carbon:
 
           # This assets get loaded in the <head>
           Head:
+            # Preload this Javascript
+            - JsForLaterUse.js(preloadscript)
+
+            # Preload this asset
+            - Logo.png[as="image"](preloadasset)
+
             # Load this CSS asynchronous
             - GeneralHead.css[async]
 
@@ -130,13 +141,13 @@ Carbon:
             - plyr.css
 ```
 
-Take a look at the [Settings.yaml](Configuration/Settings.yaml). There you see all available options.
+Take a look at the [`Settings.yaml`]. There you see all available options.
 
 ## Fusion Prototypes
 
 Basically, you have to folders with Fusion Prototypes: [Internal](Resources/Private/Fusion/Internal) and [External](Resources/Private/Fusion/External). In the External folder you will find some prototypes who you can help you in your development:
 
-### [Carbon.IncludeAssets:Case](Resources/Private/Fusion/External/Case.fusion)
+### [Carbon.IncludeAssets:Case]
 
 This prototype is a small helper to write prototypes for the `ConditionPrototype` setting. Return `true` or `false`.
 
@@ -149,35 +160,39 @@ This prototype is a small helper to write prototypes for the `ConditionPrototype
 | `documentNode`      | (node) The node from the document. Defaults to `documentNode`                                          |
 | alwaysInclude       | (boolean) If `true`, the prototype return `true`. Defaults to `node.context.inBackend`                 |
 
-### [Carbon.IncludeAssets:Collection](Resources/Private/Fusion/External/Collection.fusion)
+### [Carbon.IncludeAssets:Collection]
 
 This prototype generates your `script`, `style` and `link` tags from the files who are defined in the property `collection`.
 
-| Property       | Description                                                                                                                                                         |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `collection`   | (array with strings) The collection with the filenames. (Example: ['Main.css','Main.js[defer]']) Defaults to `[]`                                                   |
-| `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `null`                                                                                     |
-| `cacheBuster`  | (boolean) Append a hash value from the content of the file. Defaults to the value set in the [Settings.yaml](Configuration/Settings.yaml#L25)                       |
-| `paths`        | (array) The paths to the internal and external files inside the Resources folder. Defaults to the value set in the [Settings.yaml](Configuration/Settings.yaml#L27) |
+| Property       | Description                                                                                                                                                           |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `collection`   | (array with strings) The collection with the filenames. (Example: ['Main.css','Main.js[defer]']) Defaults to `[]`                                                     |
+| `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `null`                                                                                       |
+| `cacheBuster`  | (boolean) Append a hash value from the content of the file. Defaults to the value set in the [`Settings.yaml`](Configuration/Settings.yaml#L32)                       |
+| `paths`        | (array) The paths to the internal and external files inside the Resources folder. Defaults to the value set in the [`Settings.yaml`](Configuration/Settings.yaml#L34-L46) |
 
-### [Carbon.IncludeAssets:File](Resources/Private/Fusion/External/File.fusion)
+### [Carbon.IncludeAssets:File]
 
-The heart of this package. This prototype generates a `script`, `style` and `link` tag. You can pass a `file` (with or without the path). Be aware that you can also pass the attributes like described on top. To force a type you can write `(js)` or `(css)` at the end of `file`.
+The heart of this package. This prototype generates a `script`, `style` and `link` tag. You can pass a `file` (with or without the path). Be aware that you can also pass the attributes like described on top. To force a type you can write `(js)`, `(css)`, `(preloadasset)`, `(preloadcss)`, `(preloadscript)` or `(modulepreload)` at the end of `file`.
 
-| Property       | Description                                                                                                                                   |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `file`         | (string) The filename. You have to write it in the same way as it would be defined in the Settings.yaml file. Defaults to `null`              |
-| `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `node.context.currentSite.siteResourcesPackageKey`                   |
-| `cacheBuster`  | (boolean) Append a hash value from the content of the file. Defaults to the value set in the [Settings.yaml](Configuration/Settings.yaml#L25) |
-| `assetPath`    | (string) The path to the file inside the Resources folder. Per default it is set dynamically                                                  |
+| Property       | Description                                                                                                                                     |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `file`         | (string) The filename. You have to write it in the same way as it would be defined in the Settings.yaml file. Defaults to `null`                |
+| `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `node.context.currentSite.siteResourcesPackageKey`                     |
+| `cacheBuster`  | (boolean) Append a hash value from the content of the file. Defaults to the value set in the [`Settings.yaml`](Configuration/Settings.yaml#L32) |
+| `assetPath`    | (string) The path to the file inside the Resources folder. Per default it is set dynamically                                                    |
 
-### [Carbon.IncludeAssets:GoogleFonts](Resources/Private/Fusion/External/GoogleFonts.fusion)
+### [Carbon.IncludeAssets:GoogleFonts]
 
-You can set the property `fonts` e.g. `Lato|Open+Sans:400,700` and the `style` tag get generated. Per default, this prototype read the [Settings.yaml](Configuration/Settings.yaml#L21).
+You can set the property `fonts` e.g. `Lato|Open+Sans:400,700` and the `style` tag get generated. Per default, this prototype read the [`Settings.yaml`](Configuration/Settings.yaml#L21).
+
+### [Carbon.IncludeAssets:ResourceHints]
+
+This prototype renders the [resource hints] for the browser. Per default, this prototype read the [`Settings.yaml`](Configuration/Settings.yaml#L22-L28). But you can also `preloadNodes` or `prerenderNodes` (Array, FlowQuery or a single node) for furhter optimization.
 
 ## Installation
 
-Most of the time you have to make small adjustments to a package (e.g., the configuration in `Settings.yaml`). Because of that, it is important to add the corresponding package to the composer from your theme package. Mostly this is the site package located under `Packages/Sites/`. To install it correctly go to your theme package (e.g.`Packages/Sites/Foo.Bar`) and run following command:
+Most of the time you have to make small adjustments to a package (e.g., the configuration in [`Settings.yaml`]). Because of that, it is important to add the corresponding package to the composer from your theme package. Mostly this is the site package located under `Packages/Sites/`. To install it correctly go to your theme package (e.g.`Packages/Sites/Foo.Bar`) and run following command:
 
 ```bash
 composer require carbon/includeassets --no-update
@@ -187,4 +202,23 @@ The `--no-update` command prevent the automatic update of the dependencies. Afte
 
 ## License
 
-Licensed under MIT, see [LICENSE](LICENSE)
+Licensed under MIT, see [LICENSE]
+
+[packagist]: https://packagist.org/packages/carbon/includeassets
+[latest stable version]: https://poser.pugx.org/carbon/includeassets/v/stable
+[total downloads]: https://poser.pugx.org/carbon/includeassets/downloads
+[license]: https://poser.pugx.org/carbon/includeassets/license
+[github forks]: https://img.shields.io/github/forks/CarbonPackages/Carbon.IncludeAssets.svg?style=social&label=Fork
+[github stars]: https://img.shields.io/github/stars/CarbonPackages/Carbon.IncludeAssets.svg?style=social&label=Stars
+[github watchers]: https://img.shields.io/github/watchers/CarbonPackages/Carbon.IncludeAssets.svg?style=social&label=Watch
+[fork]: https://github.com/CarbonPackages/Carbon.IncludeAssets/fork
+[stargazers]: https://github.com/CarbonPackages/Carbon.IncludeAssets/stargazers
+[subscription]: https://github.com/CarbonPackages/Carbon.IncludeAssets/subscription
+[license]: LICENSE
+[`settings.yaml`]: Configuration/Settings.yaml
+[carbon.includeassets:case]: Resources/Private/Fusion/External/Case.fusion
+[carbon.includeassets:collection]: Resources/Private/Fusion/External/Collection.fusion
+[carbon.includeassets:file]: Resources/Private/Fusion/External/File.fusion
+[carbon.includeassets:googlefonts]: Resources/Private/Fusion/External/GoogleFonts.fusion
+[carbon.includeassets:resourcehints]: Resources/Private/Fusion/External/ResourceHints.fusion
+[resource hints]: https://www.smashingmagazine.com/2019/04/optimization-performance-resource-hints/
