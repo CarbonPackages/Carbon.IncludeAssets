@@ -6,6 +6,7 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
     file = null
     assetPackage = ${node.context.currentSite.siteResourcesPackageKey}
     cacheBuster = ${Configuration.setting('Carbon.IncludeAssets.Default.CacheBuster')}
+    disableCacheBusterForPreloadAsset = ${Configuration.setting('Carbon.IncludeAssets.Default.DisableCacheBusterForPreloadAsset')}
     assetPath = null
 
     // This is a internal variable, please use `assetPath` for an single file
@@ -17,6 +18,7 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
         file = ${props.file}
         assetPackage = ${props.assetPackage}
         cacheBuster = ${props.cacheBuster}
+        disableCacheBusterForPreloadAsset = ${props.disableCacheBusterForPreloadAsset}
         assetPath = ${props.assetPath ? props.assetPath : props.paths[this.assetKey][this.type]}
 
         fileObject = ${Carbon.IncludeAssets.parseFilename(props.file)}
@@ -50,7 +52,7 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
                         <Carbon.IncludeAssets:Internal.Tag.JS path={props.path} fileObject={props.fileObject} cacheBuster={props.cacheBuster} />
                     `
                     preload = afx`
-                        <Carbon.IncludeAssets:Internal.Tag.ResourceHint rel='preload' path={props.path} fileObject={props.fileObject} cacheBuster={props.cacheBuster} />
+                        <Carbon.IncludeAssets:Internal.Tag.ResourceHint rel='preload' path={props.path} fileObject={props.fileObject} cacheBuster={props.cacheBuster} disableCacheBusterForPreloadAsset={props.disableCacheBusterForPreloadAsset} />
                     `
                     modulePreload = afx`
                         <Carbon.IncludeAssets:Internal.Tag.ResourceHint rel='modulepreload' path={props.path} fileObject={props.fileObject} cacheBuster={props.cacheBuster} />

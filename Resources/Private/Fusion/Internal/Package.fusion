@@ -24,6 +24,7 @@ prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Compone
         }
         assetPackage = ${props.mergedConfig.Package == 'SitePackage' ? node.context.currentSite.siteResourcesPackageKey : props.mergedConfig.Package}
         cacheBuster = ${props.mergedConfig.CacheBuster}
+        disableCacheBusterForPreloadAsset = ${props.mergedConfig.DisableCacheBusterForPreloadAsset}
         paths = ${props.mergedConfig.Path}
         collection = Neos.Fusion:RawCollection {
             collection = ${['General', 'Backend', 'Live']}
@@ -36,7 +37,13 @@ prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Compone
         }
 
         renderer = afx`
-            <Carbon.IncludeAssets:Collection assetPackage={props.assetPackage} cacheBuster={props.cacheBuster} collection={props.collection} paths={props.paths} />
+            <Carbon.IncludeAssets:Collection 
+                assetPackage={props.assetPackage}
+                cacheBuster={props.cacheBuster}
+                disableCacheBusterForPreloadAsset={props.disableCacheBusterForPreloadAsset}
+                collection={props.collection}
+                paths={props.paths}
+            />
         `
     }
 }

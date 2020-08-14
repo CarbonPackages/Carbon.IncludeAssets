@@ -30,6 +30,7 @@ Carbon:
     Default:
       Package: SitePackage
       CacheBuster: true
+      DisableCacheBusterForPreloadAsset: true
       ConditionPrototype: null
       Path:
         Inline:
