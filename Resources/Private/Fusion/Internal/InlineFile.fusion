@@ -4,13 +4,4 @@ prototype(Carbon.IncludeAssets:Internal.InlineFile) < prototype(Carbon.IncludeAs
     type = ${type}
     css = ${'<style' + attributes +'>' + this.content + '</style>'}
     js = ${'<script' + attributes +'>' + this.content + '</script>'}
-
-    @cache {
-        mode = 'uncached'
-        context {
-            1 = 'attributes'
-            2 = 'path'
-            3 = 'type'
-        }
-    }
 }
