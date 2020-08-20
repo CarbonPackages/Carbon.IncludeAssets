@@ -17,24 +17,6 @@
             "role": "Developer"
         }
     ],
-    "archive": {
-        "exclude": [
-            ".editorconfig",
-            ".eslintignore",
-            ".eslintrc",
-            ".gitattributes",
-            ".github",
-            ".gitignore",
-            ".jshintrc",
-            ".nvmrc",
-            ".prettierignore",
-            ".stylelintrc",
-            ".yarnclean",
-            "CODE_OF_CONDUCT.md",
-            "gulp_global.yaml",
-            "package.json"
-        ]
-    },
     "autoload": {
         "psr-4": {
             "Carbon\\IncludeAssets\\": "Classes"
