@@ -26,6 +26,7 @@ prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Compone
         cacheBuster = ${props.mergedConfig.CacheBuster}
         disableCacheBusterForPreloadAsset = ${props.mergedConfig.DisableCacheBusterForPreloadAsset}
         paths = ${props.mergedConfig.Path}
+        wrapper = ${props.mergedConfig.Wrapper}
         collection = Neos.Fusion:Map {
             items = ${['General', 'Backend', 'Live']}
             itemRenderer = Neos.Fusion:Value {
@@ -43,6 +44,7 @@ prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Compone
                 disableCacheBusterForPreloadAsset={props.disableCacheBusterForPreloadAsset}
                 collection={props.collection}
                 paths={props.paths}
+                wrapper={props.wrapper}
             />
         `
     }

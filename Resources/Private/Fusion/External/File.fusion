@@ -8,6 +8,7 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
     cacheBuster = ${Configuration.setting('Carbon.IncludeAssets.Default.CacheBuster')}
     disableCacheBusterForPreloadAsset = ${Configuration.setting('Carbon.IncludeAssets.Default.DisableCacheBusterForPreloadAsset')}
     assetPath = null
+    wrapper = null
 
     // This is a internal variable, please use `assetPath` for an single file
     paths = ${Configuration.setting('Carbon.IncludeAssets.Default.Path')}
@@ -19,6 +20,7 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
         assetPackage = ${props.assetPackage}
         cacheBuster = ${props.cacheBuster}
         disableCacheBusterForPreloadAsset = ${props.disableCacheBusterForPreloadAsset}
+        wrapper = ${props.wrapper}
         assetPath = ${props.assetPath ? props.assetPath : props.paths[this.assetKey][this.type]}
 
         fileObject = ${Carbon.IncludeAssets.parseFilename(props.file)}
@@ -28,6 +30,9 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
 
         renderer = Neos.Fusion:Case {
             @if.render = ${props.path ? true : false}
+            @process.wrapper = Carbon.IncludeAssets:Internal.Wrapper {
+                wrapper = ${props.wrapper}
+            }
 
             inlineFile {
                 condition = ${props.fileObject.inline}
