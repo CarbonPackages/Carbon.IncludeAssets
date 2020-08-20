@@ -9,6 +9,10 @@ prototype(Carbon.IncludeAssets:Case) < prototype(Neos.Fusion:Component) {
     alwaysInclude = ${node.context.inBackend}
 
     renderer = Neos.Fusion:Case {
+        alwaysInclude {
+            condition = ${props.alwaysInclude}
+            renderer = true
+        }
         isDocument {
             condition = ${props.document && q(props.documentNode).is('[instanceof ' + props.document + ']' + props.appendFilter)}
             renderer = true
@@ -19,7 +23,7 @@ prototype(Carbon.IncludeAssets:Case) < prototype(Neos.Fusion:Component) {
         }
         default {
             condition = true
-            renderer = ${props.alwaysInclude}
+            renderer = false
         }
     }
 }
