@@ -1,4 +1,14 @@
 prototype(Carbon.IncludeAssets:Case) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        mixin = ${PropTypes.string}
+        document = ${PropTypes.string}
+        content = ${PropTypes.string}
+        appendFilter = ${PropTypes.string}
+        contentCollection = ${PropTypes.string}
+        documentNode = ${PropTypes.instanceOf('Neos.Neos:Document').isRequired}
+        alwaysInclude = ${PropTypes.boolean}
+    }
+
     mixin = null
     document = ${this.mixin}
     content = ${this.mixin}

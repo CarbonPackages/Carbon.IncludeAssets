@@ -3,6 +3,32 @@
  */
 
 prototype(Carbon.IncludeAssets:Collection) < prototype(Neos.Fusion:Component) {
+     @propTypes {
+        collection = ${PropTypes.arrayOf(PropTypes.string)}
+        assetPackage = ${PropTypes.string}
+        cacheBuster = ${PropTypes.boolean}
+        disableCacheBusterForPreloadAsset = ${PropTypes.boolean}
+        paths = ${
+            PropTypes.dataStructure({
+                'Inline': PropTypes.dataStructure({
+                    'CSS': PropTypes.string,
+                    'JS': PropTypes.string,
+                    'MJS': PropTypes.string
+                }),
+                'File': PropTypes.dataStructure({
+                    'CSS': PropTypes.string,
+                    'JS': PropTypes.string,
+                    'MJS': PropTypes.string,
+                    'PRELOADASSET': PropTypes.string,
+                    'PRELOADCSS': PropTypes.string,
+                    'PRELOADSCRIPT': PropTypes.string,
+                    'MODULEPRELOAD': PropTypes.string
+                })
+            }).isRequired
+        }
+        wrapper = ${PropTypes.string}
+    }
+
     collection = ${[]}
     assetPackage = null
     cacheBuster = ${Configuration.setting('Carbon.IncludeAssets.Default.CacheBuster')}

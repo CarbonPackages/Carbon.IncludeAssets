@@ -3,6 +3,25 @@
  */
 
 prototype(Carbon.IncludeAssets:ResourceHints) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        dnsPrefetch = ${PropTypes.anyOf( PropTypes.string, PropTypes.arrayOf( PropTypes.string ) )}
+        preconnect = ${PropTypes.anyOf( PropTypes.string, PropTypes.arrayOf( PropTypes.string ) )}
+        prefetch = ${PropTypes.anyOf( PropTypes.string, PropTypes.arrayOf( PropTypes.string ) )}
+        preload = ${PropTypes.anyOf( PropTypes.string, PropTypes.arrayOf( PropTypes.string ) )}
+        prerender = ${PropTypes.anyOf( PropTypes.string, PropTypes.arrayOf( PropTypes.string ) )}
+        modulePreload = ${PropTypes.anyOf( PropTypes.string, PropTypes.arrayOf( PropTypes.string ) )}
+        preloadNodes = ${PropTypes.anyOf(
+            PropTypes.instanceOf('Neos\Eel\FlowQuery\FlowQuery'),
+            PropTypes.arrayOf( PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\Node') ),
+            PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\Node')
+        )}
+        prerenderNodes = ${PropTypes.anyOf(
+            PropTypes.instanceOf('Neos\Eel\FlowQuery\FlowQuery'),
+            PropTypes.arrayOf( PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\Node') ),
+            PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\Node')
+        )}
+    }
+
     dnsPrefetch = ${Configuration.setting('Carbon.IncludeAssets.ResourceHints.DnsPrefetch')}
     preconnect = ${Configuration.setting('Carbon.IncludeAssets.ResourceHints.Preconnect')}
     prefetch = ${Configuration.setting('Carbon.IncludeAssets.ResourceHints.Prefetch')}
@@ -29,6 +48,12 @@ prototype(Carbon.IncludeAssets:ResourceHints) < prototype(Neos.Fusion:Component)
 
 
 prototype(Carbon.IncludeAssets:ResourceHints.Items) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        items = ${PropTypes.arrayOf( PropTypes.string )}
+        rel = ${PropTypes.oneOf(['dns-prefetch', 'preconnect', 'prefetch', 'modulepreload', 'preload', 'prerender'])}
+        type = ${PropTypes.oneOf(['modulepreload', 'resourcehint'])}
+    }
+
     items = null
     rel = null
     type = ${this.rel == 'modulepreload' ? 'modulepreload' : 'resourcehint'}
@@ -49,10 +74,15 @@ prototype(Carbon.IncludeAssets:ResourceHints.Items) < prototype(Neos.Fusion:Comp
 }
 
 prototype(Carbon.IncludeAssets:ResourceHints.Nodes) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        items = ${PropTypes.arrayOf( PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\Node') )}
+        rel = ${PropTypes.oneOf(['preload', 'prerender'])}
+        type = ${PropTypes.string}
+    }
+
     items = null
     rel = null
     as = null
-
 
     // Internal
     items.@process {

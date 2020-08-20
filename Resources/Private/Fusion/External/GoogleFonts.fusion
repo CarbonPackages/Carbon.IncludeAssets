@@ -9,6 +9,10 @@
  */
 
 prototype(Carbon.IncludeAssets:GoogleFonts) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        fonts = ${PropTypes.string}
+    }
+
     fonts = ${Configuration.setting('Carbon.IncludeAssets.GoogleFonts')}
 
     @if.hasFonts = ${!String.isBlank(this.fonts)}

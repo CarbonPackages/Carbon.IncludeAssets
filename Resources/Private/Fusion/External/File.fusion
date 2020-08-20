@@ -3,6 +3,15 @@
  */
 
 prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
+    @propTypes {
+        file = ${PropTypes.string}
+        assetPackage = ${PropTypes.string}
+        cacheBuster = ${PropTypes.boolean}
+        disableCacheBusterForPreloadAsset = ${PropTypes.boolean}
+        assetPath = ${PropTypes.string}
+        wrapper = ${PropTypes.string}
+    }
+
     file = null
     assetPackage = ${node.context.currentSite.siteResourcesPackageKey}
     cacheBuster = ${Configuration.setting('Carbon.IncludeAssets.Default.CacheBuster')}
