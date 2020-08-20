@@ -4,32 +4,32 @@
 - enabling async CSS loading in browsers that do not support rel=preload
 - applying rel preload css once loaded, whether supported or not.
 */
-(function(w) {
+(function (w) {
     "use strict";
 
     // rel=preload support test
     if (!w.loadCSS) {
-        w.loadCSS = function() {};
+        w.loadCSS = function () {};
     }
     // define on the loadCSS obj
     var rp = (loadCSS.relpreload = {});
     // rel=preload feature support test
     // runs once and returns a function for compat purposes
-    rp.support = (function() {
+    rp.support = (function () {
         var ret;
         try {
             ret = w.document.createElement("link").relList.supports("preload");
         } catch (e) {
             ret = false;
         }
-        return function() {
+        return function () {
             return ret;
         };
     })();
 
     // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
     // then change that media back to its intended value on load
-    rp.bindMediaToggle = function(link) {
+    rp.bindMediaToggle = function (link) {
         // remember existing media attr for ultimate state, or default to 'all'
         var finalMedia = link.media || "all";
 
@@ -46,7 +46,7 @@
 
         // Set rel and non-applicable media type to start an async request
         // note: timeout allows this to happen async to let rendering continue in IE
-        setTimeout(function() {
+        setTimeout(function () {
             link.rel = "stylesheet";
             link.media = "only x";
         });
@@ -56,7 +56,7 @@
     };
 
     // loop through link elements in DOM
-    rp.poly = function() {
+    rp.poly = function () {
         // double check this to prevent external calls from running
         if (rp.support()) {
             return;
@@ -65,11 +65,7 @@
         for (var i = 0; i < links.length; i++) {
             var link = links[i];
             // qualify links to those with rel=preload and as=style attrs
-            if (
-                link.rel === "preload" &&
-                link.getAttribute("as") === "style" &&
-                !link.getAttribute("data-loadcss")
-            ) {
+            if (link.rel === "preload" && link.getAttribute("as") === "style" && !link.getAttribute("data-loadcss")) {
                 // prevent rerunning on link
                 link.setAttribute("data-loadcss", true);
                 // bind listeners to toggle media back
@@ -86,12 +82,12 @@
         // rerun poly on an interval until onload
         var run = w.setInterval(rp.poly, 500);
         if (w.addEventListener) {
-            w.addEventListener("load", function() {
+            w.addEventListener("load", function () {
                 rp.poly();
                 w.clearInterval(run);
             });
         } else if (w.attachEvent) {
-            w.attachEvent("onload", function() {
+            w.attachEvent("onload", function () {
                 rp.poly();
                 w.clearInterval(run);
             });
