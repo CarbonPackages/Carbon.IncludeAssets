@@ -11,7 +11,9 @@
 prototype(Carbon.IncludeAssets:GoogleFonts) < prototype(Neos.Fusion:Component) {
     fonts = ${Configuration.setting('Carbon.IncludeAssets.GoogleFonts')}
 
+    @if.hasFonts = ${!String.isBlank(this.fonts)}
+
     renderer = afx`
-        <Carbon.IncludeAssets:File @if.hasFonts={!String.isBlank(props.fonts)} file={'//fonts.googleapis.com/css?family=' + props.fonts + '(css)'} />
+        <Carbon.IncludeAssets:File file={'//fonts.googleapis.com/css?family=' + props.fonts + '(css)'} />
     `
 }

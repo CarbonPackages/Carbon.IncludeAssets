@@ -10,7 +10,7 @@ prototype(Carbon.IncludeAssets:Collection) < prototype(Neos.Fusion:Component) {
     paths = ${Configuration.setting('Carbon.IncludeAssets.Default.Path')}
     wrapper = null
 
-    @if.hasAssetPackage = ${this.assetPackage}
+    @if.hasAssetPackage = ${this.assetPackage && Type.isArray(this.collection) && Array.length(this.collection)}
 
     renderer = afx`
         <Carbon.IncludeAssets:Internal.Wrapper wrapper={props.wrapper}>

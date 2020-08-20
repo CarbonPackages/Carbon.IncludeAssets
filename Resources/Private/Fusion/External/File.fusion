@@ -13,36 +13,30 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
     // This is a internal variable, please use `assetPath` for an single file
     paths = ${Configuration.setting('Carbon.IncludeAssets.Default.Path')}
 
-    renderer = Neos.Fusion:Component {
-        @if.render = ${props.file}
+    @if.fileIsSet = ${this.file}
 
-        file = ${props.file}
-        assetPackage = ${props.assetPackage}
-        cacheBuster = ${props.cacheBuster}
-        disableCacheBusterForPreloadAsset = ${props.disableCacheBusterForPreloadAsset}
-        wrapper = ${props.wrapper}
-        assetPath = ${props.assetPath ? props.assetPath : props.paths[this.assetKey][this.type]}
+    renderer = Neos.Fusion:Component {
+        @apply.props = ${props}
 
         fileObject = ${Carbon.IncludeAssets.parseFilename(props.file)}
         assetKey = ${this.fileObject.inline ? 'Inline' : 'File'}
         type = ${this.fileObject.type}
-        path = ${this.fileObject.external || this.fileObject.path ? this.fileObject.filename : this.assetPackage && this.assetPath ? 'resource://' + this.assetPackage + '/' + this.assetPath + '/' + this.fileObject.filename : false}
+        finalAssetPath = ${props.assetPath || props.paths[this.assetKey][this.type]}
+        path = ${this.fileObject.external || this.fileObject.path ? this.fileObject.filename : this.assetPackage && this.finalAssetPath ? 'resource://' + this.assetPackage + '/' + this.finalAssetPath + '/' + this.fileObject.filename : false}
+
+        @if.hasPath = ${this.path}
 
         renderer = Neos.Fusion:Case {
-            @if.render = ${props.path ? true : false}
             @process.wrapper = Carbon.IncludeAssets:Internal.Wrapper {
                 wrapper = ${props.wrapper}
             }
 
             inlineFile {
                 condition = ${props.fileObject.inline}
-                renderer = Neos.Fusion:Component {
-                    @context {
-                        attributes = ${props.fileObject.attributes}
-                        path = ${props.path}
-                        type = ${props.type}
-                    }
-                    renderer = Carbon.IncludeAssets:Internal.InlineFile
+                renderer = Carbon.IncludeAssets:Internal.InlineFile {
+                    attributes = ${props.fileObject.attributes}
+                    path = ${props.path}
+                    type = ${props.type}
                 }
             }
 
