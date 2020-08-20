@@ -2,7 +2,7 @@
     "name": "carbon/includeassets",
     "type": "neos-carbon",
     "description": "Include your assets (css, js) in an easy way into Neos",
-    "license": "MIT",
+    "license": "GPL-3.0-or-later",
     "keywords": ["flow", "neos", "fusion", "helper", "carbon"],
     "require": {
         "neos/neos": "~3.3 || ~4.0 || ~5.0 || dev-master",

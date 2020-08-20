@@ -196,10 +196,6 @@ composer require carbon/includeassets --no-update
 
 The `--no-update` command prevent the automatic update of the dependencies. After the package was added to your theme `composer.json`, go back to the root of the Neos installation and run `composer update`. Et voilà! Your desired package is now installed correctly.
 
-## License
-
-Licensed under MIT, see [LICENSE]
-
 [packagist]: https://packagist.org/packages/carbon/includeassets
 [latest stable version]: https://poser.pugx.org/carbon/includeassets/v/stable
 [total downloads]: https://poser.pugx.org/carbon/includeassets/downloads
@@ -210,7 +206,6 @@ Licensed under MIT, see [LICENSE]
 [fork]: https://github.com/CarbonPackages/Carbon.IncludeAssets/fork
 [stargazers]: https://github.com/CarbonPackages/Carbon.IncludeAssets/stargazers
 [subscription]: https://github.com/CarbonPackages/Carbon.IncludeAssets/subscription
-[license]: LICENSE
 [`settings.yaml`]: Configuration/Settings.yaml
 [carbon.includeassets:case]: Resources/Private/Fusion/External/Case.fusion
 [carbon.includeassets:collection]: Resources/Private/Fusion/External/Collection.fusion
