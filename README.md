@@ -155,7 +155,7 @@ This prototype is a small helper to write prototypes for the `ConditionPrototype
 | `content`           | (string) The node type name the content type. Defaults to `this.mixin`                                 |
 | `contentCollection` | (string) The filter for the content collection. Defaults to `[instanceof Neos.Neos:ContentCollection]` |
 | `documentNode`      | (node) The node from the document. Defaults to `documentNode`                                          |
-| alwaysInclude       | (boolean) If `true`, the prototype return `true`. Defaults to `node.context.inBackend`                 |
+| `alwaysInclude`     | (boolean) If `true`, the prototype return `true`. Defaults to `node.context.inBackend`                 |
 
 ### [Carbon.IncludeAssets:Collection]
 
