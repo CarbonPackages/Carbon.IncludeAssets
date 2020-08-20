@@ -8,18 +8,21 @@ prototype(Carbon.IncludeAssets:Collection) < prototype(Neos.Fusion:Component) {
     cacheBuster = ${Configuration.setting('Carbon.IncludeAssets.Default.CacheBuster')}
     disableCacheBusterForPreloadAsset = ${Configuration.setting('Carbon.IncludeAssets.Default.DisableCacheBusterForPreloadAsset')}
     paths = ${Configuration.setting('Carbon.IncludeAssets.Default.Path')}
+    wrapper = null
 
     @if.hasAssetPackage = ${this.assetPackage}
 
     renderer = afx`
-        <Neos.Fusion:Loop items={props.collection}>
-            <Carbon.IncludeAssets:File
-                file={item}
-                assetPackage={props.assetPackage}
-                cacheBuster={props.cacheBuster}
-                disableCacheBusterForPreloadAsset={props.disableCacheBusterForPreloadAsset}
-                paths={props.paths}
-            />
-        </Neos.Fusion:Loop>
+        <Carbon.IncludeAssets:Internal.Wrapper wrapper={props.wrapper}>
+            <Neos.Fusion:Loop items={props.collection}>
+                <Carbon.IncludeAssets:File
+                    file={item}
+                    assetPackage={props.assetPackage}
+                    cacheBuster={props.cacheBuster}
+                    disableCacheBusterForPreloadAsset={props.disableCacheBusterForPreloadAsset}
+                    paths={props.paths}
+                />
+            </Neos.Fusion:Loop>
+        </Carbon.IncludeAssets:Internal.Wrapper>
     `
 }

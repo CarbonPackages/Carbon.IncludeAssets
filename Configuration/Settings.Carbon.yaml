@@ -23,6 +23,7 @@ Carbon:
       CacheBuster: true
       DisableCacheBusterForPreloadAsset: true
       ConditionPrototype: null
+      Wrapper: null
       Path:
         Inline:
           CSS: 'Private/Templates/InlineAssets'
