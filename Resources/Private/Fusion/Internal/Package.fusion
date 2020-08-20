@@ -6,7 +6,7 @@ prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Compone
     // Body || Head
     location = null
     // The config for the package
-    config = Neos.Fusion:RawArray
+    config = Neos.Fusion:DataStructure
 
     // Internal property
     mergedConfig = ${Array.concat(Configuration.setting('Carbon.IncludeAssets.Default'), this.config)}
@@ -26,8 +26,8 @@ prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Compone
         cacheBuster = ${props.mergedConfig.CacheBuster}
         disableCacheBusterForPreloadAsset = ${props.mergedConfig.DisableCacheBusterForPreloadAsset}
         paths = ${props.mergedConfig.Path}
-        collection = Neos.Fusion:RawCollection {
-            collection = ${['General', 'Backend', 'Live']}
+        collection = Neos.Fusion:Map {
+            items = ${['General', 'Backend', 'Live']}
             itemRenderer = Neos.Fusion:Value {
                 condition = ${item == 'General' || (item == 'Backend' && node.context.inBackend) || (item == 'Live' && node.context.live)}
                 value = ${this.condition ? props.mergedConfig[item][props.location] : false}

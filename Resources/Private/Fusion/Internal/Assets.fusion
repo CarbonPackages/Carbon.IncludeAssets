@@ -16,9 +16,9 @@ prototype(Carbon.IncludeAssets:Internal.Assets) < prototype(Neos.Fusion:Componen
     renderer = Neos.Fusion:Component {
         inHead = ${props.location == 'Head'}
         filesFromPackages = afx`
-            <Neos.Fusion:Collection @if.hasPackages={props.packages} collection={props.packages} @children='itemRenderer'>
+            <Neos.Fusion:Loop @if.hasPackages={props.packages} items={props.packages}>
                 <Carbon.IncludeAssets:Internal.Package location={props.location} config={item} />
-            </Neos.Fusion:Collection>
+            </Neos.Fusion:Loop>
         `
         loadAsyncCSS = ${props.loadJSforCSSAsynchron && String.indexOf(this.filesFromPackages, '<link rel="preload" as="style" onload="this.onload=null;') >= 0}
 

@@ -1,12 +1,3 @@
-Neos:
-  Neos:
-    fusion:
-      autoInclude:
-        'Carbon.IncludeAssets': true
-  Fusion:
-    defaultContext:
-      Carbon.IncludeAssets: 'Carbon\IncludeAssets\Eel\Helper\IncludeAssetsHelper'
-
 # You can pass the filenames as string (comma separated) or as an array
 #  * internal: Just the filename e.g. "Main.js,Slider.css"
 #  * external: e.g. //ajax.googleapis.com/...

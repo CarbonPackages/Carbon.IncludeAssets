@@ -9,7 +9,7 @@ prototype(Carbon.IncludeAssets:Internal.Tag) < prototype(Neos.Fusion:Component) 
 
     @if.hasFileObject = ${this.fileObject}
 
-    renderer = Neos.Fusion:Array {
+    renderer = Neos.Fusion:Join {
         uri = Neos.Fusion:Case {
             isExternal {
                 condition = ${props.external}

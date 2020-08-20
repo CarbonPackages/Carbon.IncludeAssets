@@ -1,0 +1,8 @@
+Neos:
+  Neos:
+    fusion:
+      autoInclude:
+        'Carbon.IncludeAssets': true
+  Fusion:
+    defaultContext:
+      Carbon.IncludeAssets: 'Carbon\IncludeAssets\Eel\Helper\IncludeAssetsHelper'
