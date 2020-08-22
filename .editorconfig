@@ -16,7 +16,7 @@ indent_size = 4
 [{*.{yaml,yml},package.json,.*rc}]
 indent_size = 2
 
-# S files
+# JS files
 [*.js]
 max_line_length = 120
 
