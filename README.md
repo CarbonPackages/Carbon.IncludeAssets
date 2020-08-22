@@ -35,7 +35,7 @@ In `Carbon.IncludeAssets.Packages` you can define your packages, which should ou
 | `Package`            | (string) The package key. If it set to `SitePackage`, it will be replaced automatically with the package key from the site package. Defaults to `SitePackage`                                                                                           |
 | `CacheBuster`        | (boolean) Append a hash value from the content of the file. Defaults to `true`                                                                                                                                                                          |
 | `ConditionPrototype` | (string) If set, the files get only included if the fusion prototype returns a truthy value. Defaults to `null`                                                                                                                                         |
-| `Wrapper`            | (string) If set, the generated tags will be wrapped. `%content%` will be replaced with the tags. Example: `'<!--[if lt IE 9]>%content%<![endif]-->'`                                                                                                    |
+| `Wrapper`            | (string) If set, the generated tags will be wrapped. `{content}` will be replaced with the tags. Example: `'<!--[if lt IE 9]>{content}<![endif]-->'`                                                                                                    |
 | `Path`               | (array) Define the files get loaded from. There are different paths for inline and linked files. Every type (`css`,`js`, `mjs`, `preloadasset`, `preloadcss`, `preloadscript` or `modulepreload`) can have a different path inside the Resources folder |
 | `General`            | (array) Asset files who get loaded in live and backend view. Contains two entries: `Head` and `Body`                                                                                                                                                    |
 | `Backend`            | (array) Asset files that get loaded only in the backend view. Contains two entries: `Head` and `Body`                                                                                                                                                   |
@@ -167,7 +167,7 @@ This prototype generates your `script`, `style` and `link` tags from the files w
 | `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `null`                                                                                           |
 | `cacheBuster`  | (boolean) Append a hash value from the content of the file. Defaults to the value set in the [`Settings.yaml`](Configuration/Settings.yaml#L32)                           |
 | `paths`        | (array) The paths to the internal and external files inside the Resources folder. Defaults to the value set in the [`Settings.yaml`](Configuration/Settings.yaml#L34-L46) |
-| `wrapper`      | (string) If set, the generated tags will be wrapped. `%content%` will be replaced with the tags. Example: `'<!--[if lt IE 9]>%content%<![endif]-->'`                      |
+| `wrapper`      | (string) If set, the generated tags will be wrapped. `{content}` will be replaced with the tags. Example: `'<!--[if lt IE 9]>{content}<![endif]-->'`                      |
 
 ### [Carbon.IncludeAssets:File]
 
@@ -179,7 +179,7 @@ The heart of this package. This prototype generates a `script`, `style`, and `li
 | `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `node.context.currentSite.siteResourcesPackageKey`                     |
 | `cacheBuster`  | (boolean) Append a hash value from the content of the file. Defaults to the value set in the [`Settings.yaml`](Configuration/Settings.yaml#L32) |
 | `assetPath`    | (string) The path to the file inside the Resources folder. Per default, it is set dynamically                                                   |
-| `wrapper`      | (string) If set, the tag will be wrapped. `%content%` will be replaced with the tag. Example: `'<!--[if lt IE 9]>%content%<![endif]-->'`        |
+| `wrapper`      | (string) If set, the tag will be wrapped. `{content}` will be replaced with the tag. Example: `'<!--[if lt IE 9]>{content}<![endif]-->'`        |
 
 ### [Carbon.IncludeAssets:GoogleFonts]
 
