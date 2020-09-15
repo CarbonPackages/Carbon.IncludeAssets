@@ -28,7 +28,7 @@ prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Compone
         paths = ${props.mergedConfig.Path}
         wrapper = ${props.mergedConfig.Wrapper}
         collection = Neos.Fusion:Map {
-            items = ${['General', 'Backend', 'Live']}
+            items = ${String.split(props.mergedConfig.Order, ',')}
             itemRenderer = Neos.Fusion:Value {
                 condition = ${item == 'General' || (item == 'Backend' && node.context.inBackend) || (item == 'Live' && node.context.live)}
                 value = ${this.condition ? props.mergedConfig[item][props.location] : false}
