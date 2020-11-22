@@ -99,16 +99,9 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
             }
         }
 
-        // Add type to javascript or modules
-        if (strpos($object['attributes'], ' type=') === false) {
-            switch ($object['type']) {
-                case 'js':
-                    $object['attributes'] .= ' type="text/javascript"';
-                    break;
-                case 'mjs':
-                    $object['attributes'] .= ' type="module"';
-                    break;
-            }
+        // Add type to javascript modules
+        if ($object['type'] === 'mjs' && strpos($object['attributes'], ' type=') === false) {
+            $object['attributes'] .= ' type="module"';
         }
 
         // Add as="type" to preload CSS and JS
