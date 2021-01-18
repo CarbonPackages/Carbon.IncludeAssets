@@ -1,5 +1,5 @@
 /**
- * This prototype is a small helper to render css, js or mjs
+ * This prototype is a small helper to render html, css, js or mjs
  *
  * Example:
  * type = 'js'
@@ -8,6 +8,7 @@
 
 prototype(Carbon.IncludeAssets:Internal.TypeCase) < prototype(Neos.Fusion:Component) {
     type = null
+    html = ''
     js = ''
     css = ''
     // Modules are per default the same as Javascript
@@ -16,6 +17,10 @@ prototype(Carbon.IncludeAssets:Internal.TypeCase) < prototype(Neos.Fusion:Compon
     modulePreload = ''
 
     renderer = Neos.Fusion:Case {
+        isHTML {
+            condition = ${String.toUpperCase(props.type) == 'HTML'}
+            renderer = ${props.html}
+        }
         isCSS {
             condition = ${String.toUpperCase(props.type) == 'CSS'}
             renderer = ${props.css}

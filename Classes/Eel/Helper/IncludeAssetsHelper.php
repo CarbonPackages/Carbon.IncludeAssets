@@ -22,7 +22,7 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
 
     public function parseFilename(string $string): ?array
     {
-        $types = array('js', 'css', 'mjs', 'resourcehint', 'preloadasset', 'preloadcss', 'preloadscript', 'modulepreload');
+        $types = array('html', 'js', 'css', 'mjs', 'resourcehint', 'preloadasset', 'preloadcss', 'preloadscript', 'modulepreload');
         // 1 => Filename
         // 2 => Search string
         // 3 => Attributes
@@ -60,6 +60,10 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
 
         if (!in_array($object['type'], $types)) {
             return null;
+        }
+
+        if ($object['type'] === 'html') {
+            $object['inline'] = true;
         }
 
         // We got attributes (ModulePreload don't need these)

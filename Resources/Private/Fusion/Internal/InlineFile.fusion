@@ -7,4 +7,5 @@ prototype(Carbon.IncludeAssets:Internal.InlineFile) < prototype(Carbon.IncludeAs
     content = ${String.trim(Carbon.FileContent.path(this.path))}
     css = ${'<style' + this.attributes +'>' + this.content + '</style>'}
     js = ${'<script' + this.attributes +'>' + this.content + '</script>'}
+    html = ${this.content}
 }

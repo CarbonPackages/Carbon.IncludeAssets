@@ -1,5 +1,5 @@
 /**
- * This prototype outputs the tag for inlcuding JS, MJS or CSS
+ * This prototype outputs the tag for including HTML, JS, MJS or CSS
  */
 
 prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {

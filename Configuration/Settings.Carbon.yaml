@@ -30,6 +30,7 @@ Carbon:
           CSS: 'Private/Templates/InlineAssets'
           JS: 'Private/Templates/InlineAssets'
           MJS: 'Private/Templates/InlineAssets'
+          HTML: 'Private/Templates/InlineAssets'
         File:
           CSS: 'Public/Styles'
           JS: 'Public/Scripts'
