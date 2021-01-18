@@ -1,9 +1,9 @@
 /**
- * This prototype handles all assets of a location (Body || Head) set via Settings.yaml
+ * This prototype handles all assets of a location (Body || Head || BodyStart || HeadStart) set via Settings.yaml
  */
 
 prototype(Carbon.IncludeAssets:Internal.Assets) < prototype(Neos.Fusion:Component) {
-    // Body || Head
+    // Body || Head || BodyStart || HeadStart
     location = null
 
     loadJSforCSSAsynchron = ${Configuration.setting('Carbon.IncludeAssets.LoadJSforCSSAsynchron') && this.location == 'Head'}

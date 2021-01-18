@@ -3,7 +3,7 @@
  */
 
 prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Component) {
-    // Body || Head
+    // Body || Head || BodyStart || HeadStart
     location = null
     // The config for the package
     config = Neos.Fusion:DataStructure

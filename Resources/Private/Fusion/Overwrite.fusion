@@ -1,7 +1,17 @@
 prototype(Neos.Neos:Page) {
+    carbonIncludeAssetsHeadStart = Carbon.IncludeAssets:Internal.Assets {
+        @position = 'before head'
+        location = 'HeadStart'
+    }
+
     carbonIncludeAssetsHead = Carbon.IncludeAssets:Internal.Assets {
         @position = 'before closingHeadTag'
         location = 'Head'
+    }
+
+    carbonIncludeAssetsBodyStart = Carbon.IncludeAssets:Internal.Assets {
+        @position = 'before body'
+        location = 'BodyStart'
     }
 
     carbonIncludeAssetsBody = Carbon.IncludeAssets:Internal.Assets {
