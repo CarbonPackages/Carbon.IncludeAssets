@@ -17,24 +17,24 @@ prototype(Carbon.IncludeAssets:Internal.TypeCase) < prototype(Neos.Fusion:Compon
 
     renderer = Neos.Fusion:Case {
         isCSS {
-          condition = ${String.toUpperCase(props.type) == 'CSS'}
-          renderer = ${props.css}
+            condition = ${String.toUpperCase(props.type) == 'CSS'}
+            renderer = ${props.css}
         }
         isJS {
-          condition = ${String.toUpperCase(props.type) == 'JS'}
-          renderer = ${props.js}
+            condition = ${String.toUpperCase(props.type) == 'JS'}
+            renderer = ${props.js}
         }
         isMJS {
-          condition = ${String.toUpperCase(props.type) == 'MJS'}
-          renderer = ${props.mjs}
+            condition = ${String.toUpperCase(props.type) == 'MJS'}
+            renderer = ${props.mjs}
         }
         isPRELOAD {
-          condition = ${String.startsWith(String.toUpperCase(props.type), 'PRELOAD')}
-          renderer = ${props.preload}
+            condition = ${String.startsWith(String.toUpperCase(props.type), 'PRELOAD')}
+            renderer = ${props.preload}
         }
         isMODULEPRELOAD {
-          condition = ${String.toUpperCase(props.type) == 'MODULEPRELOAD'}
-          renderer = ${props.modulePreload}
+            condition = ${String.toUpperCase(props.type) == 'MODULEPRELOAD'}
+            renderer = ${props.modulePreload}
         }
     }
 }

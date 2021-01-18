@@ -1,11 +1,11 @@
 prototype(Neos.Neos:Page) {
-  carbonIncludeAssetsHead = Carbon.IncludeAssets:Internal.Assets {
-    @position = 'before closingHeadTag'
-    location = 'Head'
-  }
+    carbonIncludeAssetsHead = Carbon.IncludeAssets:Internal.Assets {
+        @position = 'before closingHeadTag'
+        location = 'Head'
+    }
 
-  carbonIncludeAssetsBody = Carbon.IncludeAssets:Internal.Assets {
-    @position = 'before closingBodyTag'
-    location = 'Body'
-  }
+    carbonIncludeAssetsBody = Carbon.IncludeAssets:Internal.Assets {
+        @position = 'before closingBodyTag'
+        location = 'Body'
+    }
 }

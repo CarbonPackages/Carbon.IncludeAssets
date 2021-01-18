@@ -38,7 +38,7 @@ prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Compone
         }
 
         renderer = afx`
-            <Carbon.IncludeAssets:Collection 
+            <Carbon.IncludeAssets:Collection
                 assetPackage={props.assetPackage}
                 cacheBuster={props.cacheBuster}
                 disableCacheBusterForPreloadAsset={props.disableCacheBusterForPreloadAsset}
