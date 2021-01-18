@@ -14,6 +14,7 @@ With this package, you get able to import all your CSS and Javascript assets wit
 - If you want to add Google Fonts, you can write them down the fonts, e.g. `Lato|Open+Sans:400,700` or `Lato|Open+Sans:400,700[async]`
 - On internal files, a hash from the content of the file gets appended. Please be aware that you have to clear the cache from Neos to update the hash value. It is meant to have a cache buster on production projects.
 - You can also give the browser some [resource hints]: Globally via the settings `Carbon.IncludeAssets.ResourceHints` or via adding a special type (`(preloadasset)`, `(preloadcss)`, `(preloadscript)` or `(modulepreload)`) at the end of a `file` entry.
+- You can also include the content of HTML files (e.g. `Favicon.html`). Usefull for copy and paste tracking codes, favicons, etc. HTML files are always read from the inline path and ignore all attributes.
 
 ## Structure of the Settings
 
@@ -36,10 +37,10 @@ In `Carbon.IncludeAssets.Packages` you can define your packages, which should ou
 | `CacheBuster`        | (boolean) Append a hash value from the content of the file. Defaults to `true`                                                                                                                                                                          |
 | `ConditionPrototype` | (string) If set, the files get only included if the fusion prototype returns a truthy value. Defaults to `null`                                                                                                                                         |
 | `Wrapper`            | (string) If set, the generated tags will be wrapped. `{content}` will be replaced with the tags. Example: `'<!--[if lt IE 9]>{content}<![endif]-->'`                                                                                                    |
-| `Path`               | (array) Define the files get loaded from. There are different paths for inline and linked files. Every type (`css`,`js`, `mjs`, `preloadasset`, `preloadcss`, `preloadscript` or `modulepreload`) can have a different path inside the Resources folder |
-| `General`            | (array) Asset files who get loaded in live and backend view. Contains two entries: `Head` and `Body`                                                                                                                                                    |
-| `Backend`            | (array) Asset files that get loaded only in the backend view. Contains two entries: `Head` and `Body`                                                                                                                                                   |
-| `Live`               | (array) Asset files that get loaded only in the live view. Contains two entries: `Head` and `Body`                                                                                                                                                      |
+| `Path`               | (array) Define the files get loaded from. There are different paths for inline and linked files. Every type (`css`,`js`, `mjs`, `html`, `preloadasset`, `preloadcss`, `preloadscript` or `modulepreload`) can have a different path inside the Resources folder |
+| `General`            | (array) Asset files who get loaded in live and backend view. Contains four entries: `Head`, `Body`, `HeadStart` and `BodyStart`                                                                                                                                                    |
+| `Backend`            | (array) Asset files that get loaded only in the backend view. Contains four entries: `Head`, `Body`, `HeadStart` and `BodyStart`                                                                                                                                                   |
+| `Live`               | (array) Asset files that get loaded only in the live view. Contains four entries: `Head`, `Body`, `HeadStart` and `BodyStart`                                                                                                                                                     |
 
 ## Example
 
@@ -65,7 +66,11 @@ Carbon:
 
         # Asset files which get loaded in live and backend view
         General:
-          # These assets get loaded in the <head>
+          # These assets get loaded in the <head> (at the start)
+          HeadStart:
+            - Favicons.html
+
+          # These assets get loaded in the <head> (at the end)
           Head:
             # Preload this Javascript
             - JsForLaterUse.js(preloadscript)
@@ -97,6 +102,10 @@ Carbon:
 
             # This works also with external files
             - //foo.bar/externalfile.php[async](js)
+
+          # This assets get loaded at the start of the <body>
+          HeadStart:
+            - NoscriptWarning.html
 
           # This assets get loaded at the end of the <body>
           Body:
