@@ -13,7 +13,7 @@ prototype(Carbon.IncludeAssets:Collection) < prototype(Neos.Fusion:Component) {
                 'Inline': PropTypes.dataStructure({
                     'CSS': PropTypes.string,
                     'JS': PropTypes.string,
-                    'MJS': PropTypes.string
+                    'MJS': PropTypes.string,
                     'HTML': PropTypes.string
                 }),
                 'File': PropTypes.dataStructure({
