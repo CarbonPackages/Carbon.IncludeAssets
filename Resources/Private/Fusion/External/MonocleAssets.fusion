@@ -1,0 +1,9 @@
+prototype(Carbon.IncludeAssets:MonocleAssets) < prototype(Carbon.IncludeAssets:Internal.Assets) {
+    prototype(Carbon.IncludeAssets:Case) {
+        alwaysInclude = true
+    }
+
+    prototype(Carbon.IncludeAssets:Internal.Package) {
+        monocle = true
+    }
+}

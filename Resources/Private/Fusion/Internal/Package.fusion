@@ -8,8 +8,12 @@ prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Compone
     // The config for the package
     config = Neos.Fusion:DataStructure
 
+    // Is this package rendererd in Monocle?
+    monocle = false
+
     // Internal property
     mergedConfig = ${Array.concat(Configuration.setting('Carbon.IncludeAssets.Default'), this.config)}
+    sitePackageKey = ${this.monocle ? sitePackageKey : node.context.currentSite.siteResourcesPackageKey}
 
     renderer = Neos.Fusion:Component {
         @if.hasCustomCondition = Neos.Fusion:Case {
@@ -22,7 +26,7 @@ prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Compone
                 renderer = true
             }
         }
-        assetPackage = ${props.mergedConfig.Package == 'SitePackage' ? node.context.currentSite.siteResourcesPackageKey : props.mergedConfig.Package}
+        assetPackage = ${props.mergedConfig.Package == 'SitePackage' ? props.sitePackageKey : props.mergedConfig.Package}
         cacheBuster = ${props.mergedConfig.CacheBuster}
         disableCacheBusterForPreloadAsset = ${props.mergedConfig.DisableCacheBusterForPreloadAsset}
         paths = ${props.mergedConfig.Path}
@@ -30,7 +34,7 @@ prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Compone
         collection = Neos.Fusion:Map {
             items = ${String.split(props.mergedConfig.Order, ',')}
             itemRenderer = Neos.Fusion:Value {
-                condition = ${item == 'General' || (item == 'Backend' && node.context.inBackend) || (item == 'Live' && node.context.live)}
+                condition = ${props.monocle ? item != 'Backend' : (item == 'General' || (item == 'Backend' && node.context.inBackend) || (item == 'Live' && node.context.live))}
                 value = ${this.condition ? props.mergedConfig[item][props.location] : false}
                 @process.convertToArray = ${Type.isString(value) ? String.split(value, ',') : value}
             }
