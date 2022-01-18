@@ -38,7 +38,7 @@ prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Compone
                 value = ${this.condition ? props.mergedConfig[item][props.location] : false}
                 @process.convertToArray = ${Type.isString(value) ? String.split(value, ',') : value}
             }
-            @process.filter = ${Carbon.Array.filter(Carbon.Array.extractSubElements(value))}
+            @process.filter = ${Array.filter(Carbon.Array.extractSubElements(value))}
         }
 
         renderer = afx`

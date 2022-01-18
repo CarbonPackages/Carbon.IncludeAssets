@@ -64,7 +64,7 @@ prototype(Carbon.IncludeAssets:ResourceHints.Items) < prototype(Neos.Fusion:Comp
     @if.set = ${this.items && this.rel && this.type && Type.isArray(this.items) && Array.length(this.items)}
 
     renderer = Neos.Fusion:Loop {
-        items = ${Carbon.Array.unique(props.items)}
+        items = ${Array.unique(props.items)}
         itemRenderer = Carbon.IncludeAssets:Internal.Tag.ResourceHint {
             rel = ${props.rel}
             fileObject = ${Carbon.IncludeAssets.parseFilename(item + '(' + props.type + ')')}
@@ -92,7 +92,7 @@ prototype(Carbon.IncludeAssets:ResourceHints.Nodes) < prototype(Neos.Fusion:Comp
     @if.set = ${this.items && this.rel && Type.isArray(this.items) && Array.length(this.items)}
 
     renderer = Neos.Fusion:Loop {
-        items = ${Carbon.Array.unique(props.items)}
+        items = ${Array.unique(props.items)}
         itemRenderer = afx`
             <link
                 rel={props.rel}
