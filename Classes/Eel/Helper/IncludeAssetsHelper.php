@@ -3,7 +3,6 @@
 namespace Carbon\IncludeAssets\Eel\Helper;
 
 use Neos\Flow\Annotations as Flow;
-use Neos\Eel\EvaluationException;
 use Neos\Eel\ProtectedContextAwareInterface;
 
 /**
