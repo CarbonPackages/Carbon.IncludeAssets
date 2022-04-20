@@ -198,6 +198,15 @@ You can set the property `fonts` e.g. `Lato|Open+Sans:400,700` and the `style` t
 
 This prototype renders the [resource hints] for the browser. Per default, this prototype read the [`Settings.yaml`](Configuration/Settings.yaml#L22-L28). But you can also pass `preloadNodes` or `prerenderNodes` (Array, FlowQuery, or a single node) for further optimization.
 
+## Usage with Sandstorm.CookiePunch
+
+If you have [Sandstorm.CookiePunch] installed, please add the following attribute to your script entry:
+
+```yaml
+  - YourJSFile.js[data-never-block]
+```
+
+
 ## Installation
 
 Most of the time, you have to make small adjustments to a package (e.g., the configuration in [`Settings.yaml`]). Because of that, it is important to add the corresponding package to the composer from your theme package. Mostly this is the site package located under `Packages/Sites/`. To install it correctly go to your theme package (e.g.`Packages/Sites/Foo.Bar`) and run following command:
@@ -225,3 +234,4 @@ The `--no-update` command prevent the automatic update of the dependencies. Afte
 [carbon.includeassets:googlefonts]: Resources/Private/Fusion/External/GoogleFonts.fusion
 [carbon.includeassets:resourcehints]: Resources/Private/Fusion/External/ResourceHints.fusion
 [resource hints]: https://www.smashingmagazine.com/2019/04/optimization-performance-resource-hints/
+[sandstorm.cookiepunch] :https://github.com/sandstorm/Sandstorm.CookiePunch
