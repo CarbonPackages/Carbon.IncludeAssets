@@ -234,4 +234,4 @@ The `--no-update` command prevent the automatic update of the dependencies. Afte
 [carbon.includeassets:googlefonts]: Resources/Private/Fusion/External/GoogleFonts.fusion
 [carbon.includeassets:resourcehints]: Resources/Private/Fusion/External/ResourceHints.fusion
 [resource hints]: https://www.smashingmagazine.com/2019/04/optimization-performance-resource-hints/
-[sandstorm.cookiepunch] :https://github.com/sandstorm/Sandstorm.CookiePunch
+[sandstorm.cookiepunch]: https://github.com/sandstorm/Sandstorm.CookiePunch
