@@ -9,7 +9,6 @@
 Carbon:
   IncludeAssets:
     LoadJSforCSSAsynchron: true
-    GoogleFonts: null # e.g. 'Lato|Open+Sans:400,700', for async loading e.g. 'Lato|Open+Sans:400,700[async]'
     ResourceHints:
       DnsPrefetch: [] # Add <link rel="dns-prefetch" href="Entry" />
       Preconnect: [] # Add <link rel="preconnect" href="Entry" />

@@ -23,7 +23,6 @@ prototype(Carbon.IncludeAssets:Internal.Assets) < prototype(Neos.Fusion:Componen
 
         renderer = afx`
             <Carbon.IncludeAssets:ResourceHints @if.head={props.inHead} />
-            <Carbon.IncludeAssets:GoogleFonts @if.head={props.inHead} />
             {props.filesFromPackages}
             <Carbon.IncludeAssets:File @if.render={props.loadAsyncCSS} file='resource://Carbon.IncludeAssets/Private/Templates/LoadCssAsync.js[inline]' />
         `

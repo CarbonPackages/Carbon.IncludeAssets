@@ -6,7 +6,7 @@ With this package, you get able to import all your CSS and Javascript assets wit
 
 - You can define multiple files from multiple packages.
 - You can pass the filenames as a string (comma separated) or as an array (recommended)
-- If you want to add attributes, add it with square brackets e.g.  
+- If you want to add attributes, add it with square brackets e.g.
   `Filename.js[async data-prop data-attr="true" class="-js-loader"]`
 - If you want to get a file included inline, add the attribute `inline`: e.g. `Filename.css[inline]`
 - You can add multiple resources per line. E. g. `Slider.js,Main.css,Footer.css[async class="footer-styles"],Header[inline class="header-styles"],//ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js[async]`
@@ -23,7 +23,6 @@ In [`Carbon.IncludeAssets`](Configuration/Settings.yaml#L19) following settings 
 | Key                     |  Description                                                                                                               |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `LoadJSforCSSAsynchron` | (boolean) If true the javascript for asynchronous CSS get inlined (If needed). Defaults to `true`                          |
-| `GoogleFonts`           | (string) If set, these fonts will included from Google. E.g. `Lato\|Open+Sans:400,700` Defaults to `null`                  |
 | `ResourceHints`         | (array) The setting, which global [resource hints] should be added.                                                        |
 | `Default`               | (array) The default setting for a `Packages` entry. If a key is not set within a `Packages` entry, this value will be used |
 
@@ -31,16 +30,16 @@ In [`Carbon.IncludeAssets`](Configuration/Settings.yaml#L19) following settings 
 
 In `Carbon.IncludeAssets.Packages` you can define your packages, which should output assets. The keys get sorted first by numbers, then by characters. Like that, it is possible to define a load order for you packages. A single entry can have following entries (The Defaults are stored in [`Carbon.IncludeAssets.Default`](Configuration/Settings.yaml#L30)):
 
-| Key                  |  Description                                                                                                                                                                                                                                            |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `Package`            | (string) The package key. If it set to `SitePackage`, it will be replaced automatically with the package key from the site package. Defaults to `SitePackage`                                                                                           |
-| `CacheBuster`        | (boolean) Append a hash value from the content of the file. Defaults to `true`                                                                                                                                                                          |
-| `ConditionPrototype` | (string) If set, the files get only included if the fusion prototype returns a truthy value. Defaults to `null`                                                                                                                                         |
-| `Wrapper`            | (string) If set, the generated tags will be wrapped. `{content}` will be replaced with the tags. Example: `'<!--[if lt IE 9]>{content}<![endif]-->'`                                                                                                    |
+| Key                  |  Description                                                                                                                                                                                                                                                    |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Package`            | (string) The package key. If it set to `SitePackage`, it will be replaced automatically with the package key from the site package. Defaults to `SitePackage`                                                                                                   |
+| `CacheBuster`        | (boolean) Append a hash value from the content of the file. Defaults to `true`                                                                                                                                                                                  |
+| `ConditionPrototype` | (string) If set, the files get only included if the fusion prototype returns a truthy value. Defaults to `null`                                                                                                                                                 |
+| `Wrapper`            | (string) If set, the generated tags will be wrapped. `{content}` will be replaced with the tags. Example: `'<!--[if lt IE 9]>{content}<![endif]-->'`                                                                                                            |
 | `Path`               | (array) Define the files get loaded from. There are different paths for inline and linked files. Every type (`css`,`js`, `mjs`, `html`, `preloadasset`, `preloadcss`, `preloadscript` or `modulepreload`) can have a different path inside the Resources folder |
-| `General`            | (array) Asset files who get loaded in live and backend view. Contains four entries: `Head`, `Body`, `HeadStart` and `BodyStart`                                                                                                                                                    |
-| `Backend`            | (array) Asset files that get loaded only in the backend view. Contains four entries: `Head`, `Body`, `HeadStart` and `BodyStart`                                                                                                                                                   |
-| `Live`               | (array) Asset files that get loaded only in the live view. Contains four entries: `Head`, `Body`, `HeadStart` and `BodyStart`                                                                                                                                                     |
+| `General`            | (array) Asset files who get loaded in live and backend view. Contains four entries: `Head`, `Body`, `HeadStart` and `BodyStart`                                                                                                                                 |
+| `Backend`            | (array) Asset files that get loaded only in the backend view. Contains four entries: `Head`, `Body`, `HeadStart` and `BodyStart`                                                                                                                                |
+| `Live`               | (array) Asset files that get loaded only in the live view. Contains four entries: `Head`, `Body`, `HeadStart` and `BodyStart`                                                                                                                                   |
 
 ## Example
 
@@ -50,7 +49,6 @@ Here is a small example:
 Carbon:
   IncludeAssets:
     LoadJSforCSSAsynchron: true
-    GoogleFonts: "Lato|Open+Sans:400,700&display=swap[async]"
     ResourceHints:
       # Preconnect to these domains
       Preconnect:
@@ -190,10 +188,6 @@ The heart of this package. This prototype generates a `script`, `style`, and `li
 | `assetPath`    | (string) The path to the file inside the Resources folder. Per default, it is set dynamically                                                   |
 | `wrapper`      | (string) If set, the tag will be wrapped. `{content}` will be replaced with the tag. Example: `'<!--[if lt IE 9]>{content}<![endif]-->'`        |
 
-### [Carbon.IncludeAssets:GoogleFonts]
-
-You can set the property `fonts` e.g. `Lato|Open+Sans:400,700` and the `style` tag get generated. Per default, this prototype read the [`Settings.yaml`](Configuration/Settings.yaml#L21).
-
 ### [Carbon.IncludeAssets:ResourceHints]
 
 This prototype renders the [resource hints] for the browser. Per default, this prototype read the [`Settings.yaml`](Configuration/Settings.yaml#L22-L28). But you can also pass `preloadNodes` or `prerenderNodes` (Array, FlowQuery, or a single node) for further optimization.
@@ -203,9 +197,8 @@ This prototype renders the [resource hints] for the browser. Per default, this p
 If you have [Sandstorm.CookiePunch] installed, please add the following attribute to your script entry:
 
 ```yaml
-  - YourJSFile.js[data-never-block]
+- YourJSFile.js[data-never-block]
 ```
-
 
 ## Installation
 
@@ -231,7 +224,6 @@ The `--no-update` command prevent the automatic update of the dependencies. Afte
 [carbon.includeassets:case]: Resources/Private/Fusion/External/Case.fusion
 [carbon.includeassets:collection]: Resources/Private/Fusion/External/Collection.fusion
 [carbon.includeassets:file]: Resources/Private/Fusion/External/File.fusion
-[carbon.includeassets:googlefonts]: Resources/Private/Fusion/External/GoogleFonts.fusion
 [carbon.includeassets:resourcehints]: Resources/Private/Fusion/External/ResourceHints.fusion
 [resource hints]: https://www.smashingmagazine.com/2019/04/optimization-performance-resource-hints/
 [sandstorm.cookiepunch]: https://github.com/sandstorm/Sandstorm.CookiePunch
