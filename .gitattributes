@@ -10,4 +10,3 @@
 /.yarnclean export-ignore
 /CODE_OF_CONDUCT.md export-ignore
 /package.json export-ignore
-/rollup.config.js export-ignore
