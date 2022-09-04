@@ -1,6 +1,6 @@
 prototype(Carbon.IncludeAssets:Internal.Tag) < prototype(Neos.Fusion:Component) {
-    path = null
-    fileObject = null
+    path = ${null}
+    fileObject = ${null}
     cacheBuster = false
     async = ${this.fileObject.async}
     external = ${this.fileObject.external}
@@ -30,7 +30,7 @@ prototype(Carbon.IncludeAssets:Internal.Tag) < prototype(Neos.Fusion:Component) 
 
 prototype(Carbon.IncludeAssets:Internal.Tag.ResourceHint) < prototype(Carbon.IncludeAssets:Internal.Tag) {
     async = false
-    rel = null
+    rel = ${null}
     disableCacheBusterForPreloadAsset = true
     cacheBuster.@process.disableForPreloadasset = ${this.disableCacheBusterForPreloadAsset && this.fileObject && this.fileObject.type == 'PRELOADASSET' ? false : value}
     @if.hasRel = ${this.rel}

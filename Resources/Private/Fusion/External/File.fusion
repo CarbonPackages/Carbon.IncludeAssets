@@ -12,12 +12,12 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
         wrapper = ${PropTypes.string}
     }
 
-    file = null
+    file = ${null}
     assetPackage = ${node.context.currentSite.siteResourcesPackageKey}
     cacheBuster = ${Configuration.setting('Carbon.IncludeAssets.Default.CacheBuster')}
     disableCacheBusterForPreloadAsset = ${Configuration.setting('Carbon.IncludeAssets.Default.DisableCacheBusterForPreloadAsset')}
-    assetPath = null
-    wrapper = null
+    assetPath = ${null}
+    wrapper = ${null}
 
     // This is a internal variable, please use `assetPath` for an single file
     paths = ${Configuration.setting('Carbon.IncludeAssets.Default.Path')}

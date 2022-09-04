@@ -4,7 +4,7 @@
 
 prototype(Carbon.IncludeAssets:Internal.Assets) < prototype(Neos.Fusion:Component) {
     // Body || Head || BodyStart || HeadStart
-    location = null
+    location = ${null}
 
     loadJSforCSSAsynchron = ${Configuration.setting('Carbon.IncludeAssets.LoadJSforCSSAsynchron') && this.location == 'Head'}
     packages = ${Configuration.setting('Carbon.IncludeAssets.Packages')}

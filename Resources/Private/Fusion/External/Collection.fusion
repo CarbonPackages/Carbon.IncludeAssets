@@ -31,11 +31,11 @@ prototype(Carbon.IncludeAssets:Collection) < prototype(Neos.Fusion:Component) {
     }
 
     collection = ${[]}
-    assetPackage = null
+    assetPackage = ${null}
     cacheBuster = ${Configuration.setting('Carbon.IncludeAssets.Default.CacheBuster')}
     disableCacheBusterForPreloadAsset = ${Configuration.setting('Carbon.IncludeAssets.Default.DisableCacheBusterForPreloadAsset')}
     paths = ${Configuration.setting('Carbon.IncludeAssets.Default.Path')}
-    wrapper = null
+    wrapper = ${null}
 
     @if.hasAssetPackage = ${this.assetPackage && Type.isArray(this.collection) && Array.length(this.collection)}
 

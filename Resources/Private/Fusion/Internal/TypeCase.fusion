@@ -7,7 +7,7 @@
  */
 
 prototype(Carbon.IncludeAssets:Internal.TypeCase) < prototype(Neos.Fusion:Component) {
-    type = null
+    type = ${null}
     html = ''
     js = ''
     css = ''

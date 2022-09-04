@@ -9,7 +9,7 @@ prototype(Carbon.IncludeAssets:Case) < prototype(Neos.Fusion:Component) {
         alwaysInclude = ${PropTypes.boolean}
     }
 
-    mixin = null
+    mixin = ${null}
     document = ${this.mixin}
     content = ${this.mixin}
     appendFilter = ''

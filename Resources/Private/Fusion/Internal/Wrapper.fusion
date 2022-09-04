@@ -1,6 +1,6 @@
 prototype(Carbon.IncludeAssets:Internal.Wrapper) < prototype(Neos.Fusion:Value) {
     content = ${value}
-    wrapper = null
+    wrapper = ${null}
     wrapper.@if.hasContent = ${this.content}
     wrapper.@process.split = ${value && Type.isString(value) ? String.split(value, '{content}') : null}
     nl = ${String.chr(10)}

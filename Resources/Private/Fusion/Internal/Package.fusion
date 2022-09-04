@@ -4,7 +4,7 @@
 
 prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Component) {
     // Body || Head || BodyStart || HeadStart
-    location = null
+    location = ${null}
     // The config for the package
     config = Neos.Fusion:DataStructure
 

@@ -30,9 +30,9 @@ prototype(Carbon.IncludeAssets:ResourceHints) < prototype(Neos.Fusion:Component)
     modulePreload = ${Configuration.setting('Carbon.IncludeAssets.ResourceHints.ModulePreload')}
 
     // Pass documentNodes who should be preloaded (Array, FlowQuery or a single node)
-    preloadNodes = null
+    preloadNodes = ${null}
     // Pass documentNodes who should be prerendererd (Array, FlowQuery or a single node)
-    prerenderNodes = null
+    prerenderNodes = ${null}
 
     renderer = afx`
         <Carbon.IncludeAssets:ResourceHints.Items @key='dnsPrefetch' items={props.dnsPrefetch} rel='dns-prefetch' />
@@ -54,8 +54,8 @@ prototype(Carbon.IncludeAssets:ResourceHints.Items) < prototype(Neos.Fusion:Comp
         type = ${PropTypes.oneOf(['modulepreload', 'resourcehint'])}
     }
 
-    items = null
-    rel = null
+    items = ${null}
+    rel = ${null}
     type = ${this.rel == 'modulepreload' ? 'modulepreload' : 'resourcehint'}
 
 
@@ -80,9 +80,9 @@ prototype(Carbon.IncludeAssets:ResourceHints.Nodes) < prototype(Neos.Fusion:Comp
         type = ${PropTypes.string}
     }
 
-    items = null
-    rel = null
-    as = null
+    items = ${null}
+    rel = ${null}
+    as = ${null}
 
     // Internal
     items.@process {
@@ -106,4 +106,3 @@ prototype(Carbon.IncludeAssets:ResourceHints.Nodes) < prototype(Neos.Fusion:Comp
         `
     }
 }
-
