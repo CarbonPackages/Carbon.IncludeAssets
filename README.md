@@ -102,7 +102,7 @@ Carbon:
             - //foo.bar/externalfile.php[async](js)
 
           # This assets get loaded at the start of the <body>
-          HeadStart:
+          BodyStart:
             - NoscriptWarning.html
 
           # This assets get loaded at the end of the <body>
