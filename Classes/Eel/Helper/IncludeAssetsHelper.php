@@ -21,6 +21,14 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
 
     public function parseFilename(string $string): ?array
     {
+        // The string is a plain html tag
+        if (str_starts_with($string, '<') && str_ends_with($string, '>')) {
+            return [
+                'type' => 'PLAIN',
+                'markup' => $string,
+            ];
+        }
+
         $types = array('html', 'js', 'css', 'mjs', 'resourcehint', 'preloadasset', 'preloadcss', 'preloadscript', 'modulepreload');
         // 1 => Filename
         // 2 => Search string
@@ -88,7 +96,7 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
                             if ($key != 'src') {
                                 $object['attributes'] .= ' ' . $key . $value;
                             }
-                        } else if ($key != 'href' && $key != 'rel') {
+                        } elseif ($key != 'href' && $key != 'rel') {
                             // CSS and Preload files
                             $object['attributes'] .= ' ' . $key . $value;
                         }

@@ -68,6 +68,9 @@ Carbon:
           HeadStart:
             - Favicons.html
 
+            # If a string starts with < and ends with an >, it get's inlucded as plain HTML
+            - <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
           # These assets get loaded in the <head> (at the end)
           Head:
             # Preload this Javascript

@@ -30,14 +30,21 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
         fileObject = ${Carbon.IncludeAssets.parseFilename(props.file)}
         assetKey = ${this.fileObject.inline ? 'Inline' : 'File'}
         type = ${this.fileObject.type}
+        isPlain = ${this.type == 'PLAIN'}
         finalAssetPath = ${props.assetPath || props.paths[this.assetKey][this.type]}
         path = ${this.fileObject.external || this.fileObject.path ? this.fileObject.filename : this.assetPackage && this.finalAssetPath ? 'resource://' + this.assetPackage + '/' + this.finalAssetPath + '/' + this.fileObject.filename : false}
+        path.@if.isNotPlain = ${!this.isPlain}
 
-        @if.hasPath = ${this.path}
+        @if.hasPath = ${this.isPlain || this.path}
 
         renderer = Neos.Fusion:Case {
             @process.wrapper = Carbon.IncludeAssets:Internal.Wrapper {
                 wrapper = ${props.wrapper}
+            }
+
+            isPlain {
+                condition = ${props.isPlain}
+                renderer = ${props.fileObject.markup}
             }
 
             inlineFile {
