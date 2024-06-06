@@ -16,7 +16,7 @@ prototype(Carbon.IncludeAssets:Case) < prototype(Neos.Fusion:Component) {
     contentCollection = '[instanceof Neos.Neos:ContentCollection]'
     documentNode = ${documentNode}
 
-    alwaysInclude = ${node.context.inBackend}
+    alwaysInclude = ${renderingMode.isEdit}
 
     renderer = Neos.Fusion:Case {
         alwaysInclude {
