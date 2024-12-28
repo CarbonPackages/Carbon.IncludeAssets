@@ -77,7 +77,7 @@ prototype(Carbon.IncludeAssets:ResourceHints.Nodes) < prototype(Neos.Fusion:Comp
     @propTypes {
         items = ${PropTypes.arrayOf( PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\Node') )}
         rel = ${PropTypes.oneOf(['preload', 'prerender'])}
-        type = ${PropTypes.string}
+        as = ${PropTypes.string}
     }
 
     items = ${null}
