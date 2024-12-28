@@ -2,7 +2,7 @@
 
 # Carbon.IncludeAssets Package for Neos CMS
 
-With this package, you get able to import all your CSS and Javascript assets with few lines of code in [`Settings.yaml`]. The best practice is to include `carbon/includeassets` into your `composer.json` from your site package. After that, you can just add your settings. Besides the filenames, you are also able to pass all your necessary attributes to the tags. If you are not able to provide a file extension, you can force the type via `(css)`, `(js)` or `(mjs)` at the end.
+With this package, you get able to import all your CSS and Javascript assets with few lines of code in [`Settings.Carbon.yaml`]. The best practice is to include `carbon/includeassets` into your `composer.json` from your site package. After that, you can just add your settings. Besides the filenames, you are also able to pass all your necessary attributes to the tags. If you are not able to provide a file extension, you can force the type via `(css)`, `(js)` or `(mjs)` at the end.
 
 - You can define multiple files from multiple packages.
 - You can pass the filenames as a string (comma separated) or as an array (recommended)
@@ -18,7 +18,7 @@ With this package, you get able to import all your CSS and Javascript assets wit
 
 ## Structure of the Settings
 
-In [`Carbon.IncludeAssets`](Configuration/Settings.yaml#L19) following settings are available:
+In [`Carbon.IncludeAssets`](Configuration/Settings.Carbon.yaml) following settings are available:
 
 | Key                     |  Description                                                                                                               |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------------- |
@@ -28,7 +28,7 @@ In [`Carbon.IncludeAssets`](Configuration/Settings.yaml#L19) following settings 
 
 ### Structure of Packages entry
 
-In `Carbon.IncludeAssets.Packages` you can define your packages, which should output assets. The keys get sorted first by numbers, then by characters. Like that, it is possible to define a load order for you packages. A single entry can have following entries (The Defaults are stored in [`Carbon.IncludeAssets.Default`](Configuration/Settings.yaml#L30)):
+In `Carbon.IncludeAssets.Packages` you can define your packages, which should output assets. The keys get sorted first by numbers, then by characters. Like that, it is possible to define a load order for you packages. A single entry can have following entries (The Defaults are stored in [`Carbon.IncludeAssets.Default`](Configuration/Settings.Carbon.yaml#L20-L58)):
 
 | Key                  |  Description                                                                                                                                                                                                                                                    |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -148,7 +148,7 @@ Carbon:
             - plyr.css
 ```
 
-Take a look at the [`Settings.yaml`]. There you see all the available options.
+Take a look at the [`Settings.Carbon.yaml`]. There you see all the available options.
 
 ## Fusion Prototypes
 
@@ -171,29 +171,29 @@ This prototype is a small helper to write prototypes for the `ConditionPrototype
 
 This prototype generates your `script`, `style` and `link` tags from the files which are defined in the property `collection`.
 
-| Property       | Description                                                                                                                                                               |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `collection`   | (array with strings) The collection with the filenames. (Example: ['Main.css','Main.js[defer]']) Defaults to `[]`                                                         |
-| `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `null`                                                                                           |
-| `cacheBuster`  | (boolean) Append a hash value from the content of the file. Defaults to the value set in the [`Settings.yaml`](Configuration/Settings.yaml#L32)                           |
-| `paths`        | (array) The paths to the internal and external files inside the Resources folder. Defaults to the value set in the [`Settings.yaml`](Configuration/Settings.yaml#L34-L46) |
-| `wrapper`      | (string) If set, the generated tags will be wrapped. `{content}` will be replaced with the tags. Example: `'<!--[if lt IE 9]>{content}<![endif]-->'`                      |
+| Property       | Description                                                                                                                                                                             |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `collection`   | (array with strings) The collection with the filenames. (Example: ['Main.css','Main.js[defer]']) Defaults to `[]`                                                                       |
+| `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `null`                                                                                                         |
+| `cacheBuster`  | (boolean) Append a hash value from the content of the file. Defaults to the value set in the [`Settings.Carbon.yaml`](Configuration/Settings.Carbon.yaml#L22)                           |
+| `paths`        | (array) The paths to the internal and external files inside the Resources folder. Defaults to the value set in the [`Settings.Carbon.yaml`](Configuration/Settings.Carbon.yaml#L27-L40) |
+| `wrapper`      | (string) If set, the generated tags will be wrapped. `{content}` will be replaced with the tags. Example: `'<!--[if lt IE 9]>{content}<![endif]-->'`                                    |
 
 ### [Carbon.IncludeAssets:File]
 
 The heart of this package. This prototype generates a `script`, `style`, and `link` tag. You can pass a `file` (with or without the path). Be aware that you can also pass the attributes like described on top. To force a type you can write `(js)`, `(css)`, `(preloadasset)`, `(preloadcss)`, `(preloadscript)` or `(modulepreload)` at the end of `file`.
 
-| Property       | Description                                                                                                                                     |
-| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `file`         | (string) The filename. You have to write it in the same way as it would be defined in the Settings.yaml file. Defaults to `null`                |
-| `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `node.context.currentSite.siteResourcesPackageKey`                     |
-| `cacheBuster`  | (boolean) Append a hash value from the content of the file. Defaults to the value set in the [`Settings.yaml`](Configuration/Settings.yaml#L32) |
-| `assetPath`    | (string) The path to the file inside the Resources folder. Per default, it is set dynamically                                                   |
-| `wrapper`      | (string) If set, the tag will be wrapped. `{content}` will be replaced with the tag. Example: `'<!--[if lt IE 9]>{content}<![endif]-->'`        |
+| Property       | Description                                                                                                                                                   |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `file`         | (string) The filename. You have to write it in the same way as it would be defined in the Settings.yaml file. Defaults to `null`                              |
+| `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `node.context.currentSite.siteResourcesPackageKey`                                   |
+| `cacheBuster`  | (boolean) Append a hash value from the content of the file. Defaults to the value set in the [`Settings.Carbon.yaml`](Configuration/Settings.Carbon.yaml#L22) |
+| `assetPath`    | (string) The path to the file inside the Resources folder. Per default, it is set dynamically                                                                 |
+| `wrapper`      | (string) If set, the tag will be wrapped. `{content}` will be replaced with the tag. Example: `'<!--[if lt IE 9]>{content}<![endif]-->'`                      |
 
 ### [Carbon.IncludeAssets:ResourceHints]
 
-This prototype renders the [resource hints] for the browser. Per default, this prototype read the [`Settings.yaml`](Configuration/Settings.yaml#L22-L28). But you can also pass `preloadNodes` or `prerenderNodes` (Array, FlowQuery, or a single node) for further optimization.
+This prototype renders the [resource hints] for the browser. Per default, this prototype read the [`Settings.Carbon.yaml`](Configuration/Settings.Carbon.yaml#L12-L18). But you can also pass `preloadNodes` or `prerenderNodes` (Array, FlowQuery, or a single node) for further optimization.
 
 ## Usage with Sandstorm.CookiePunch
 
@@ -205,7 +205,7 @@ If you have [Sandstorm.CookiePunch] installed, please add the following attribut
 
 ## Installation
 
-Most of the time, you have to make small adjustments to a package (e.g., the configuration in [`Settings.yaml`]). Because of that, it is important to add the corresponding package to the composer from your theme package. Mostly this is the site package located under `Packages/Sites/`. To install it correctly go to your theme package (e.g.`Packages/Sites/Foo.Bar`) and run following command:
+Most of the time, you have to make small adjustments to a package (e.g., the configuration in [`Settings.Carbon.yaml`]). Because of that, it is important to add the corresponding package to the composer from your theme package. Mostly this is the site package located under `Packages/Sites/`. To install it correctly go to your theme package (e.g.`Packages/Sites/Foo.Bar`) and run following command:
 
 ```bash
 composer require carbon/includeassets --no-update
@@ -223,7 +223,7 @@ The `--no-update` command prevent the automatic update of the dependencies. Afte
 [fork]: https://github.com/CarbonPackages/Carbon.IncludeAssets/fork
 [stargazers]: https://github.com/CarbonPackages/Carbon.IncludeAssets/stargazers
 [subscription]: https://github.com/CarbonPackages/Carbon.IncludeAssets/subscription
-[`settings.yaml`]: Configuration/Settings.yaml
+[`settings.carbon.yaml`]: Configuration/Settings.Carbon.yaml
 [carbon.includeassets:case]: Resources/Private/Fusion/External/Case.fusion
 [carbon.includeassets:collection]: Resources/Private/Fusion/External/Collection.fusion
 [carbon.includeassets:file]: Resources/Private/Fusion/External/File.fusion
