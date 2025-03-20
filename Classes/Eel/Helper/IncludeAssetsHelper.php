@@ -2,8 +2,10 @@
 
 namespace Carbon\IncludeAssets\Eel\Helper;
 
-use Neos\Flow\Annotations as Flow;
 use Neos\Eel\ProtectedContextAwareInterface;
+use Neos\Flow\Annotations as Flow;
+use Neos\Utility\PositionalArraySorter;
+use Traversable;
 
 /**
  * Helpers for Eel contexts
@@ -12,6 +14,33 @@ use Neos\Eel\ProtectedContextAwareInterface;
  */
 class IncludeAssetsHelper implements ProtectedContextAwareInterface
 {
+    /**
+     * Sort an array by key and position
+     *
+     * @param mixed $array The array to sort
+     * @return array|null
+     */
+    public function sort(mixed $array): ?array
+    {
+        if ($array instanceof Traversable) {
+            $array = iterator_to_array($array);
+        }
+        if (!is_array($array)) {
+            return null;
+        }
+        $array = array_filter($array);
+        if (empty($array)) {
+            return null;
+        }
+
+        // Sort the array by key
+        \ksort($array, SORT_NATURAL | SORT_FLAG_CASE);
+
+        // Sort array by position key
+        $sorter = new PositionalArraySorter($array);
+        return $sorter->toArray();
+    }
+
     /**
      * Parse a filename and return an array with all the properties
      *

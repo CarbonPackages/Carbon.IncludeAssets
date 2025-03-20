@@ -57,4 +57,4 @@ Carbon:
         BodyStart: null
         Body: null
 #    Packages:
-#    Packages keys get sorted first by numbers, then by characters.
+#    Packages keys get sorted first by numbers, then by characters. After that, it is sorted by the position key.

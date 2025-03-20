@@ -38,6 +38,7 @@ for you packages. A single entry can have following entries (The Defaults are st
 
 | Key                  |  Description                                                                                                                                                                                                                                                    |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `position`           | (string or integer) By using position, it is possible to define the order. The position setting follows the same sorting logic used in Fusion (see the [Fusion Reference]).                                                                                     |
 | `Package`            | (string) The package key. If it set to `SitePackage`, it will be replaced automatically with the package key from the site package. Defaults to `SitePackage`                                                                                                   |
 | `CacheBuster`        | (boolean) Append a hash value from the content of the file. Defaults to `true`                                                                                                                                                                                  |
 | `ConditionPrototype` | (string) If set, the files get only included if the fusion prototype returns a truthy value. Defaults to `null`                                                                                                                                                 |
@@ -63,8 +64,9 @@ Carbon:
         - "https://www.googletagmanager.com"
 
     Packages:
-      # The keys get sorted first by numbers, then by characters.
-      aa_Theme:
+      # The keys get sorted first by numbers, then by characters. After that, by position
+      Theme:
+        position: start
         # Because no Package is defined, SitePackage from the default
         # will be used and will set to the site package.
 
@@ -235,6 +237,7 @@ The `--no-update` command prevent the automatic update of the dependencies. Afte
 [fork]: https://github.com/CarbonPackages/Carbon.IncludeAssets/fork
 [stargazers]: https://github.com/CarbonPackages/Carbon.IncludeAssets/stargazers
 [subscription]: https://github.com/CarbonPackages/Carbon.IncludeAssets/subscription
+[fusion reference]: https://neos.readthedocs.io/en/stable/References/NeosFusionReference.html#neos-fusion-join
 [`settings.carbon.yaml`]: Configuration/Settings.Carbon.yaml
 [carbon.includeassets:case]: Resources/Private/Fusion/External/Case.fusion
 [carbon.includeassets:collection]: Resources/Private/Fusion/External/Collection.fusion
