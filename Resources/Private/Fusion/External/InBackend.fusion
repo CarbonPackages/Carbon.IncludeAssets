@@ -1,10 +1,10 @@
-prototype(Carbon.IncludeAssets:InBackend) < prototype(Neos.Fusion:Value) {
-    node = ${node}
-
-    // Neos 9 compatible
-    //renderingMode = ${renderingMode ? renderingMode.isEdit : null}
-
-    // Neos 8 compatible
-    value = ${this.node.context.inBackend}
-    // value = ${Type.isBoolean(this.renderingMode) ? this.renderingMode : this.node.context.inBackend}
+prototype(Carbon.IncludeAssets:InBackend) < prototype(Neos.Fusion:Case) {
+    isNeosNine {
+        condition = Carbon.IncludeAssets:Internal.NeosNine
+        renderer = ${renderingMode.isEdit}
+    }
+    olderVersion {
+        condition = true
+        renderer = ${node.context.inBackend}
+    }
 }

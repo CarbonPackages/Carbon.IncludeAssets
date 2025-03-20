@@ -13,12 +13,16 @@ prototype(Carbon.IncludeAssets:ResourceHints) < prototype(Neos.Fusion:Component)
         preloadNodes = ${PropTypes.anyOf(
             PropTypes.instanceOf('Neos\Eel\FlowQuery\FlowQuery'),
             PropTypes.arrayOf( PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\Node') ),
-            PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\Node')
+            PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\Node'),
+            PropTypes.arrayOf( PropTypes.instanceOf('Neos\ContentRepository\Core\Projection\ContentGraph\Node') ),
+            PropTypes.instanceOf('Neos\ContentRepository\Core\Projection\ContentGraph\Node')
         )}
         prerenderNodes = ${PropTypes.anyOf(
             PropTypes.instanceOf('Neos\Eel\FlowQuery\FlowQuery'),
             PropTypes.arrayOf( PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\Node') ),
-            PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\Node')
+            PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\Node'),
+            PropTypes.arrayOf( PropTypes.instanceOf('Neos\ContentRepository\Core\Projection\ContentGraph\Node') ),
+            PropTypes.instanceOf('Neos\ContentRepository\Core\Projection\ContentGraph\Node')
         )}
     }
 
@@ -75,7 +79,12 @@ prototype(Carbon.IncludeAssets:ResourceHints.Items) < prototype(Neos.Fusion:Comp
 
 prototype(Carbon.IncludeAssets:ResourceHints.Nodes) < prototype(Neos.Fusion:Component) {
     @propTypes {
-        items = ${PropTypes.arrayOf( PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\Node') )}
+        items = ${PropTypes.anyOf(
+            PropTypes.arrayOf( PropTypes.instanceOf('Neos\ContentRepository\Domain\Model\Node') ),
+            PropTypes.arrayOf( PropTypes.instanceOf('Neos\ContentRepository\Core\Projection\ContentGraph\Node') ),
+            PropTypes.instanceOf('Neos\ContentRepository\Core\Projection\ContentGraph\Nodes')
+        )}
+
         rel = ${PropTypes.oneOf(['preload', 'prerender'])}
         as = ${PropTypes.string}
     }
@@ -88,6 +97,7 @@ prototype(Carbon.IncludeAssets:ResourceHints.Nodes) < prototype(Neos.Fusion:Comp
     items.@process {
         convertFlowQueryToArray = ${Type.instance(value, 'Neos\Eel\FlowQuery\FlowQuery') ? value.get() : value}
         convertSingleToArray = ${Type.instance(value, 'Neos\ContentRepository\Domain\Model\Node') ? [value] : value}
+        convertSingleContentGraphToArray = ${Type.instance(value, 'Neos\ContentRepository\Core\Projection\ContentGraph\Node') ? [value] : value}
     }
     @if.set = ${this.items && this.rel && Type.isArray(this.items) && Array.length(this.items)}
 
@@ -97,7 +107,7 @@ prototype(Carbon.IncludeAssets:ResourceHints.Nodes) < prototype(Neos.Fusion:Comp
             <link
                 rel={props.rel}
                 as={props.as}
-                @if.isNode={Type.instance(item, 'Neos\ContentRepository\Domain\Model\Node')}
+                @if.isNode={Type.instance(item, 'Neos\ContentRepository\Domain\Model\Node') || Type.instance(item, 'Neos\ContentRepository\Core\Projection\ContentGraph\Node')}
                 @if.isNotCurrent={documentNode != item}
                 @if.isDocument={q(item).is('[instanceof Neos.Neos:Document]')}
             >
