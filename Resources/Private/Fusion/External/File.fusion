@@ -22,6 +22,8 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
     // This is a internal variable, please use `assetPath` for an single file
     paths = ${Configuration.setting('Carbon.IncludeAssets.Default.Path')}
 
+    inBackend = Carbon.IncludeAssets:InBackend
+
     @if.fileIsSet = ${this.file}
 
     renderer = Neos.Fusion:Component {
@@ -61,7 +63,7 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
                 renderer = Carbon.IncludeAssets:Internal.TypeCase {
                     type = ${props.type}
                     css = afx`
-                        <Carbon.IncludeAssets:Internal.Tag.CSS path={props.path} fileObject={props.fileObject} cacheBuster={props.cacheBuster} async={this.fileObject.async ? node.context.live : false} />
+                        <Carbon.IncludeAssets:Internal.Tag.CSS path={props.path} fileObject={props.fileObject} cacheBuster={props.cacheBuster} async={this.fileObject.async ? !props.inBackend : false} />
                     `
                     js = afx`
                         <Carbon.IncludeAssets:Internal.Tag.JS path={props.path} fileObject={props.fileObject} cacheBuster={props.cacheBuster} />
