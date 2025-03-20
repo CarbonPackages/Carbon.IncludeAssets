@@ -2,8 +2,9 @@ prototype(Carbon.IncludeAssets:InBackend) < prototype(Neos.Fusion:Value) {
     node = ${node}
 
     // Neos 9 compatible
-    renderingMode = ${renderingMode ? renderingMode.isEdit : null}
+    //renderingMode = ${renderingMode ? renderingMode.isEdit : null}
 
     // Neos 8 compatible
-    value = ${Type.isBoolean(this.renderingMode) ? this.renderingMode : this.node.context.inBackend}
+    value = ${this.node.context.inBackend}
+    // value = ${Type.isBoolean(this.renderingMode) ? this.renderingMode : this.node.context.inBackend}
 }
