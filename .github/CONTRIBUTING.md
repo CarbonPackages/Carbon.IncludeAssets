@@ -6,8 +6,7 @@ I love to welcome your contributions. There are several ways to help out:
 - Write test cases or provide examples for open bug issues
 - Write patches for open bug/feature issues, preferably with test cases included
 
-There are a few guidelines that I need contributors to follow so that I have a
-chance of keeping on top of things.
+There are a few guidelines that I need contributors to follow so that I have a chance of keeping on top of things.
 
 ## Getting Started
 
@@ -21,10 +20,9 @@ chance of keeping on top of things.
 
 - Create a topic branch from where you want to base your work.
   - This is usually the master branch.
-  - Only target release branches if you are certain your fix must be on that
-    branch.
-  - To quickly create a topic branch based on master; `git branch master/my_contribution master` then checkout the new branch with `git checkout master/my_contribution`. Better avoid working directly on the
-    `master` branch, to avoid conflicts if you pull in updates from origin.
+  - Only target release branches if you are certain your fix must be on that branch.
+  - To quickly create a topic branch based on master; `git branch master/my_contribution master` then checkout the new branch with `git checkout master/my_contribution`. Better avoid working directly
+    on the `master` branch, to avoid conflicts if you pull in updates from origin.
 - Make commits of logical units.
 - Check for unnecessary whitespace with `git diff --check` before committing.
 - Use descriptive commit messages and reference the #issue number.

@@ -2,19 +2,24 @@
 
 # Carbon.IncludeAssets Package for Neos CMS
 
-With this package, you get able to import all your CSS and Javascript assets with few lines of code in [`Settings.Carbon.yaml`]. The best practice is to include `carbon/includeassets` into your `composer.json` from your site package. After that, you can just add your settings. Besides the filenames, you are also able to pass all your necessary attributes to the tags. If you are not able to provide a file extension, you can force the type via `(css)`, `(js)` or `(mjs)` at the end.
+With this package, you get able to import all your CSS and Javascript assets with few lines of code in [`Settings.Carbon.yaml`]. The best practice is to include `carbon/includeassets` into your
+`composer.json` from your site package. After that, you can just add your settings. Besides the filenames, you are also able to pass all your necessary attributes to the tags. If you are not able to
+provide a file extension, you can force the type via `(css)`, `(js)` or `(mjs)` at the end.
 
 - You can define multiple files from multiple packages.
 - You can pass the filenames as a string (comma separated) or as an array (recommended)
-- If you want to add attributes, add it with square brackets e.g.
-  `Filename.js[async data-prop data-attr="true" class="-js-loader"]`
+- If you want to add attributes, add it with square brackets e.g. `Filename.js[async data-prop data-attr="true" class="-js-loader"]`
 - If you want to get a file included inline, add the attribute `inline`: e.g. `Filename.css[inline]`
-- You can add multiple resources per line. E. g. `Slider.js,Main.css,Footer.css[async class="footer-styles"],Header[inline class="header-styles"],//ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js[async]`
+- You can add multiple resources per line. E. g.
+  `Slider.js,Main.css,Footer.css[async class="footer-styles"],Header[inline class="header-styles"],//ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js[async]`
 - CSS can also be loaded asynchronously: Add `async` as an attribute, e.g. `Filename.css[async]`
 - If you want to add Google Fonts, you can write them down the fonts, e.g. `Lato|Open+Sans:400,700` or `Lato|Open+Sans:400,700[async]`
-- On internal files, a hash from the content of the file gets appended. Please be aware that you have to clear the cache from Neos to update the hash value. It is meant to have a cache buster on production projects.
-- You can also give the browser some [resource hints]: Globally via the settings `Carbon.IncludeAssets.ResourceHints` or via adding a special type (`(preloadasset)`, `(preloadcss)`, `(preloadscript)` or `(modulepreload)`) at the end of a `file` entry.
-- You can also include the content of HTML files (e.g. `Favicon.html`). Usefull for copy and paste tracking codes, favicons, etc. HTML files are always read from the inline path and ignore all attributes.
+- On internal files, a hash from the content of the file gets appended. Please be aware that you have to clear the cache from Neos to update the hash value. It is meant to have a cache buster on
+  production projects.
+- You can also give the browser some [resource hints]: Globally via the settings `Carbon.IncludeAssets.ResourceHints` or via adding a special type (`(preloadasset)`, `(preloadcss)`, `(preloadscript)`
+  or `(modulepreload)`) at the end of a `file` entry.
+- You can also include the content of HTML files (e.g. `Favicon.html`). Usefull for copy and paste tracking codes, favicons, etc. HTML files are always read from the inline path and ignore all
+  attributes.
 
 ## Structure of the Settings
 
@@ -28,7 +33,8 @@ In [`Carbon.IncludeAssets`](Configuration/Settings.Carbon.yaml) following settin
 
 ### Structure of Packages entry
 
-In `Carbon.IncludeAssets.Packages` you can define your packages, which should output assets. The keys get sorted first by numbers, then by characters. Like that, it is possible to define a load order for you packages. A single entry can have following entries (The Defaults are stored in [`Carbon.IncludeAssets.Default`](Configuration/Settings.Carbon.yaml#L20-L58)):
+In `Carbon.IncludeAssets.Packages` you can define your packages, which should output assets. The keys get sorted first by numbers, then by characters. Like that, it is possible to define a load order
+for you packages. A single entry can have following entries (The Defaults are stored in [`Carbon.IncludeAssets.Default`](Configuration/Settings.Carbon.yaml#L20-L58)):
 
 | Key                  |  Description                                                                                                                                                                                                                                                    |
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -152,7 +158,8 @@ Take a look at the [`Settings.Carbon.yaml`]. There you see all the available opt
 
 ## Fusion Prototypes
 
-Basically, you have to folders with Fusion Prototypes: [Internal](Resources/Private/Fusion/Internal) and [External](Resources/Private/Fusion/External). In the External folder you will find some prototypes which you can help you in your development:
+Basically, you have to folders with Fusion Prototypes: [Internal](Resources/Private/Fusion/Internal) and [External](Resources/Private/Fusion/External). In the External folder you will find some
+prototypes which you can help you in your development:
 
 ### [Carbon.IncludeAssets:Case]
 
@@ -181,7 +188,8 @@ This prototype generates your `script`, `style` and `link` tags from the files w
 
 ### [Carbon.IncludeAssets:File]
 
-The heart of this package. This prototype generates a `script`, `style`, and `link` tag. You can pass a `file` (with or without the path). Be aware that you can also pass the attributes like described on top. To force a type you can write `(js)`, `(css)`, `(preloadasset)`, `(preloadcss)`, `(preloadscript)` or `(modulepreload)` at the end of `file`.
+The heart of this package. This prototype generates a `script`, `style`, and `link` tag. You can pass a `file` (with or without the path). Be aware that you can also pass the attributes like described
+on top. To force a type you can write `(js)`, `(css)`, `(preloadasset)`, `(preloadcss)`, `(preloadscript)` or `(modulepreload)` at the end of `file`.
 
 | Property       | Description                                                                                                                                                   |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -193,7 +201,8 @@ The heart of this package. This prototype generates a `script`, `style`, and `li
 
 ### [Carbon.IncludeAssets:ResourceHints]
 
-This prototype renders the [resource hints] for the browser. Per default, this prototype read the [`Settings.Carbon.yaml`](Configuration/Settings.Carbon.yaml#L12-L18). But you can also pass `preloadNodes` or `prerenderNodes` (Array, FlowQuery, or a single node) for further optimization.
+This prototype renders the [resource hints] for the browser. Per default, this prototype read the [`Settings.Carbon.yaml`](Configuration/Settings.Carbon.yaml#L12-L18). But you can also pass
+`preloadNodes` or `prerenderNodes` (Array, FlowQuery, or a single node) for further optimization.
 
 ## Usage with Sandstorm.CookiePunch
 
@@ -205,13 +214,16 @@ If you have [Sandstorm.CookiePunch] installed, please add the following attribut
 
 ## Installation
 
-Most of the time, you have to make small adjustments to a package (e.g., the configuration in [`Settings.Carbon.yaml`]). Because of that, it is important to add the corresponding package to the composer from your theme package. Mostly this is the site package located under `Packages/Sites/`. To install it correctly go to your theme package (e.g.`Packages/Sites/Foo.Bar`) and run following command:
+Most of the time, you have to make small adjustments to a package (e.g., the configuration in [`Settings.Carbon.yaml`]). Because of that, it is important to add the corresponding package to the
+composer from your theme package. Mostly this is the site package located under `Packages/Sites/`. To install it correctly go to your theme package (e.g.`Packages/Sites/Foo.Bar`) and run following
+command:
 
 ```bash
 composer require carbon/includeassets --no-update
 ```
 
-The `--no-update` command prevent the automatic update of the dependencies. After the package was added to your theme `composer.json`, go back to the root of the Neos installation and run `composer update`. Et voilà! Your desired package is now installed correctly.
+The `--no-update` command prevent the automatic update of the dependencies. After the package was added to your theme `composer.json`, go back to the root of the Neos installation and run
+`composer update`. Et voilà! Your desired package is now installed correctly.
 
 [packagist]: https://packagist.org/packages/carbon/includeassets
 [latest stable version]: https://poser.pugx.org/carbon/includeassets/v/stable

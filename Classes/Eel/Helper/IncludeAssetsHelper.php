@@ -29,12 +29,25 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
             ];
         }
 
-        $types = array('html', 'js', 'css', 'mjs', 'resourcehint', 'preloadasset', 'preloadcss', 'preloadscript', 'modulepreload');
+        $types = [
+            'html',
+            'js',
+            'css',
+            'mjs',
+            'resourcehint',
+            'preloadasset',
+            'preloadcss',
+            'preloadscript',
+            'modulepreload',
+        ];
         // 1 => Filename
         // 2 => Search string
         // 3 => Attributes
         // 4 => Specific type
-        $regularExpression = '/^([^\[\(\?]+)(\?[^\[\(]*)?(?:\[?([^\]]*)\])?(?:\((' . implode('|', $types) . ')\))?$/i';
+        $regularExpression =
+            '/^([^\[\(\?]+)(\?[^\[\(]*)?(?:\[?([^\]]*)\])?(?:\((' .
+            implode('|', $types) .
+            ')\))?$/i';
         preg_match($regularExpression, $string, $match);
 
         // We need a filename
@@ -50,7 +63,7 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
             'async' => false,
             'inline' => false,
             'path' => strpos($match[1], 'resource://') === 0,
-            'external' => strpos($match[1], '//') === false ? false : true
+            'external' => strpos($match[1], '//') === false ? false : true,
         ];
 
         if ($object['path']) {
@@ -79,7 +92,9 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
             foreach ($array as $value) {
                 $split = preg_split('/=/', $value, 2);
                 $key = trim($split[0]);
-                $value = array_key_exists(1, $split) ? '=' . trim($split[1]) : '';
+                $value = array_key_exists(1, $split)
+                    ? '=' . trim($split[1])
+                    : '';
 
                 switch ($key) {
                     case 'async':
@@ -91,7 +106,7 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
                         }
                         break;
                     default:
-                        if (in_array($object['type'], array('js', 'mjs'))) {
+                        if (in_array($object['type'], ['js', 'mjs'])) {
                             // Javascript files
                             if ($key != 'src') {
                                 $object['attributes'] .= ' ' . $key . $value;
@@ -111,7 +126,10 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
         }
 
         // Add type to javascript modules
-        if ($object['type'] === 'mjs' && strpos($object['attributes'], ' type=') === false) {
+        if (
+            $object['type'] === 'mjs' &&
+            strpos($object['attributes'], ' type=') === false
+        ) {
             $object['attributes'] .= ' type="module"';
         }
 
@@ -132,7 +150,6 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
 
         return $object;
     }
-
 
     /**
      * All methods are considered safe, i.e. can be executed from within Eel
