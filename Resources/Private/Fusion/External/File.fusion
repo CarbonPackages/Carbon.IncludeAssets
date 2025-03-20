@@ -13,7 +13,7 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
     }
 
     file = ${null}
-    assetPackage = ${node.context.currentSite.siteResourcesPackageKey}
+    assetPackage = Carbon.IncludeAssets:SiteResourcesPackageKey
     cacheBuster = ${Configuration.setting('Carbon.IncludeAssets.Default.CacheBuster')}
     disableCacheBusterForPreloadAsset = ${Configuration.setting('Carbon.IncludeAssets.Default.DisableCacheBusterForPreloadAsset')}
     assetPath = ${null}

@@ -13,8 +13,14 @@ prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Compone
 
     // Internal property
     mergedConfig = ${Array.concat(Configuration.setting('Carbon.IncludeAssets.Default'), this.config)}
-    sitePackageKey = ${this.monocle ? sitePackageKey : node.context.currentSite.siteResourcesPackageKey}
-    inBackend = Carbon.IncludeAssets:InBackend
+    sitePackageKey = ${this.monocle ? sitePackageKey : null}
+    sitePackageKey.@process.set = Carbon.IncludeAssets:SiteResourcesPackageKey {
+        @if.noSet = ${!Type.isString(value)}
+    }
+    inBackend = ${this.monocle ? false : null}
+    inBackend.@process.set = Carbon.IncludeAssets:InBackend {
+        @if.notSet = ${!Type.isBoolean(value)}
+    }
 
     renderer = Neos.Fusion:Component {
         @if.hasCustomCondition = Neos.Fusion:Case {
