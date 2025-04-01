@@ -1,6 +1,0 @@
-prototype(Carbon.IncludeAssets:Internal.NeosNine) < prototype(Neos.Fusion:Value) {
-    // Check if renderingMode is set, as this is not set in Neos 8
-    renderingMode = ${renderingMode ? renderingMode.isEdit : null}
-
-    value = ${Type.isBoolean(this.renderingMode)}
-}

@@ -1,10 +1,10 @@
 prototype(Carbon.IncludeAssets:InBackend) < prototype(Neos.Fusion:Case) {
-    isNeosNine {
-        condition = Carbon.IncludeAssets:Internal.NeosNine
-        renderer = ${renderingMode.isEdit}
-    }
-    olderVersion {
-        condition = true
+    lowerThanNine {
+        condition = ${Carbon.Version.lowerThanNine()}
         renderer = ${node.context.inBackend}
+    }
+    nineAndAbove {
+        condition = true
+        renderer = ${renderingMode.isEdit}
     }
 }

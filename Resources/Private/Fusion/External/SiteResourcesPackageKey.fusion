@@ -1,10 +1,10 @@
 prototype(Carbon.IncludeAssets:SiteResourcesPackageKey) < prototype(Neos.Fusion:Case) {
-    isNeosNine {
-        condition = Carbon.IncludeAssets:Internal.NeosNine
-        renderer = ${Neos.Site.findBySiteNode(site).siteResourcesPackageKey}
-    }
-    olderVersion {
-        condition = true
+    lowerThanNine {
+        condition = ${Carbon.Version.lowerThanNine()}
         renderer = ${node.context.currentSite.siteResourcesPackageKey}
+    }
+    nineAndAbove {
+        condition = true
+        renderer = ${Neos.Site.findBySiteNode(site).siteResourcesPackageKey}
     }
 }
