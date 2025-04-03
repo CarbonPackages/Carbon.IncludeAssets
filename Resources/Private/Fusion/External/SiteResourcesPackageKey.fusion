@@ -1,0 +1,10 @@
+prototype(Carbon.IncludeAssets:SiteResourcesPackageKey) < prototype(Neos.Fusion:Case) {
+    lowerThanNine {
+        condition = ${Carbon.Version.lowerThanNine()}
+        renderer = ${node.context.currentSite.siteResourcesPackageKey}
+    }
+    nineAndAbove {
+        condition = true
+        renderer = ${Neos.Site.findBySiteNode(site).siteResourcesPackageKey}
+    }
+}

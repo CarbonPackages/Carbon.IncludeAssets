@@ -196,7 +196,7 @@ on top. To force a type you can write `(js)`, `(css)`, `(preloadasset)`, `(prelo
 | Property       | Description                                                                                                                                                   |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `file`         | (string) The filename. You have to write it in the same way as it would be defined in the Settings.yaml file. Defaults to `null`                              |
-| `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `node.context.currentSite.siteResourcesPackageKey`                                   |
+| `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `Carbon.IncludeAssets:SiteResourcesPackageKey`                                   |
 | `cacheBuster`  | (boolean) Append a hash value from the content of the file. Defaults to the value set in the [`Settings.Carbon.yaml`](Configuration/Settings.Carbon.yaml#L22) |
 | `assetPath`    | (string) The path to the file inside the Resources folder. Per default, it is set dynamically                                                                 |
 | `wrapper`      | (string) If set, the tag will be wrapped. `{content}` will be replaced with the tag. Example: `'<!--[if lt IE 9]>{content}<![endif]-->'`                      |
