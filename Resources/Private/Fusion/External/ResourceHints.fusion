@@ -96,8 +96,9 @@ prototype(Carbon.IncludeAssets:ResourceHints.Nodes) < prototype(Neos.Fusion:Comp
     // Internal
     items.@process {
         convertFlowQueryToArray = ${Type.instance(value, 'Neos\Eel\FlowQuery\FlowQuery') ? value.get() : value}
-        convertSingleToArray = ${Type.instance(value, 'Neos\ContentRepository\Domain\Model\Node') ? [value] : value}
-        convertSingleContentGraphToArray = ${Type.instance(value, 'Neos\ContentRepository\Core\Projection\ContentGraph\Node') ? [value] : value}
+        convertSingleLegacyNodeToArray = ${Type.instance(value, 'Neos\ContentRepository\Domain\Model\Node') ? [value] : value}
+        convertSingleNodeToArray = ${Type.instance(value, 'Neos\ContentRepository\Core\Projection\ContentGraph\Node') ? [value] : value}
+        convertNodesToArray = ${Type.instance(value, 'Neos\ContentRepository\Core\Projection\ContentGraph\Nodes') ? Array.values(value) : value}
     }
     @if.set = ${this.items && this.rel && Type.isArray(this.items) && Array.length(this.items)}
 
