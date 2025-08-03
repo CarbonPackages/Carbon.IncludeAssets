@@ -199,7 +199,11 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
     public function isHtmlFile(string $item): bool
     {
         $item = trim(strtolower($item));
-        if (str_ends_with($item, '.html') || str_ends_with($item, '.htm') || str_ends_with($item, '(html)')) {
+        if (
+            str_ends_with($item, '.html') ||
+            str_ends_with($item, '.htm') ||
+            str_ends_with($item, '(html)')
+        ) {
             return true;
         }
 

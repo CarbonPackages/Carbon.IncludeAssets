@@ -25,10 +25,10 @@ provide a file extension, you can force the type via `(css)`, `(js)` or `(mjs)` 
 
 In [`Carbon.IncludeAssets`](Configuration/Settings.Carbon.yaml) following settings are available:
 
-| Key                     |  Description                                                                                                               |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `ResourceHints`         | (array) The setting, which global [resource hints] should be added.                                                        |
-| `Default`               | (array) The default setting for a `Packages` entry. If a key is not set within a `Packages` entry, this value will be used |
+| Key             |  Description                                                                                                               |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceHints` | (array) The setting, which global [resource hints] should be added.                                                        |
+| `Default`       | (array) The default setting for a `Packages` entry. If a key is not set within a `Packages` entry, this value will be used |
 
 ### Structure of Packages entry
 
