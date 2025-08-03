@@ -3,7 +3,10 @@
  */
 
 prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Component) {
-    // Body || Head || BodyStart || HeadStart
+    // null || metaTop || asyncJs || cssWithImport || syncJs || syncCss || asyncCss || preload || deferJs || rest
+    type = ${null}
+
+    // Head || BodyStart || HeadStart || HeadBottom || BodyStart || BodyBottom
     location = ${null}
     // The config for the package
     config = Neos.Fusion:DataStructure
@@ -22,7 +25,7 @@ prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Compone
         @if.notSet = ${!Type.isBoolean(value)}
     }
 
-    renderer = Neos.Fusion:Component {
+    renderer = Carbon.IncludeAssets:Collection {
         @if.hasCustomCondition = Neos.Fusion:Case {
             custom {
                 condition = ${props.mergedConfig.ConditionPrototype && Type.isString(props.mergedConfig.ConditionPrototype)}
@@ -33,11 +36,10 @@ prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Compone
                 renderer = true
             }
         }
+
         assetPackage = ${props.mergedConfig.Package == 'SitePackage' ? props.sitePackageKey : props.mergedConfig.Package}
         cacheBuster = ${props.mergedConfig.CacheBuster}
         disableCacheBusterForPreloadAsset = ${props.mergedConfig.DisableCacheBusterForPreloadAsset}
-        paths = ${props.mergedConfig.Path}
-        wrapper = ${props.mergedConfig.Wrapper}
         collection = Neos.Fusion:Map {
             items = ${String.split(props.mergedConfig.Order, ',')}
             itemRenderer = Neos.Fusion:Value {
@@ -47,16 +49,8 @@ prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Compone
             }
             @process.filter = ${Array.filter(Carbon.Array.extractSubElements(value))}
         }
-
-        renderer = afx`
-            <Carbon.IncludeAssets:Collection
-                assetPackage={props.assetPackage}
-                cacheBuster={props.cacheBuster}
-                disableCacheBusterForPreloadAsset={props.disableCacheBusterForPreloadAsset}
-                collection={props.collection}
-                paths={props.paths}
-                wrapper={props.wrapper}
-            />
-        `
+        paths = ${props.mergedConfig.Path}
+        wrapper = ${props.mergedConfig.Wrapper}
+        type = ${props.type}
     }
 }

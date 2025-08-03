@@ -2,29 +2,38 @@ prototype(Carbon.IncludeAssets:Internal.Tag) < prototype(Neos.Fusion:Component) 
     path = ${null}
     fileObject = ${null}
     cacheBuster = false
-    async = ${this.fileObject.async}
-    external = ${this.fileObject.external}
-    search = ${this.fileObject.search}
-    attributes = ${this.fileObject.attributes}
 
-    @if.hasFileObject = ${this.fileObject}
-
-    renderer = Neos.Fusion:Join {
+    @private {
+        async = ${props.fileObject.async}
+        defer = ${props.fileObject.defer}
+        external = ${props.fileObject.external}
+        search = ${props.fileObject.search}
+        attributes = ${props.fileObject.attributes}
         uri = Neos.Fusion:Case {
             isExternal {
-                condition = ${props.external}
-                renderer = ${props.path + props.search}
+                condition = ${private.external}
+                renderer = ${props.path + private.search}
             }
             isInternal {
                 condition = true
-                renderer = afx`
-                    <Neos.Fusion:ResourceUri path={props.path} />
-                    {props.search}
-                    <Neos.Fusion:Value @if.needCacheBuster={props.cacheBuster} divider={props.search ? '&' : '?'} hash={Carbon.FileContent.pathHash(props.path)} value={String.isBlank(this.hash) ? '' : this.divider + 'h=' + this.hash} />
-                `
+                renderer = Neos.Fusion:Join {
+                    uri = Neos.Fusion:ResourceUri {
+                        path = ${props.path}
+                    }
+                    search = ${private.search}
+                    cacheBuster = Neos.Fusion:Value {
+                        @if.needCacheBuster = ${props.cacheBuster}
+                        divider = ${private.search ? '&' : '?'}
+                        hash = ${Carbon.FileContent.pathHash(props.path)}
+                        value = ${String.isBlank(this.hash) ? '' : this.divider + 'h=' + this.hash}
+                    }
+                }
             }
         }
-        @ignoreProperties = ${['uri']}
+    }
+
+    renderer = Neos.Fusion:Join {
+        @if.render = ${props.fileObject && private.uri}
     }
 }
 
@@ -34,19 +43,19 @@ prototype(Carbon.IncludeAssets:Internal.Tag.ResourceHint) < prototype(Carbon.Inc
     disableCacheBusterForPreloadAsset = true
     cacheBuster.@process.disableForPreloadasset = ${this.disableCacheBusterForPreloadAsset && this.fileObject && this.fileObject.type == 'PRELOADASSET' ? false : value}
     @if.hasRel = ${this.rel}
-    renderer.resourceHint = ${'<link rel="' + props.rel + '" href="' + this.uri + '"' + props.attributes +' />'}
+    renderer.resourceHint = ${'<link rel="' + props.rel + '" href="' + private.uri + '"' + private.attributes +' />'}
 }
 
 prototype(Carbon.IncludeAssets:Internal.Tag.JS) < prototype(Carbon.IncludeAssets:Internal.Tag) {
-    renderer.script = ${'<script src="' + this.uri + '"' + (props.async ? ' async' : '') + props.attributes +'></script>'}
+    renderer.script = ${'<script src="' + private.uri + '"' + (private.async ? ' async' : '') + (private.defer ? ' defer' : '') + private.attributes +'></script>'}
 }
 
 prototype(Carbon.IncludeAssets:Internal.Tag.CSS) < prototype(Carbon.IncludeAssets:Internal.Tag) {
     renderer {
-        asyncOpen = ${'<link rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'" onerror="this.onload()"' + props.fileObject.attributes + ' href="' + this.uri + '" /><noscript>'}
-        asyncOpen.@if.render = ${props.async}
-        cssFile = ${'<link rel="stylesheet" href="' + this.uri + '"' + props.attributes + ' />'}
+        asyncOpen = ${'<link rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'" onerror="this.onload()"' + props.fileObject.attributes + ' href="' + private.uri + '" /><noscript>'}
+        asyncOpen.@if.render = ${private.async || private.defer}
+        cssFile = ${'<link rel="stylesheet" href="' + private.uri + '"' + private.attributes + ' />'}
         asyncClose = '</noscript>'
-        asyncClose.@if.render = ${props.async}
+        asyncClose.@if.render = ${private.async || private.defer}
     }
 }

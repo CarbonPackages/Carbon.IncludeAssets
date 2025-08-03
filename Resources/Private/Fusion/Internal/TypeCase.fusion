@@ -16,30 +16,16 @@ prototype(Carbon.IncludeAssets:Internal.TypeCase) < prototype(Neos.Fusion:Compon
     preload = ''
     modulePreload = ''
 
-    renderer = Neos.Fusion:Case {
-        isHTML {
-            condition = ${String.toUpperCase(props.type) == 'HTML'}
-            renderer = ${props.html}
-        }
-        isCSS {
-            condition = ${String.toUpperCase(props.type) == 'CSS'}
-            renderer = ${props.css}
-        }
-        isJS {
-            condition = ${String.toUpperCase(props.type) == 'JS'}
-            renderer = ${props.js}
-        }
-        isMJS {
-            condition = ${String.toUpperCase(props.type) == 'MJS'}
-            renderer = ${props.mjs}
-        }
-        isPRELOAD {
-            condition = ${String.startsWith(String.toUpperCase(props.type), 'PRELOAD')}
-            renderer = ${props.preload}
-        }
-        isMODULEPRELOAD {
-            condition = ${String.toUpperCase(props.type) == 'MODULEPRELOAD'}
-            renderer = ${props.modulePreload}
-        }
+    @private.type = ${Type.isString(props.type) ? String.toUpperCase(props.type) : ''}
+
+    renderer = Neos.Fusion:Match {
+        @subject = ${private.type}
+        @default = ${String.startsWith(private.type, 'PRELOAD') ? props.preload : ''}
+        HTML = ${props.html}
+        CSS = ${props.css}
+        JS = ${props.js}
+        MJS = ${props.mjs}
+        PRELOAD = ${props.preload}
+        MODULEPRELOAD = ${props.modulePreload}
     }
 }

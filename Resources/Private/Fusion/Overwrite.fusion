@@ -6,7 +6,7 @@ prototype(Neos.Neos:Page) {
 
     carbonIncludeAssetsHead = Carbon.IncludeAssets:Internal.Assets {
         @position = 'before closingHeadTag'
-        location = 'Head'
+        location = 'HeadBottom'
     }
 
     carbonIncludeAssetsBodyStart = Carbon.IncludeAssets:Internal.Assets {
@@ -17,5 +17,61 @@ prototype(Neos.Neos:Page) {
     carbonIncludeAssetsBody = Carbon.IncludeAssets:Internal.Assets {
         @position = 'before closingBodyTag'
         location = 'Body'
+    }
+
+    carbonIncludeAssetsMetaTop = Carbon.IncludeAssets:Internal.Head {
+        @position = 'before head'
+        type = 'metaTop'
+    }
+    head {
+        titleTag.@position = 'start 1'
+        carbonIncludeAssetsPreconnect = Carbon.IncludeAssets:ResourceHints {
+            @position = 'after titleTag'
+            type = 'preconnect'
+        }
+        carbonIncludeAssetsAsyncJs = Carbon.IncludeAssets:Internal.Head {
+            @position = 'after carbonIncludeAssetsPreconnect'
+            type = 'asyncJs'
+        }
+        carbonIncludeAssetsCssWithImport = Carbon.IncludeAssets:Internal.Head {
+            @position = 'after carbonIncludeAssetsAsyncJs'
+            type = 'cssWithImport'
+        }
+        carbonIncludeAssetsSyncJs = Carbon.IncludeAssets:Internal.Head {
+            @position = 'before stylesheets'
+            type = 'syncJs'
+        }
+        stylesheets {
+            carbonIncludeAssetsSyncCss = Carbon.IncludeAssets:Internal.Head {
+                type = 'syncCss'
+            }
+            carbonIncludeAssetsAsyncCss = Carbon.IncludeAssets:Internal.Head {
+                type = 'asyncCss'
+            }
+        }
+        carbonIncludeAssetsPreloadFixed = Carbon.IncludeAssets:ResourceHints {
+            @position = 'after stylesheets'
+            type = 'preload'
+        }
+        carbonIncludeAssetsPreload = Carbon.IncludeAssets:Internal.Head {
+            @position = 'after carbonIncludeAssetsPreloadFixed'
+            type = 'preload'
+        }
+        carbonIncludeAssetsDeferJs = Carbon.IncludeAssets:Internal.Head {
+            @position = 'after carbonIncludeAssetsPreload'
+            type = 'deferJs'
+        }
+        carbonIncludeAssetsPrefetch = Carbon.IncludeAssets:ResourceHints {
+            @position = 'after carbonIncludeAssetsDeferJs'
+            type = 'prefetch'
+        }
+        carbonIncludeAssetsPrerender = Carbon.IncludeAssets:ResourceHints {
+            @position = 'after carbonIncludeAssetsPrefetch'
+            type = 'prerender'
+        }
+        carbonIncludeAssetsRest = Carbon.IncludeAssets:Internal.Head {
+            @position = 'after carbonIncludeAssetsPrerender'
+            type = 'rest'
+        }
     }
 }

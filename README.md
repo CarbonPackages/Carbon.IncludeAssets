@@ -44,9 +44,9 @@ for you packages. A single entry can have following entries (The Defaults are st
 | `ConditionPrototype` | (string) If set, the files get only included if the fusion prototype returns a truthy value. Defaults to `null`                                                                                                                                                 |
 | `Wrapper`            | (string) If set, the generated tags will be wrapped. `{content}` will be replaced with the tags. Example: `'<!--[if lt IE 9]>{content}<![endif]-->'`                                                                                                            |
 | `Path`               | (array) Define the files get loaded from. There are different paths for inline and linked files. Every type (`css`,`js`, `mjs`, `html`, `preloadasset`, `preloadcss`, `preloadscript` or `modulepreload`) can have a different path inside the Resources folder |
-| `General`            | (array) Asset files who get loaded in live and backend view. Contains four entries: `Head`, `Body`, `HeadStart` and `BodyStart`                                                                                                                                 |
-| `Backend`            | (array) Asset files that get loaded only in the backend view. Contains four entries: `Head`, `Body`, `HeadStart` and `BodyStart`                                                                                                                                |
-| `Live`               | (array) Asset files that get loaded only in the live view. Contains four entries: `Head`, `Body`, `HeadStart` and `BodyStart`                                                                                                                                   |
+| `General`            | (array) Asset files who get loaded in live and backend view. Contains five entries: `Head`, `HeadStart`, `HeadBotton`, `BodyStart` and `BodyBottom`                                                                                                             |
+| `Backend`            | (array) Asset files that get loaded only in the backend view. Contains five entries: `Head`, `HeadStart`, `HeadBotton`, `BodyStart` and `BodyBottom`                                                                                                            |
+| `Live`               | (array) Asset files that get loaded only in the live view. Contains five entries: `Head`, `HeadStart`, `HeadBotton`, `BodyStart` and `BodyBottom`                                                                                                               |
 
 ## Example
 
@@ -80,6 +80,11 @@ Carbon:
             - <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
           # These assets get loaded in the <head> (at the end)
+          HeadBottom: Logo.png[as="image"](preloadasset)
+
+          # These asset gets sorted based on a talk by Harry Roberts Get Your Head Straight
+          # https://speakerdeck.com/csswizardry/get-your-head-straight?slide=39
+          # The sorting will not work by included HTML files
           Head:
             # Preload this Javascript
             - JsForLaterUse.js(preloadscript)
@@ -117,7 +122,7 @@ Carbon:
             - NoscriptWarning.html
 
           # This assets get loaded at the end of the <body>
-          Body:
+          BodyBottom:
             # You can also pass all attributes you want
             - GeneralBody.js[async class='-js-loader']
 
@@ -133,7 +138,7 @@ Carbon:
         Live:
           # You can set the value as a string, it will be automatically converted to an array
           Head: SingleLive.css
-          Body: LiveBody.css,LiveBody.js[inline]
+          BodyBottom: LiveBody.css,LiveBody.js[inline]
 
       # Example taken from Jonnitto.Plyr
       "zz_Jonnitto.Plyr":

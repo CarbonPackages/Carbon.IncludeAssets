@@ -4,6 +4,7 @@
 
 prototype(Carbon.IncludeAssets:ResourceHints) < prototype(Neos.Fusion:Component) {
     @propTypes {
+        type = ${PropTypes.oneOf(['preconnect', 'preload', 'prefetch', 'prerender'])}
         dnsPrefetch = ${PropTypes.anyOf( PropTypes.string, PropTypes.arrayOf( PropTypes.string ) )}
         preconnect = ${PropTypes.anyOf( PropTypes.string, PropTypes.arrayOf( PropTypes.string ) )}
         prefetch = ${PropTypes.anyOf( PropTypes.string, PropTypes.arrayOf( PropTypes.string ) )}
@@ -25,6 +26,7 @@ prototype(Carbon.IncludeAssets:ResourceHints) < prototype(Neos.Fusion:Component)
             PropTypes.instanceOf('Neos\ContentRepository\Core\Projection\ContentGraph\Node')
         )}
     }
+    type = ${null}
 
     dnsPrefetch = ${Configuration.setting('Carbon.IncludeAssets.ResourceHints.DnsPrefetch')}
     preconnect = ${Configuration.setting('Carbon.IncludeAssets.ResourceHints.Preconnect')}
@@ -39,14 +41,14 @@ prototype(Carbon.IncludeAssets:ResourceHints) < prototype(Neos.Fusion:Component)
     prerenderNodes = ${null}
 
     renderer = afx`
-        <Carbon.IncludeAssets:ResourceHints.Items @key='dnsPrefetch' items={props.dnsPrefetch} rel='dns-prefetch' />
-        <Carbon.IncludeAssets:ResourceHints.Items @key='preconnect' items={props.preconnect} rel='preconnect' />
-        <Carbon.IncludeAssets:ResourceHints.Items @key='prefetch' items={props.prefetch} rel='prefetch' />
-        <Carbon.IncludeAssets:ResourceHints.Items @key='modulePreload' items={props.modulePreload} rel='modulepreload' />
-        <Carbon.IncludeAssets:ResourceHints.Items @key='preload' items={props.preload} rel='preload' />
-        <Carbon.IncludeAssets:ResourceHints.Nodes @key='preloadNodes' items={props.preloadNodes} rel='preload' as='document' />
-        <Carbon.IncludeAssets:ResourceHints.Items @key='prerender' items={props.prerender} rel='prerender' />
-        <Carbon.IncludeAssets:ResourceHints.Nodes @key='prerenderNodes' items={props.prerenderNodes} rel='prerender' />
+        <Carbon.IncludeAssets:ResourceHints.Items @key='dnsPrefetch' @if.set={!props.type || props.type == 'prefetch'} items={props.dnsPrefetch} rel='dns-prefetch' />
+        <Carbon.IncludeAssets:ResourceHints.Items @key='preconnect' @if.set={!props.type || props.type == 'preconnect'} items={props.preconnect} rel='preconnect' />
+        <Carbon.IncludeAssets:ResourceHints.Items @key='prefetch' @if.set={!props.type || props.type == 'prefetch'} items={props.prefetch} rel='prefetch' />
+        <Carbon.IncludeAssets:ResourceHints.Items @key='modulePreload' @if.set={!props.type || props.type == 'preload'} items={props.modulePreload} rel='modulepreload' />
+        <Carbon.IncludeAssets:ResourceHints.Items @key='preload' @if.set={!props.type || props.type == 'preload'} items={props.preload} rel='preload' />
+        <Carbon.IncludeAssets:ResourceHints.Nodes @key='preloadNodes' @if.set={!props.type || props.type == 'preload'} items={props.preloadNodes} rel='preload' as='document' />
+        <Carbon.IncludeAssets:ResourceHints.Items @key='prerender' @if.set={!props.type || props.type == 'prerender'} items={props.prerender} rel='prerender' />
+        <Carbon.IncludeAssets:ResourceHints.Nodes @key='prerenderNodes' @if.set={!props.type || props.type == 'prerender'} items={props.prerenderNodes} rel='prerender' />
     `
 }
 
@@ -62,13 +64,11 @@ prototype(Carbon.IncludeAssets:ResourceHints.Items) < prototype(Neos.Fusion:Comp
     rel = ${null}
     type = ${this.rel == 'modulepreload' ? 'modulepreload' : 'resourcehint'}
 
-
-    // Internal
-    items.@process.convertToArray = ${Type.isString(value) ? String.split(value, ',') : value}
-    @if.set = ${this.items && this.rel && this.type && Type.isArray(this.items) && Array.length(this.items)}
+    @private.items = ${Type.isString(props.items) ? String.split(props.items, ',') : value}
 
     renderer = Neos.Fusion:Loop {
-        items = ${Array.unique(props.items)}
+        @if.set = ${props.rel && props.type && Carbon.Array.check(private.items)}
+        items = ${Array.unique(private.items)}
         itemRenderer = Carbon.IncludeAssets:Internal.Tag.ResourceHint {
             rel = ${props.rel}
             fileObject = ${Carbon.IncludeAssets.parseFilename(item + '(' + props.type + ')')}
@@ -100,9 +100,9 @@ prototype(Carbon.IncludeAssets:ResourceHints.Nodes) < prototype(Neos.Fusion:Comp
         convertSingleNodeToArray = ${Type.instance(value, 'Neos\ContentRepository\Core\Projection\ContentGraph\Node') ? [value] : value}
         convertNodesToArray = ${Type.instance(value, 'Neos\ContentRepository\Core\Projection\ContentGraph\Nodes') ? Array.values(value) : value}
     }
-    @if.set = ${this.items && this.rel && Type.isArray(this.items) && Array.length(this.items)}
 
     renderer = Neos.Fusion:Loop {
+        @if.set = ${props.items && props.rel && Carbon.Array.check(props.items)}
         items = ${Array.unique(props.items)}
         itemRenderer = afx`
             <link

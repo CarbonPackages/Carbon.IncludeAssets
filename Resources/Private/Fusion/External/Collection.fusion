@@ -4,6 +4,7 @@
 
 prototype(Carbon.IncludeAssets:Collection) < prototype(Neos.Fusion:Component) {
      @propTypes {
+        type = ${PropTypes.oneOf(['metaTop', 'asyncJs', 'cssWithImport', 'syncJs', 'syncCss', 'asyncCss', 'preload', 'deferJs', 'rest'])}
         collection = ${PropTypes.arrayOf(PropTypes.string)}
         assetPackage = ${PropTypes.string}
         cacheBuster = ${PropTypes.boolean}
@@ -37,19 +38,25 @@ prototype(Carbon.IncludeAssets:Collection) < prototype(Neos.Fusion:Component) {
     paths = ${Configuration.setting('Carbon.IncludeAssets.Default.Path')}
     wrapper = ${null}
 
-    @if.hasAssetPackage = ${this.assetPackage && Type.isArray(this.collection) && Array.length(this.collection)}
+    @if.hasAssetPackage = ${this.assetPackage && Carbon.Array.check(this.collection)}
 
-    renderer = afx`
-        <Carbon.IncludeAssets:Internal.Wrapper wrapper={props.wrapper}>
-            <Neos.Fusion:Loop items={props.collection}>
-                <Carbon.IncludeAssets:File
-                    file={item}
-                    assetPackage={props.assetPackage}
-                    cacheBuster={props.cacheBuster}
-                    disableCacheBusterForPreloadAsset={props.disableCacheBusterForPreloadAsset}
-                    paths={props.paths}
-                />
-            </Neos.Fusion:Loop>
-        </Carbon.IncludeAssets:Internal.Wrapper>
-    `
+    @private.content = Neos.Fusion:Loop {
+        items = ${props.collection}
+        itemRenderer = Carbon.IncludeAssets:File {
+            @process.type.@if.set = ${props.type}
+            @process.type = ${Carbon.IncludeAssets.isType(props.type, value) ? value : ''}
+
+            file = ${item}
+            assetPackage = ${props.assetPackage}
+            cacheBuster = ${props.cacheBuster}
+            disableCacheBusterForPreloadAsset = ${props.disableCacheBusterForPreloadAsset}
+            paths = ${props.paths}
+        }
+    }
+
+    renderer = Carbon.IncludeAssets:Internal.Wrapper {
+        @if.set = ${private.content}
+        wrapper = ${props.wrapper}
+        content = ${private.content}
+    }
 }

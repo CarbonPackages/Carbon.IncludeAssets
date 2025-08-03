@@ -1,30 +1,20 @@
 /**
- * This prototype handles all assets of a location (Body || Head || BodyStart || HeadStart) set via Settings.yaml
+ * This prototype handles all assets of a location (BodyBottom || HeadBottom || BodyStart || HeadStart) set via Settings.yaml
  */
 
 prototype(Carbon.IncludeAssets:Internal.Assets) < prototype(Neos.Fusion:Component) {
-    // Body || Head || BodyStart || HeadStart
+    // BodyBottom || HeadBottom || BodyStart || HeadStart
     location = ${null}
 
-    loadJSforCSSAsynchron = ${Configuration.setting('Carbon.IncludeAssets.LoadJSforCSSAsynchron') && this.location == 'Head'}
     packages = ${Configuration.setting('Carbon.IncludeAssets.Packages')}
-    packages.@process.sort = ${Carbon.IncludeAssets.sort(value)}
 
     @if.hasLocation = ${this.location}
 
-    renderer = Neos.Fusion:Component {
-        inHead = ${props.location == 'Head'}
-        filesFromPackages = afx`
-            <Neos.Fusion:Loop @if.hasPackages={props.packages} items={props.packages}>
-                <Carbon.IncludeAssets:Internal.Package location={props.location} config={item} />
-            </Neos.Fusion:Loop>
-        `
-        loadAsyncCSS = ${props.loadJSforCSSAsynchron && String.indexOf(this.filesFromPackages, '<link rel="preload" as="style" onload="this.onload=null;') >= 0}
+    @private.packages = ${Carbon.IncludeAssets.sort(props.packages)}
 
-        renderer = afx`
-            <Carbon.IncludeAssets:ResourceHints @if.head={props.inHead} />
-            {props.filesFromPackages}
-            <Carbon.IncludeAssets:File @if.render={props.loadAsyncCSS} file='resource://Carbon.IncludeAssets/Private/Templates/LoadCssAsync.js[inline]' />
-        `
-    }
+    renderer = afx`
+        <Neos.Fusion:Loop @if.hasPackages={private.packages} items={private.packages}>
+            <Carbon.IncludeAssets:Internal.Package location={props.location} config={item} />
+        </Neos.Fusion:Loop>
+    `
 }

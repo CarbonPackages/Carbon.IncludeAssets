@@ -40,21 +40,27 @@ Carbon:
           MODULEPRELOAD: 'Public/Modules'
       # Asset files who get's loaded in live and backend view
       General:
-        HeadStart: null
+        # Head gets automatically sorted by type
         Head: null
+        HeadStart: null
+        HeadBottom: null
         BodyStart: null
-        Body: null
+        BodyBottom: null
       # Asset files who get's loaded only in the backend
       Backend:
-        HeadStart: null
+        # Head gets automatically sorted by type
         Head: null
+        HeadStart: null
+        HeadBottom: null
         BodyStart: null
-        Body: null
+        BodyBottom: null
       # Asset files who get's loaded only in the live view
       Live:
-        HeadStart: null
+        # Head gets automatically sorted by type
         Head: null
+        HeadStart: null
+        HeadBottom: null
         BodyStart: null
-        Body: null
+        BodyBottom: null
 #    Packages:
 #    Packages keys get sorted first by numbers, then by characters. After that, it is sorted by the position key.

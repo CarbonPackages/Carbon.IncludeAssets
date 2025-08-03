@@ -1,0 +1,51 @@
+/**
+ * This prototype handles all assets of a location Head set via Settings.yaml
+ *
+ * metaTop: <meta charset|http-equiv|viewport /›
+ * title: ‹title>
+ * preconnect: preconnect
+ * asyncJS: <script src="" async></script>
+ * cssWithImport: CSS that includes @import
+ * syncJS: Synchronous JS
+ * syncCss: Synchronous CSS
+ * asyncCSS: Asynchronous CSS
+ * deferJs: <script src="" defer></script>
+ * prefetch: prefetch
+ * prerender: prerender
+ * rest: Everything else ('SEO' meta tags, icons, Open Graph, etc.)
+ */
+
+ prototype(Carbon.IncludeAssets:Internal.Head) < prototype(Neos.Fusion:Component) {
+    @if.hasType = ${this.type}
+
+    // metaTop || asyncJs || cssWithImport || syncJs || syncCss || asyncCss || deferJs || preload || rest
+    type = null
+
+    location = 'Head'
+
+    loadJSforCSSAsynchron = ${Configuration.setting('Carbon.IncludeAssets.LoadJSforCSSAsynchron')}
+    packages = ${Configuration.setting('Carbon.IncludeAssets.Packages')}
+
+    @private {
+        packages = ${Carbon.IncludeAssets.sort(props.packages, props.type)}
+        filesFromPackages = afx`
+            <Neos.Fusion:Loop @if={private.packages} items={private.packages}>
+                <Carbon.IncludeAssets:Internal.Package location='Head' config={item} type={props.type} />
+            </Neos.Fusion:Loop>
+        `
+        loadAsyncCSSCheck = afx`
+            <Neos.Fusion:Loop @if={props.type == 'syncJS' && props.loadJSforCSSAsynchron && private.packages} items={private.packages}>
+                <Carbon.IncludeAssets:Internal.Package location='Head' config={item} />
+            </Neos.Fusion:Loop>
+        `
+        loadAsyncCSS = ${private.loadAsyncCSSCheck && String.indexOf(private.loadAsyncCSSCheck, '<link rel="preload" as="style" onload="this.onload=null;') >= 0}
+    }
+
+    renderer = Neos.Fusion:Join {
+        filesFromPackages = ${private.filesFromPackages}
+        jsForAsyncCSS = Carbon.IncludeAssets:File {
+            @if.set = ${private.loadAsyncCSS}
+            file = 'resource://Carbon.IncludeAssets/Private/Templates/LoadCssAsync.js[inline]'
+        }
+    }
+}

@@ -42,6 +42,112 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
     }
 
     /**
+     * Check if a string is of a specific type
+     *
+     * @param string $type metaTop || asyncJs || cssWithImport || syncJs || syncCss || asyncCss || preload || deferJs || rest
+     * @param string|null $value The string to check
+     * @return bool
+     */
+    public function isType(string $type, ?string $value): bool
+    {
+        $value = $value ? trim($value) : $value;
+        if (empty($value)) {
+            return false;
+        }
+
+        $isRest = $type === 'rest';
+
+        // Meta tags on top
+        $metaTop = preg_match('/<meta\s+[^>]*(?:charset|viewport|http-equiv)[^>]*>/i', $value) === 1;
+        if ($type === 'metaTop') {
+            return $metaTop;
+        }
+        if ($isRest && $metaTop) {
+            return false;
+        }
+
+        // Preload tags
+        $preload = str_starts_with($value, '<link rel="preload" href="') || str_starts_with($value, '<link rel="modulepreload" href="');
+        if ($type === 'preload') {
+            return $preload;
+        }
+        if ($isRest && $preload) {
+            return false;
+        }
+
+        // Javascript
+        $asyncJs = preg_match('/<script\s+[^>]*async[^>]*>/i', $value) === 1;
+        if ($type === 'asyncJs') {
+            return $asyncJs;
+        }
+        if ($isRest && $asyncJs) {
+            return false;
+        }
+        $deferJs = preg_match('/<script\s+[^>]*defer[^>]*>/i', $value) === 1;
+        if ($type === 'deferJs') {
+            return $deferJs;
+        }
+        if ($isRest && $deferJs) {
+            return false;
+        }
+        $syncJs = !$asyncJs && !$deferJs && str_starts_with($value, '<script');
+        if ($type === 'syncJs') {
+            return $syncJs;
+        }
+        if ($isRest && $syncJs) {
+            return false;
+        }
+
+        // CSS
+        $asyncCss = str_starts_with($value, '<link rel="preload" as="style" onload="this.onload=null;');
+        if ($type === 'asyncCss') {
+            return $asyncCss;
+        }
+        if ($isRest && $asyncCss) {
+            return false;
+        }
+        $cssWithImport = false;
+        $syncCss = str_starts_with($value, '<style');
+        if (!$asyncCss && !$syncCss && preg_match('/<link[^>]*rel=(["\'])stylesheet\1[^>]*>/i', $value)) {
+            $hasImports = false;
+            if (preg_match('/href=(["\'])([^"\']+)\1/i', $value, $matches)) {
+                $cssUrl = $matches[2];
+                try {
+                    $cssContent = file_get_contents($cssUrl);
+                    if ($cssContent !== false) {
+                       $hasImports = preg_match('/@import\s+/i', $cssContent) === 1;
+                    }
+                } catch (Exception $e) {
+                }
+            }
+            if ($hasImports) {
+                $cssWithImport = true;
+            } else {
+                $syncCss = true;
+            }
+        }
+
+        if ($type === 'cssWithImport') {
+            return $cssWithImport;
+        }
+        if ($isRest && $cssWithImport) {
+            return false;
+        }
+        if ($type === 'syncCss') {
+            return $syncCss;
+        }
+        if ($isRest && $syncCss) {
+            return false;
+        }
+
+        if ($isRest) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Parse a filename and return an array with all the properties
      *
      * @param string $string The string to parse
@@ -90,6 +196,7 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
             'type' => null,
             'attributes' => '',
             'async' => false,
+            'defer' => false,
             'inline' => false,
             'path' => strpos($match[1], 'resource://') === 0,
             'external' => strpos($match[1], '//') === false ? false : true,
@@ -129,6 +236,9 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
                     case 'async':
                         $object['async'] = true;
                         break;
+                    case 'defer':
+                        $object['defer'] = true;
+                        break;
                     case 'inline':
                         if (!$object['external']) {
                             $object['inline'] = true;
@@ -147,9 +257,14 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
                         break;
                 }
 
-                // Async and inline together is not possible, inline wins
-                if ($object['inline'] && $object['async']) {
+                // Async/defer and inline together is not possible, inline wins
+                if ($object['inline'] && ($object['async'] || $object['defer'])) {
                     $object['async'] = false;
+                    $object['defer'] = false;
+                }
+                // Most modern browsers prioritize async over defer
+                if ($object['async'] && $object['defer']) {
+                    $object['defer'] = false;
                 }
             }
         }
