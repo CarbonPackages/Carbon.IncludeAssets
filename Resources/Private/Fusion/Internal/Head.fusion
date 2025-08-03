@@ -28,7 +28,7 @@
     @private.packages = ${Carbon.IncludeAssets.sort(props.packages, props.type)}
 
     renderer = Neos.Fusion:Loop {
-        @if={private.packages}
+        @if.set = ${private.packages}
         items = ${private.packages}
         itemRenderer = Carbon.IncludeAssets:Internal.Package {
             location = 'Head'
