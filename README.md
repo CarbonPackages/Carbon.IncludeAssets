@@ -19,7 +19,7 @@ provide a file extension, you can force the type via `(css)`, `(js)` or `(mjs)` 
 - You can also give the browser some [resource hints]: Globally via the settings `Carbon.IncludeAssets.ResourceHints` or via adding a special type (`(preloadasset)`, `(preloadcss)`, `(preloadscript)`
   or `(modulepreload)`) at the end of a `file` entry.
 - You can also include the content of HTML files (e.g. `Favicon.html`). Usefull for copy and paste tracking codes, favicons, etc. HTML files are always read from the inline path and ignore all
-  attributes.
+  attributes. If they put in `Head` (with automatic sorting), the entries have to end with `.html`, `htm` or `(html)`.
 
 ## Structure of the Settings
 
@@ -84,8 +84,11 @@ Carbon:
 
           # These asset gets sorted based on a talk by Harry Roberts Get Your Head Straight
           # https://speakerdeck.com/csswizardry/get-your-head-straight?slide=39
-          # The sorting will not work by included HTML files
           Head:
+            # Read the content of the html files and put it in correct place
+            - File.html
+            - AnotherFile.htm
+
             # Preload this Javascript
             - JsForLaterUse.js(preloadscript)
 
@@ -179,7 +182,7 @@ This prototype is a small helper to write prototypes for the `ConditionPrototype
 | `content`           | (string) The node type name the content type. Defaults to `this.mixin`                                 |
 | `contentCollection` | (string) The filter for the content collection. Defaults to `[instanceof Neos.Neos:ContentCollection]` |
 | `documentNode`      | (node) The node from the document. Defaults to `documentNode`                                          |
-| `alwaysInclude`     | (boolean) If `true`, the prototype return `true`. Defaults to `Carbon.IncludeAssets:InBackend`                 |
+| `alwaysInclude`     | (boolean) If `true`, the prototype return `true`. Defaults to `Carbon.IncludeAssets:InBackend`         |
 
 ### [Carbon.IncludeAssets:Collection]
 
@@ -201,7 +204,7 @@ on top. To force a type you can write `(js)`, `(css)`, `(preloadasset)`, `(prelo
 | Property       | Description                                                                                                                                                   |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `file`         | (string) The filename. You have to write it in the same way as it would be defined in the Settings.yaml file. Defaults to `null`                              |
-| `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `Carbon.IncludeAssets:SiteResourcesPackageKey`                                   |
+| `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `Carbon.IncludeAssets:SiteResourcesPackageKey`                                       |
 | `cacheBuster`  | (boolean) Append a hash value from the content of the file. Defaults to the value set in the [`Settings.Carbon.yaml`](Configuration/Settings.Carbon.yaml#L22) |
 | `assetPath`    | (string) The path to the file inside the Resources folder. Per default, it is set dynamically                                                                 |
 | `wrapper`      | (string) If set, the tag will be wrapped. `{content}` will be replaced with the tag. Example: `'<!--[if lt IE 9]>{content}<![endif]-->'`                      |

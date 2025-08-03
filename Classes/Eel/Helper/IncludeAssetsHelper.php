@@ -58,7 +58,11 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
         $isRest = $type === 'rest';
 
         // Meta tags on top
-        $metaTop = preg_match('/<meta\s+[^>]*(?:charset|viewport|http-equiv)[^>]*>/i', $value) === 1;
+        $metaTop =
+            preg_match(
+                '/<meta\s+[^>]*(?:charset|viewport|http-equiv)[^>]*>/i',
+                $value,
+            ) === 1;
         if ($type === 'metaTop') {
             return $metaTop;
         }
@@ -67,7 +71,9 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
         }
 
         // Preload tags
-        $preload = str_starts_with($value, '<link rel="preload" href="') || str_starts_with($value, '<link rel="modulepreload" href="');
+        $preload =
+            str_starts_with($value, '<link rel="preload" href="') ||
+            str_starts_with($value, '<link rel="modulepreload" href="');
         if ($type === 'preload') {
             return $preload;
         }
@@ -99,7 +105,10 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
         }
 
         // CSS
-        $asyncCss = str_starts_with($value, '<link rel="preload" as="style" onload="this.onload=null;');
+        $asyncCss = str_starts_with(
+            $value,
+            '<link rel="preload" as="style" onload="this.onload=null;',
+        );
         if ($type === 'asyncCss') {
             return $asyncCss;
         }
@@ -108,14 +117,19 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
         }
         $cssWithImport = false;
         $syncCss = str_starts_with($value, '<style');
-        if (!$asyncCss && !$syncCss && preg_match('/<link[^>]*rel=(["\'])stylesheet\1[^>]*>/i', $value)) {
+        if (
+            !$asyncCss &&
+            !$syncCss &&
+            preg_match('/<link[^>]*rel=(["\'])stylesheet\1[^>]*>/i', $value)
+        ) {
             $hasImports = false;
             if (preg_match('/href=(["\'])([^"\']+)\1/i', $value, $matches)) {
                 $cssUrl = $matches[2];
                 try {
                     $cssContent = file_get_contents($cssUrl);
                     if ($cssContent !== false) {
-                       $hasImports = preg_match('/@import\s+/i', $cssContent) === 1;
+                        $hasImports =
+                            preg_match('/@import\s+/i', $cssContent) === 1;
                     }
                 } catch (Exception $e) {
                 }
@@ -141,6 +155,51 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
         }
 
         if ($isRest) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Split HTML into an array of tags
+     *
+     * @param string $type
+     * @param mixed $html The HTML to split
+     * @return string The html filtered html tags
+     */
+    public function filterTypeFromHtml(string $type, mixed $html = null): string
+    {
+        $html = is_string($html) ? trim($html) : '';
+        if (empty($html)) {
+            return '';
+        }
+
+        // Regex to find HTML tags (opening, closing, and self-closing tags)
+        preg_match_all('/<[^>]+>/', $html, $matches);
+        $result = '';
+        if (!empty($matches[0])) {
+            foreach ($matches[0] as $tag) {
+                $trimmedTag = trim($tag);
+                if (!empty($trimmedTag) && $this->isType($type, $trimmedTag)) {
+                    $result .= $trimmedTag;
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Check if a file is an HTML file based on its extension
+     *
+     * @param string $filename The path to the file to check
+     * @return bool True if the file is an HTML file, false otherwise
+     */
+    public function isHtmlFile(string $item): bool
+    {
+        $item = trim(strtolower($item));
+        if (str_ends_with($item, '.html') || str_ends_with($item, '.htm') || str_ends_with($item, '(html)')) {
             return true;
         }
 
@@ -211,7 +270,11 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
             $object['type'] = strtolower($match[4]);
         } else {
             $tmp = explode('.', $object['filename']);
-            $object['type'] = strtolower(end($tmp));
+            $tmp = strtolower(end($tmp));
+            if ($tmp === 'htm') {
+                $tmp = 'html';
+            }
+            $object['type'] = $tmp;
         }
 
         if (!in_array($object['type'], $types)) {
@@ -258,7 +321,10 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
                 }
 
                 // Async/defer and inline together is not possible, inline wins
-                if ($object['inline'] && ($object['async'] || $object['defer'])) {
+                if (
+                    $object['inline'] &&
+                    ($object['async'] || $object['defer'])
+                ) {
                     $object['async'] = false;
                     $object['defer'] = false;
                 }
