@@ -27,7 +27,6 @@ In [`Carbon.IncludeAssets`](Configuration/Settings.Carbon.yaml) following settin
 
 | Key                     |  Description                                                                                                               |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `LoadJSforCSSAsynchron` | (boolean) If true the javascript for asynchronous CSS get inlined (If needed). Defaults to `true`                          |
 | `ResourceHints`         | (array) The setting, which global [resource hints] should be added.                                                        |
 | `Default`               | (array) The default setting for a `Packages` entry. If a key is not set within a `Packages` entry, this value will be used |
 
@@ -55,7 +54,6 @@ Here is a small example:
 ```yaml
 Carbon:
   IncludeAssets:
-    LoadJSforCSSAsynchron: true
     ResourceHints:
       # Preconnect to these domains
       Preconnect:

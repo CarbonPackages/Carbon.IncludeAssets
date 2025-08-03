@@ -2,19 +2,11 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "start": "esbuild Resources/Private/Assets/LoadCssAsync.js --bundle --minify --watch --outdir=Resources/Private/Templates",
-    "build": "esbuild Resources/Private/Assets/LoadCssAsync.js --bundle --minify --outdir=Resources/Private/Templates",
     "prettier": "prettier --write --no-error-on-unmatched-pattern '**/*.{js,yaml,md,php}'",
-    "pipeline": "pnpm install;pnpm prettier;pnpm build"
+    "pipeline": "pnpm install;pnpm prettier"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "Explorer > 10"
-  ],
   "devDependencies": {
-    "@prettier/plugin-php": "^0.22.4",
-    "esbuild": "^0.25.1",
-    "prettier": "^3.5.3"
+    "@prettier/plugin-php": "^0.24.0",
+    "prettier": "^3.6.2"
   }
 }

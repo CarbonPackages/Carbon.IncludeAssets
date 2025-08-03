@@ -23,29 +23,17 @@
 
     location = 'Head'
 
-    loadJSforCSSAsynchron = ${Configuration.setting('Carbon.IncludeAssets.LoadJSforCSSAsynchron')}
     packages = ${Configuration.setting('Carbon.IncludeAssets.Packages')}
 
-    @private {
-        packages = ${Carbon.IncludeAssets.sort(props.packages, props.type)}
-        filesFromPackages = afx`
-            <Neos.Fusion:Loop @if={private.packages} items={private.packages}>
-                <Carbon.IncludeAssets:Internal.Package location='Head' config={item} type={props.type} />
-            </Neos.Fusion:Loop>
-        `
-        loadAsyncCSSCheck = afx`
-            <Neos.Fusion:Loop @if={props.type == 'syncJS' && props.loadJSforCSSAsynchron && private.packages} items={private.packages}>
-                <Carbon.IncludeAssets:Internal.Package location='Head' config={item} />
-            </Neos.Fusion:Loop>
-        `
-        loadAsyncCSS = ${private.loadAsyncCSSCheck && String.indexOf(private.loadAsyncCSSCheck, '<link rel="preload" as="style" onload="this.onload=null;') >= 0}
-    }
+    @private.packages = ${Carbon.IncludeAssets.sort(props.packages, props.type)}
 
-    renderer = Neos.Fusion:Join {
-        filesFromPackages = ${private.filesFromPackages}
-        jsForAsyncCSS = Carbon.IncludeAssets:File {
-            @if.set = ${private.loadAsyncCSS}
-            file = 'resource://Carbon.IncludeAssets/Private/Templates/LoadCssAsync.js[inline]'
+    renderer = Neos.Fusion:Loop {
+        @if={private.packages}
+        items = ${private.packages}
+        itemRenderer = Carbon.IncludeAssets:Internal.Package {
+            location = 'Head'
+            config = ${item}
+            type = ${props.type}
         }
     }
 }

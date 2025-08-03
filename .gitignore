@@ -6,6 +6,3 @@ node_modules
 .idea
 .vscode
 .DS_Store
-.sass-cache
-
-/yarn.lock

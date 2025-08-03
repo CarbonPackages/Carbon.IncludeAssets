@@ -51,11 +51,5 @@ prototype(Carbon.IncludeAssets:Internal.Tag.JS) < prototype(Carbon.IncludeAssets
 }
 
 prototype(Carbon.IncludeAssets:Internal.Tag.CSS) < prototype(Carbon.IncludeAssets:Internal.Tag) {
-    renderer {
-        asyncOpen = ${'<link rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'" onerror="this.onload()"' + props.fileObject.attributes + ' href="' + private.uri + '" /><noscript>'}
-        asyncOpen.@if.render = ${private.async || private.defer}
-        cssFile = ${'<link rel="stylesheet" href="' + private.uri + '"' + private.attributes + ' />'}
-        asyncClose = '</noscript>'
-        asyncClose.@if.render = ${private.async || private.defer}
-    }
+    renderer.css = ${private.async || private.defer ? '<link rel="preload" as="style" onload="this.onload=null;this.rel=\'stylesheet\'" onerror="this.onload()"' + props.fileObject.attributes + ' href="' + private.uri + '" />' : '<link rel="stylesheet" href="' + private.uri + '"' + private.attributes + ' />'}
 }

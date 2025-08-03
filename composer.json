@@ -20,11 +20,5 @@
         "psr-4": {
             "Carbon\\IncludeAssets\\": "Classes"
         }
-    },
-    "extra": {
-        "installer-name": "Carbon.IncludeAssets",
-        "neos": {
-            "package-key": "Carbon.IncludeAssets"
-        }
     }
 }
