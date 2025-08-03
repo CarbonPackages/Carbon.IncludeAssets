@@ -1,0 +1,39 @@
+/**
+ * This prototype handles all assets of a location Head set via Settings.yaml
+ *
+ * metaTop: <meta charset|http-equiv|viewport /›
+ * title: ‹title>
+ * preconnect: preconnect
+ * asyncJS: <script src="" async></script>
+ * cssWithImport: CSS that includes @import
+ * syncJS: Synchronous JS
+ * syncCss: Synchronous CSS
+ * asyncCSS: Asynchronous CSS
+ * deferJs: <script src="" defer></script>
+ * prefetch: prefetch
+ * prerender: prerender
+ * rest: Everything else ('SEO' meta tags, icons, Open Graph, etc.)
+ */
+
+ prototype(Carbon.IncludeAssets:Internal.Head) < prototype(Neos.Fusion:Component) {
+    @if.hasType = ${this.type}
+
+    // metaTop || asyncJs || cssWithImport || syncJs || syncCss || asyncCss || deferJs || preload || rest
+    type = null
+
+    location = 'Head'
+
+    packages = ${Configuration.setting('Carbon.IncludeAssets.Packages')}
+
+    @private.packages = ${Carbon.IncludeAssets.sort(props.packages, props.type)}
+
+    renderer = Neos.Fusion:Loop {
+        @if.set = ${private.packages}
+        items = ${private.packages}
+        itemRenderer = Carbon.IncludeAssets:Internal.Package {
+            location = 'Head'
+            config = ${item}
+            type = ${props.type}
+        }
+    }
+}

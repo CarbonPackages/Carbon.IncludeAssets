@@ -19,17 +19,16 @@ provide a file extension, you can force the type via `(css)`, `(js)` or `(mjs)` 
 - You can also give the browser some [resource hints]: Globally via the settings `Carbon.IncludeAssets.ResourceHints` or via adding a special type (`(preloadasset)`, `(preloadcss)`, `(preloadscript)`
   or `(modulepreload)`) at the end of a `file` entry.
 - You can also include the content of HTML files (e.g. `Favicon.html`). Usefull for copy and paste tracking codes, favicons, etc. HTML files are always read from the inline path and ignore all
-  attributes.
+  attributes. If they put in `Head` (with automatic sorting), the entries have to end with `.html`, `htm` or `(html)`.
 
 ## Structure of the Settings
 
 In [`Carbon.IncludeAssets`](Configuration/Settings.Carbon.yaml) following settings are available:
 
-| Key                     |  Description                                                                                                               |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `LoadJSforCSSAsynchron` | (boolean) If true the javascript for asynchronous CSS get inlined (If needed). Defaults to `true`                          |
-| `ResourceHints`         | (array) The setting, which global [resource hints] should be added.                                                        |
-| `Default`               | (array) The default setting for a `Packages` entry. If a key is not set within a `Packages` entry, this value will be used |
+| Key             |  Description                                                                                                               |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `ResourceHints` | (array) The setting, which global [resource hints] should be added.                                                        |
+| `Default`       | (array) The default setting for a `Packages` entry. If a key is not set within a `Packages` entry, this value will be used |
 
 ### Structure of Packages entry
 
@@ -44,9 +43,9 @@ for you packages. A single entry can have following entries (The Defaults are st
 | `ConditionPrototype` | (string) If set, the files get only included if the fusion prototype returns a truthy value. Defaults to `null`                                                                                                                                                 |
 | `Wrapper`            | (string) If set, the generated tags will be wrapped. `{content}` will be replaced with the tags. Example: `'<!--[if lt IE 9]>{content}<![endif]-->'`                                                                                                            |
 | `Path`               | (array) Define the files get loaded from. There are different paths for inline and linked files. Every type (`css`,`js`, `mjs`, `html`, `preloadasset`, `preloadcss`, `preloadscript` or `modulepreload`) can have a different path inside the Resources folder |
-| `General`            | (array) Asset files who get loaded in live and backend view. Contains four entries: `Head`, `Body`, `HeadStart` and `BodyStart`                                                                                                                                 |
-| `Backend`            | (array) Asset files that get loaded only in the backend view. Contains four entries: `Head`, `Body`, `HeadStart` and `BodyStart`                                                                                                                                |
-| `Live`               | (array) Asset files that get loaded only in the live view. Contains four entries: `Head`, `Body`, `HeadStart` and `BodyStart`                                                                                                                                   |
+| `General`            | (array) Asset files who get loaded in live and backend view. Contains five entries: `Head`, `HeadStart`, `HeadBotton`, `BodyStart` and `BodyBottom`                                                                                                             |
+| `Backend`            | (array) Asset files that get loaded only in the backend view. Contains five entries: `Head`, `HeadStart`, `HeadBotton`, `BodyStart` and `BodyBottom`                                                                                                            |
+| `Live`               | (array) Asset files that get loaded only in the live view. Contains five entries: `Head`, `HeadStart`, `HeadBotton`, `BodyStart` and `BodyBottom`                                                                                                               |
 
 ## Example
 
@@ -55,7 +54,6 @@ Here is a small example:
 ```yaml
 Carbon:
   IncludeAssets:
-    LoadJSforCSSAsynchron: true
     ResourceHints:
       # Preconnect to these domains
       Preconnect:
@@ -80,7 +78,15 @@ Carbon:
             - <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
           # These assets get loaded in the <head> (at the end)
+          HeadBottom: Logo.png[as="image"](preloadasset)
+
+          # These asset gets sorted based on a talk by Harry Roberts Get Your Head Straight
+          # https://speakerdeck.com/csswizardry/get-your-head-straight?slide=39
           Head:
+            # Read the content of the html files and put it in correct place
+            - File.html
+            - AnotherFile.htm
+
             # Preload this Javascript
             - JsForLaterUse.js(preloadscript)
 
@@ -117,7 +123,7 @@ Carbon:
             - NoscriptWarning.html
 
           # This assets get loaded at the end of the <body>
-          Body:
+          BodyBottom:
             # You can also pass all attributes you want
             - GeneralBody.js[async class='-js-loader']
 
@@ -133,7 +139,7 @@ Carbon:
         Live:
           # You can set the value as a string, it will be automatically converted to an array
           Head: SingleLive.css
-          Body: LiveBody.css,LiveBody.js[inline]
+          BodyBottom: LiveBody.css,LiveBody.js[inline]
 
       # Example taken from Jonnitto.Plyr
       "zz_Jonnitto.Plyr":
@@ -174,7 +180,7 @@ This prototype is a small helper to write prototypes for the `ConditionPrototype
 | `content`           | (string) The node type name the content type. Defaults to `this.mixin`                                 |
 | `contentCollection` | (string) The filter for the content collection. Defaults to `[instanceof Neos.Neos:ContentCollection]` |
 | `documentNode`      | (node) The node from the document. Defaults to `documentNode`                                          |
-| `alwaysInclude`     | (boolean) If `true`, the prototype return `true`. Defaults to `Carbon.IncludeAssets:InBackend`                 |
+| `alwaysInclude`     | (boolean) If `true`, the prototype return `true`. Defaults to `Carbon.IncludeAssets:InBackend`         |
 
 ### [Carbon.IncludeAssets:Collection]
 
@@ -196,7 +202,7 @@ on top. To force a type you can write `(js)`, `(css)`, `(preloadasset)`, `(prelo
 | Property       | Description                                                                                                                                                   |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `file`         | (string) The filename. You have to write it in the same way as it would be defined in the Settings.yaml file. Defaults to `null`                              |
-| `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `Carbon.IncludeAssets:SiteResourcesPackageKey`                                   |
+| `assetPackage` | (string) The name of the package. (Example: `Jonnitto.Plyr`) Defaults to `Carbon.IncludeAssets:SiteResourcesPackageKey`                                       |
 | `cacheBuster`  | (boolean) Append a hash value from the content of the file. Defaults to the value set in the [`Settings.Carbon.yaml`](Configuration/Settings.Carbon.yaml#L22) |
 | `assetPath`    | (string) The path to the file inside the Resources folder. Per default, it is set dynamically                                                                 |
 | `wrapper`      | (string) If set, the tag will be wrapped. `{content}` will be replaced with the tag. Example: `'<!--[if lt IE 9]>{content}<![endif]-->'`                      |
