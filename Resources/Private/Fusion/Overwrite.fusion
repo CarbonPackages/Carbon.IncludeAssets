@@ -38,10 +38,11 @@ prototype(Neos.Neos:Page) {
             type = 'cssWithImport'
         }
         carbonIncludeAssetsSyncJs = Carbon.IncludeAssets:Internal.Head {
-            @position = 'before stylesheets'
+            @position = 'after carbonIncludeAssetsCssWithImport'
             type = 'syncJs'
         }
         stylesheets {
+            @position = 'after carbonIncludeAssetsSyncJs'
             carbonIncludeAssetsSyncCss = Carbon.IncludeAssets:Internal.Head {
                 type = 'syncCss'
             }
