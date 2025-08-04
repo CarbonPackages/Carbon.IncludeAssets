@@ -18,18 +18,18 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
     disableCacheBusterForPreloadAsset = ${Configuration.setting('Carbon.IncludeAssets.Default.DisableCacheBusterForPreloadAsset')}
     assetPath = ${null}
     wrapper = ${null}
+    paths = ${Configuration.setting('Carbon.IncludeAssets.Default.Path')}
 
     inBackend = Carbon.IncludeAssets:InBackend
 
     @if.fileIsSet = ${this.file}
 
     @private {
-        paths = ${Configuration.setting('Carbon.IncludeAssets.Default.Path')}
         fileObject = ${Carbon.IncludeAssets.parseFilename(props.file)}
         assetKey = ${private.fileObject.inline ? 'Inline' : 'File'}
         type = ${private.fileObject.type}
         isPlain = ${private.type == 'PLAIN'}
-        finalAssetPath = ${props.assetPath || private.paths[private.assetKey][private.type]}
+        finalAssetPath = ${props.assetPath || props.paths[private.assetKey][private.type]}
         path = ${private.fileObject.external || private.fileObject.path ? private.fileObject.filename : props.assetPackage && private.finalAssetPath ? 'resource://' + props.assetPackage + '/' + private.finalAssetPath + '/' + private.fileObject.filename : false}
         path.@if.isNotPlain = ${!private.isPlain}
     }
