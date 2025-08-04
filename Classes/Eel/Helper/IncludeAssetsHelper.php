@@ -243,7 +243,7 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
         // 3 => Attributes
         // 4 => Specific type
         $regularExpression =
-            '/^([^\[\(\?]+)(\?[^\[\(]*)?(?:\[?([^\]]*)\])?(?:\((' .
+            '/^([^\[\(\?]+)(\?[^\[\(]*)?(?:\[?(.*)\])?(?:\((' .
             implode('|', $types) .
             ')\))?$/i';
         preg_match($regularExpression, $string, $match);
