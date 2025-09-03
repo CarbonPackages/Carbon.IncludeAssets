@@ -8,6 +8,9 @@
 
 Carbon:
   IncludeAssets:
+    # Check for @import statements in CSS files. This is used for automated sorting in the head part.
+    # If you want also to check for @import statements in you final CSS files you have to enable this
+    checkCssForImportStatements: false
     ResourceHints:
       DnsPrefetch: [] # Add <link rel="dns-prefetch" href="Entry" />
       Preconnect: [] # Add <link rel="preconnect" href="Entry" />

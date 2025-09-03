@@ -6,19 +6,22 @@ use Neos\Eel\ProtectedContextAwareInterface;
 use Neos\Flow\Annotations as Flow;
 use Neos\Utility\PositionalArraySorter;
 use Traversable;
+use Exception;
 
 /**
  * Helpers for Eel contexts
- *
- * @Flow\Proxy(false)
  */
 class IncludeAssetsHelper implements ProtectedContextAwareInterface
 {
+
+    #[Flow\InjectConfiguration('checkCssForImportStatements')]
+    protected bool $checkCssForImportStatements;
+
     /**
      * Sort an array by key and position
      *
      * @param mixed $array The array to sort
-     * @return array|null
+     * @return mixed[]|null
      */
     public function sort(mixed $array): ?array
     {
@@ -123,7 +126,7 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
             preg_match('/<link[^>]*rel=(["\'])stylesheet\1[^>]*>/i', $value)
         ) {
             $hasImports = false;
-            if (preg_match('/href=(["\'])([^"\']+)\1/i', $value, $matches)) {
+            if ($this->checkCssForImportStatements && preg_match('/href=(["\'])([^"\']+)\1/i', $value, $matches)) {
                 $cssUrl = $matches[2];
                 try {
                     $cssContent = file_get_contents($cssUrl);
@@ -193,7 +196,7 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
     /**
      * Check if a file is an HTML file based on its extension
      *
-     * @param string $filename The path to the file to check
+     * @param string $item The path to the file to check
      * @return bool True if the file is an HTML file, false otherwise
      */
     public function isHtmlFile(string $item): bool
@@ -214,7 +217,7 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
      * Parse a filename and return an array with all the properties
      *
      * @param string $string The string to parse
-     * @return array|null
+     * @return array{type:'PLAIN',markup:string}|array{filename:string,search:string,type:?string,attributes:string,async:bool,defer:bool,inline:bool,path:bool,external:bool,inline?:bool}|null
      */
 
     public function parseFilename(string $string): ?array
@@ -291,9 +294,12 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
 
         // We got attributes (ModulePreload don't need these)
         if (array_key_exists(3, $match) && $object['type'] != 'modulepreload') {
-            $array = preg_split('/[\s,]+/', $match[3], -1, PREG_SPLIT_NO_EMPTY);
+            $array = preg_split('/[\s,]+/', $match[3], -1, PREG_SPLIT_NO_EMPTY) ?: [];
             foreach ($array as $value) {
                 $split = preg_split('/=/', $value, 2);
+                if (empty($split)) {
+                    continue;
+                }
                 $key = trim($split[0]);
                 $value = array_key_exists(1, $split)
                     ? '=' . trim($split[1])

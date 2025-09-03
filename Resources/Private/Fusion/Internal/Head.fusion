@@ -5,7 +5,7 @@
  * title: ‹title>
  * preconnect: preconnect
  * asyncJS: <script src="" async></script>
- * cssWithImport: CSS that includes @import
+ * cssWithImport: CSS that includes @import (if checkCssForImportStatements is enabled)
  * syncJS: Synchronous JS
  * syncCss: Synchronous CSS
  * asyncCSS: Asynchronous CSS
