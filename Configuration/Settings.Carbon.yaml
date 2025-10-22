@@ -27,6 +27,9 @@ Carbon:
       Wrapper: null
       Order: 'General,Backend,Live'
       Path:
+        Cached:
+          Inline: 'Private/Templates/Cached'
+          File: 'Public/Cached'
         Inline:
           CSS: 'Private/Templates/InlineAssets'
           JS: 'Private/Templates/InlineAssets'

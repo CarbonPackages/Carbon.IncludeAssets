@@ -8,6 +8,7 @@ prototype(Carbon.IncludeAssets:Collection) < prototype(Neos.Fusion:Component) {
         collection = ${PropTypes.arrayOf(PropTypes.string)}
         assetPackage = ${PropTypes.string}
         cacheBuster = ${PropTypes.boolean}
+        cached = ${PropTypes.boolean}
         disableCacheBusterForPreloadAsset = ${PropTypes.boolean}
         paths = ${
             PropTypes.dataStructure({
@@ -37,6 +38,7 @@ prototype(Carbon.IncludeAssets:Collection) < prototype(Neos.Fusion:Component) {
     disableCacheBusterForPreloadAsset = ${Configuration.setting('Carbon.IncludeAssets.Default.DisableCacheBusterForPreloadAsset')}
     paths = ${Configuration.setting('Carbon.IncludeAssets.Default.Path')}
     wrapper = ${null}
+    cached = false
 
     @if.hasAssetPackage = ${this.assetPackage && Carbon.Array.check(this.collection)}
 
@@ -63,6 +65,7 @@ prototype(Carbon.IncludeAssets:Collection) < prototype(Neos.Fusion:Component) {
                     cacheBuster = ${props.cacheBuster}
                     disableCacheBusterForPreloadAsset = ${props.disableCacheBusterForPreloadAsset}
                     paths = ${props.paths}
+                    cached = ${props.cached}
                 }
             }
         }

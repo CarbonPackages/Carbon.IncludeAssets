@@ -1,0 +1,20 @@
+prototype(Carbon.IncludeAssets:Internal.FileCase.Cached) < prototype(Carbon.IncludeAssets:Internal.FileCase) {
+    @context {
+        cachePath = ${this.path}
+        cacheFileObject = ${Json.stringify(this.fileObject)}
+        cacheType = ${this.type}
+        cacheWrapper = ${this.wrapper}
+    }
+    @cache {
+        mode = 'cached'
+        entryIdentifier {
+            cachePath = ${cachePath || ''}
+            cacheFileObject = ${cacheFileObject}
+            cacheType = ${cacheType || ''}
+            cacheWrapper = ${cacheWrapper || ''}
+        }
+        entryTags {
+            1 = 'Carbon_Include_Assets'
+        }
+    }
+}

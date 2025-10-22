@@ -21,6 +21,7 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
     paths = ${Configuration.setting('Carbon.IncludeAssets.Default.Path')}
 
     inBackend = Carbon.IncludeAssets:InBackend
+    cached = false
 
     @if.fileIsSet = ${this.file}
 
@@ -29,59 +30,45 @@ prototype(Carbon.IncludeAssets:File) < prototype(Neos.Fusion:Component) {
         assetKey = ${private.fileObject.inline ? 'Inline' : 'File'}
         type = ${private.fileObject.type}
         isPlain = ${private.type == 'PLAIN'}
-        finalAssetPath = ${props.assetPath || props.paths[private.assetKey][private.type]}
-        path = ${private.fileObject.external || private.fileObject.path ? private.fileObject.filename : props.assetPackage && private.finalAssetPath ? 'resource://' + props.assetPackage + '/' + private.finalAssetPath + '/' + private.fileObject.filename : false}
-        path.@if.isNotPlain = ${!private.isPlain}
-    }
-
-    renderer = Neos.Fusion:Case {
-        @if.hasPath = ${private.isPlain || private.path}
-        @process.wrapper = Carbon.IncludeAssets:Internal.Wrapper {
-            wrapper = ${props.wrapper}
-        }
-
-        isPlain {
-            condition = ${private.isPlain}
-            renderer = ${private.fileObject.markup}
-        }
-
-        inlineFile {
-            condition = ${private.fileObject.inline}
-            renderer = Carbon.IncludeAssets:Internal.InlineFile {
-                attributes = ${private.fileObject.attributes}
-                path = ${private.path}
-                type = ${private.type}
+        finalAssetPath = Neos.Fusion:Case {
+            assetPath {
+                condition = ${props.assetPath}
+                renderer = ${props.assetPath}
+            }
+            cached {
+                condition = ${props.cached}
+                renderer = ${props.paths['Cached'][private.assetKey]}
+            }
+            default {
+                condition = true
+                renderer = ${props.paths[private.assetKey][private.type]}
             }
         }
 
-        isFile {
-            condition = ${private.path ? true : false}
-            renderer = Carbon.IncludeAssets:Internal.TypeCase {
-                type = ${private.type}
-                css = Carbon.IncludeAssets:Internal.Tag.CSS {
-                    path = ${private.path}
-                    fileObject = ${private.fileObject}
-                    cacheBuster = ${props.cacheBuster}
-                    async = ${private.fileObject.async ? !props.inBackend : false}
-                }
-                js = Carbon.IncludeAssets:Internal.Tag.JS {
-                    path = ${private.path}
-                    fileObject = ${private.fileObject}
-                    cacheBuster = ${props.cacheBuster}
-                }
-                preload = Carbon.IncludeAssets:Internal.Tag.ResourceHint {
-                    rel = 'preload'
-                    path = ${private.path}
-                    fileObject = ${private.fileObject}
-                    cacheBuster = ${props.cacheBuster}
-                    disableCacheBusterForPreloadAsset = ${props.disableCacheBusterForPreloadAsset}
-                }
-                modulePreload = Carbon.IncludeAssets:Internal.Tag.ResourceHint {
-                    rel = 'modulepreload'
-                    path = ${private.path}
-                    fileObject = ${private.fileObject}
-                    cacheBuster = ${props.cacheBuster}
-                }
+        fileCaseProps = Neos.Fusion:DataStructure {
+            isPlain = ${private.isPlain}
+            path = ${private.fileObject.external || private.fileObject.path ? private.fileObject.filename : props.assetPackage && private.finalAssetPath ? 'resource://' + props.assetPackage + '/' + private.finalAssetPath + '/' + private.fileObject.filename : false}
+            path.@if.isNotPlain = ${!private.isPlain}
+            wrapper = ${props.wrapper}
+            fileObject = ${private.fileObject}
+            type = ${private.type}
+            cacheBuster = ${props.cacheBuster}
+            inBackend = ${props.inBackend}
+            disableCacheBusterForPreloadAsset = ${props.disableCacheBusterForPreloadAsset}
+        }
+    }
+
+    renderer = Neos.Fusion:Case {
+        cached {
+            condition = ${props.cached}
+            renderer = Carbon.IncludeAssets:Internal.FileCase.Cached {
+                @apply.fileCaseProps = ${private.fileCaseProps}
+            }
+        }
+        default {
+            condition = true
+            renderer = Carbon.IncludeAssets:Internal.FileCase {
+                @apply.fileCaseProps = ${private.fileCaseProps}
             }
         }
     }

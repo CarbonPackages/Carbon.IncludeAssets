@@ -141,6 +141,14 @@ Carbon:
           Head: SingleLive.css
           BodyBottom: LiveBody.css,LiveBody.js[inline]
 
+      # If you want to add a cached package (for dynamically updates)
+      "Foo.Bar.Cached":
+        Cached: true
+        # In cached mode you have to set always the package name
+        Package: "Foo.Bar"
+        General:
+          Head: Main.css
+
       # Example taken from Jonnitto.Plyr
       "zz_Jonnitto.Plyr":
         Package: "Jonnitto.Plyr"
@@ -193,6 +201,7 @@ This prototype generates your `script`, `style` and `link` tags from the files w
 | `cacheBuster`  | (boolean) Append a hash value from the content of the file. Defaults to the value set in the [`Settings.Carbon.yaml`](Configuration/Settings.Carbon.yaml#L22)                           |
 | `paths`        | (array) The paths to the internal and external files inside the Resources folder. Defaults to the value set in the [`Settings.Carbon.yaml`](Configuration/Settings.Carbon.yaml#L27-L40) |
 | `wrapper`      | (string) If set, the generated tags will be wrapped. `{content}` will be replaced with the tags. Example: `'<!--[if lt IE 9]>{content}<![endif]-->'`                                    |
+| `cached`       | (boolean) If `true`, every asset from this collection will get a own cache entry. Defaults to `false`. Can be used if you want to update an asset dynamically.                          |
 
 ### [Carbon.IncludeAssets:File]
 
@@ -206,6 +215,7 @@ on top. To force a type you can write `(js)`, `(css)`, `(preloadasset)`, `(prelo
 | `cacheBuster`  | (boolean) Append a hash value from the content of the file. Defaults to the value set in the [`Settings.Carbon.yaml`](Configuration/Settings.Carbon.yaml#L22) |
 | `assetPath`    | (string) The path to the file inside the Resources folder. Per default, it is set dynamically                                                                 |
 | `wrapper`      | (string) If set, the tag will be wrapped. `{content}` will be replaced with the tag. Example: `'<!--[if lt IE 9]>{content}<![endif]-->'`                      |
+| `cached`       | (boolean) If `true`, the asset will get a own cache entry. Defaults to `false`. Can be used if you want to update an asset dynamically.                       |
 
 ### [Carbon.IncludeAssets:ResourceHints]
 

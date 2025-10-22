@@ -52,5 +52,6 @@ prototype(Carbon.IncludeAssets:Internal.Package) < prototype(Neos.Fusion:Compone
         paths = ${props.mergedConfig.Path}
         wrapper = ${props.mergedConfig.Wrapper}
         type = ${props.type}
+        cached = ${props.config.Cached}
     }
 }

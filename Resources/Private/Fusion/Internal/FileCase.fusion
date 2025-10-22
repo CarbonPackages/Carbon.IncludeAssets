@@ -1,0 +1,63 @@
+prototype(Carbon.IncludeAssets:Internal.FileCase) < prototype(Neos.Fusion:Component) {
+    isPlain = null
+    path = null
+    wrapper = null
+    fileObject = null
+    type = null
+    cacheBuster = null
+    inBackend = null
+    disableCacheBusterForPreloadAsset = null
+
+    @if.hasPath = ${this.isPlain || this.path}
+    @if.hasFileObject = ${this.fileObject}
+    renderer = Neos.Fusion:Case {
+        @process.wrapper = Carbon.IncludeAssets:Internal.Wrapper {
+            wrapper = ${props.wrapper}
+        }
+
+        isPlain {
+            condition = ${props.isPlain}
+            renderer = ${props.fileObject.markup}
+        }
+
+        inlineFile {
+            condition = ${props.fileObject.inline}
+            renderer = Carbon.IncludeAssets:Internal.InlineFile {
+                attributes = ${props.fileObject.attributes}
+                path = ${props.path}
+                type = ${props.type}
+            }
+        }
+
+        isFile {
+            condition = ${props.path ? true : false}
+            renderer = Carbon.IncludeAssets:Internal.TypeCase {
+                type = ${props.type}
+                css = Carbon.IncludeAssets:Internal.Tag.CSS {
+                    path = ${props.path}
+                    fileObject = ${props.fileObject}
+                    cacheBuster = ${props.cacheBuster}
+                    async = ${props.fileObject.async ? !props.inBackend : false}
+                }
+                js = Carbon.IncludeAssets:Internal.Tag.JS {
+                    path = ${props.path}
+                    fileObject = ${props.fileObject}
+                    cacheBuster = ${props.cacheBuster}
+                }
+                preload = Carbon.IncludeAssets:Internal.Tag.ResourceHint {
+                    rel = 'preload'
+                    path = ${props.path}
+                    fileObject = ${props.fileObject}
+                    cacheBuster = ${props.cacheBuster}
+                    disableCacheBusterForPreloadAsset = ${props.disableCacheBusterForPreloadAsset}
+                }
+                modulePreload = Carbon.IncludeAssets:Internal.Tag.ResourceHint {
+                    rel = 'modulepreload'
+                    path = ${props.path}
+                    fileObject = ${props.fileObject}
+                    cacheBuster = ${props.cacheBuster}
+                }
+            }
+        }
+    }
+}
