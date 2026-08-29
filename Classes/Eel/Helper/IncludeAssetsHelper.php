@@ -123,6 +123,7 @@ class IncludeAssetsHelper implements ProtectedContextAwareInterface
         if (
             !$asyncCss &&
             !$syncCss &&
+            preg_match('/\smedia\s*=/i', $value) !== 1 &&
             preg_match('/<link[^>]*rel=(["\'])stylesheet\1[^>]*>/i', $value)
         ) {
             $hasImports = false;
